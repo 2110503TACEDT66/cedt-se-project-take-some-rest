@@ -1,0 +1,120 @@
+/* template css */
+
+/* btn primary */
+.cgr-btn {
+  background-color: #339989;
+  color: #ffffff;
+  padding: 10px 50px;
+  border-radius: 10px;
+  transition-duration: 200ms;
+  text-align: center;
+}
+
+.cgr-btn:hover {
+  background-color: #247064;
+}
+
+/* btn primary outline */
+.cgr-btn-outline {
+  background-color: transparent;
+  color: #339989;
+  padding: 10px 50px;
+  border: solid 2px;
+  border-radius: 10px;
+  transition-duration: 200ms;
+  text-align: center;
+}
+
+.cgr-btn-outline:hover {
+  background-color: #339989;
+  color: #ffffff;
+  border: solid 2px #339989;
+}
+
+/* btn red */
+.cgr-btn-red {
+  background-color: #ff6363;
+  color: #ffffff;
+  padding: 10px 50px;
+  border-radius: 10px;
+  transition-duration: 200ms;
+  text-align: center;
+}
+
+.cgr-btn-red:hover {
+  background-color: #dc5656;
+}
+
+/* btn gray outline */
+.cgr-btn-outline-gray {
+  background-color: transparent;
+  color: #8b8b8b;
+  padding: 10px 50px;
+  border: solid 2px;
+  border-radius: 10px;
+  transition-duration: 200ms;
+  text-align: center;
+}
+
+.cgr-btn-outline-gray:hover {
+  background-color: #8b8b8b;
+  color: #ffffff;
+  border: solid 2px #8b8b8b;
+}
+
+/* btn white outline */
+.cgr-btn-outline-white {
+  background-color: transparent;
+  color: #ffffff;
+  padding: 10px 30px;
+  border: solid 2px;
+  border-radius: 15px;
+  transition-duration: 200ms;
+  text-align: center;
+}
+
+.cgr-btn-outline-white:hover {
+  background-color: #ffffff;
+  color: #247064;
+  border: solid 2px #ffffff;
+}
+
+/* table */
+.cgr-table {
+  width: 100%;
+}
+
+.cgr-table tr {
+  border-style: solid;
+  border-color: #cecece;
+  border-width: 1px 0px 0px 0px;
+}
+
+.cgr-table th {
+  background-color: #339989;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.cgr-table td {
+  padding: 5px 10px;
+}
+
+/* search box */
+.cgr-search-box {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 8px;
+  border-color: #339989;
+  padding: 10px;
+  color: #339989;
+}
+
+.cgr-search-box:focus-visible {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 8px;
+  border-color: #267166;
+  color: #267166;
+  outline: none;
+}
