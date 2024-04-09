@@ -3,11 +3,19 @@
 import Image from 'next/image'
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 import Card from '@/components/basic/card/Card'
+import logout from '@/libs/users/logout'
 
 export default function Logout() {
   const router = useRouter()
+  const { data: session } = useSession()
+
+  if (!session || !session.user.token) {
+    router.replace('/register')
+    return
+  }
 
   return (
     <main className='bg-white px-1 py-20 sm:px-10 md:px-16 lg:px-36 xl:px-72 2xl:px-96 min-h-screen'>
@@ -28,6 +36,7 @@ export default function Logout() {
             <button
               className='cgr-btn w-[40%]'
               onClick={() => {
+                logout(session?.user.token)
                 signOut({ callbackUrl: '/' })
               }}>
               Yes
