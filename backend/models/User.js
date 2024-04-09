@@ -13,8 +13,8 @@ const UserSchema = new mongoose.Schema({
     maxLength: 20,
     unique: true,
     match: [
-      /^([0-9]{3}|[0-9]{2})-[0-9]{3}-[0-9]{4}$/, 
-      'Please add a valid tel'
+      /^([0-9]{3}|[0-9]{2})-[0-9]{3}-[0-9]{4}$/,
+      'Please add a valid tel',
     ],
   },
   email: {
@@ -37,6 +37,12 @@ const UserSchema = new mongoose.Schema({
     enum: ['customer', 'admin'],
     default: 'customer',
   },
+  bookmarkCampgrounds: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Campground',
+    },
+  ],
 })
 
 // Delete user

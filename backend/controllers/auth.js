@@ -71,6 +71,7 @@ exports.register = async (req, res, next) => {
       email,
       password,
       role,
+      bookmarkCampgrounds: [],
     })
 
     // Create Log
