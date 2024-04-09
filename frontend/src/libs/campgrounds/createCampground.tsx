@@ -13,8 +13,7 @@ export default async function createCampground(
     link: string
   },
   website: string,
-  facilities: string[],
-  tentForRent: boolean
+  facilities: string[]
 ) {
   const response = await fetch(`${process.env.BACKEND_URL}/api/campgrounds`, {
     method: 'POST',
@@ -28,7 +27,6 @@ export default async function createCampground(
       address: address,
       website: website,
       facilities: facilities,
-      tentForRent: tentForRent,
     }),
   })
 

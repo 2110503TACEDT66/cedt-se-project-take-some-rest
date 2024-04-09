@@ -10,7 +10,7 @@ exports.getReserve = async (req, res, next) => {
     const reserve = await Reserve.findById(req.params.rid)
       .populate({
         path: 'campground',
-        select: 'name tel address',
+        select: 'name tel address website',
       })
       .populate({
         path: 'user',

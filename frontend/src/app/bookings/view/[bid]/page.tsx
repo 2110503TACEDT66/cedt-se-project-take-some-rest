@@ -1,13 +1,11 @@
 'use client'
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import CampgroundCardBooking from '@/components/basic/card/CampgroundCardBooking'
 import Card from '@/components/basic/card/Card'
 import deleteReserves from '@/libs/bookings/deleteReserve'
 import getReserve from '@/libs/bookings/getReserve'
 import getCampground from '@/libs/campgrounds/getCampground'
-import { getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -90,7 +88,7 @@ export default function BookingView({ params }: { params: { bid: string } }) {
           </div>
           <div className='grid grid-cols-2 mb-10 gap-7'>
             <div className='flex flex-col'>
-              <CampgroundCardBooking cgid={campground._id} />
+              <CampgroundCardBooking campground={campground} />
               <p className='text-lg mb-2'>
                 <strong>Site Number</strong> : {booking.site.number}
               </p>

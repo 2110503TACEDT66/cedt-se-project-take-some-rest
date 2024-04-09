@@ -41,10 +41,6 @@ const CampgroundSchema = new mongoose.Schema({
   website: String,
   pictures: [String],
   facilities: [String],
-  tentForRent: {
-    type: Boolean,
-    require: [true, 'Please add if you have tents for rent'],
-  },
   amount: {
     type: Number,
     min: 0,

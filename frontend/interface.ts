@@ -16,7 +16,6 @@ interface CampgroundItem {
   website: string
   pictures: string[]
   facilities: string[]
-  tentForRent: boolean
   amount: number
 }
 

@@ -75,7 +75,9 @@ export default function CampgroundDetail({
       <h1 className='text-md font-medium'>Facilities</h1>
       <div className='flex flex-row gap-3'>
         {facilities.map((obj) => (
-          <Tag size='sm'>{obj}</Tag>
+          <Tag size='sm' key={obj}>
+            {obj}
+          </Tag>
         ))}
       </div>
     </div>

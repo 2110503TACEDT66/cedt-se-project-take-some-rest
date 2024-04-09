@@ -41,9 +41,9 @@ export default function CreateCampground({
   const paramsCgid = urlParams.get('cgid')
 
   const [isReady, setIsReady] = useState(false)
-  const [provincesList, setProvincesList] = useState([])
-  const [districtsList, setDistrictsList] = useState([])
-  const [subDistrictsList, setSubDistrictsList] = useState([])
+  const [provincesList, setProvincesList] = useState<optionType[]>([])
+  const [districtsList, setDistrictsList] = useState<optionType[]>([])
+  const [subDistrictsList, setSubDistrictsList] = useState<optionType[]>([])
   interface optionType {
     id: number
     name: string
@@ -60,8 +60,8 @@ export default function CreateCampground({
   const [postalCode, setPostalCode] = useState('')
   const [googleMap, setGoogleMap] = useState('')
   const [website, setWebsite] = useState('')
-  const [tentForRent, setTentForRent] = useState(false)
   const [facilities, setFacilities] = useState({
+    tent: true,
     toilet: false,
     electricity: false,
     wifi: false,
@@ -73,13 +73,22 @@ export default function CreateCampground({
   const [image, setImage] = useState<FormData>()
 
   const facilitiesList: (keyof {
+    tent: boolean
     toilet: boolean
     electricity: boolean
     wifi: boolean
     parking: boolean
     breakfast: boolean
     store: boolean
-  })[] = ['toilet', 'electricity', 'wifi', 'parking', 'breakfast', 'store']
+  })[] = [
+    'tent',
+    'toilet',
+    'electricity',
+    'wifi',
+    'parking',
+    'breakfast',
+    'store',
+  ]
 
   const handleChangeFacilities = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -139,8 +148,7 @@ export default function CreateCampground({
             tel,
             address,
             website,
-            facilitiesArray,
-            tentForRent
+            facilitiesArray
           )
         } else {
           if (!paramsCgid) return null
@@ -151,8 +159,7 @@ export default function CreateCampground({
             tel,
             address,
             website,
-            facilitiesArray,
-            tentForRent
+            facilitiesArray
           )
           if (image) {
             try {
@@ -182,21 +189,77 @@ export default function CreateCampground({
     }
   }
 
+  // Function for fetch provinces, district, sub-district
+  const fetchProvinces = async () => {
+    const provinces = await getProvinces()
+    const provinceList: optionType[] = provinces.map((element: any) => ({
+      id: element.id,
+      name: element.name_en,
+    }))
+    setProvincesList(provinceList)
+  }
+
+  const fetchDistrict = async () => {
+    if (province) {
+      const districts = await getDistricts(province.id)
+      setDistrictsList(
+        districts.map((element: any) => ({
+          id: element.id,
+          name: element.name_en,
+        }))
+      )
+    }
+  }
+
+  const fetchSubDistrict = async () => {
+    if (district) {
+      const subdistricts = await getSubDistricts(district.id)
+      setSubDistrictsList(
+        subdistricts.map((element: any) => ({
+          id: element.id,
+          name: element.name_en,
+        }))
+      )
+    }
+  }
+
   useEffect(() => {
+    fetchProvinces()
+
     if (params.type === 'edit') {
       if (!paramsCgid) return
       const fetchData = async () => {
         const campground = (await getCampground(paramsCgid)).data
+
+        if (provincesList.length === 0) {
+          await fetchProvinces()
+        }
+        let currentProvince = provincesList.find((province) => {
+          province.name === campground.address.province
+        })
+        if (!currentProvince) return
+        await fetchDistrict()
+
+        let currentDistrict = districtsList.find((district) => {
+          district.name === campground.address.district
+        })
+        if (!currentDistrict) return
+        await fetchSubDistrict()
+
+        let currentSubDistrict = subDistrictsList.find((subdistrict) => {
+          subdistrict.name === campground.address.subDistrict
+        })
+        if (!currentSubDistrict) return
+
         setName(campground.name)
         setTel(campground.tel)
         setWebsite(campground.website)
-        setTentForRent(campground.tentForRent)
         setHouseNum(campground.address.houseNumber)
         setLane(campground.address.lane)
         setRoad(campground.address.road)
-        setSubdistrict(campground.address.subDistrict)
-        setDistrict(campground.address.district)
-        setProvince(campground.address.province)
+        setSubdistrict(currentSubDistrict)
+        setDistrict(currentDistrict)
+        setProvince(currentProvince)
         setPostalCode(campground.address.postalCode)
         for (let facility of facilitiesList) {
           if (campground.facilities.includes(facility)) {
@@ -209,54 +272,22 @@ export default function CreateCampground({
       fetchData()
     }
 
-    const fetchProvinces = async () => {
-      const provinces = await getProvinces()
-      setProvincesList(
-        provinces.map((element: any) => ({
-          id: element.id,
-          name: element.name_en,
-        }))
-      )
-    }
-    fetchProvinces()
-
     setIsReady(true)
   }, [])
 
   useEffect(() => {
-    const fetchDistrict = async () => {
-      if (province) {
-        const districts = await getDistricts(province.id)
-        console.log(districts)
-        setDistrictsList(
-          districts.map((element: any) => ({
-            id: element.id,
-            name: element.name_en,
-          }))
-        )
-      }
+    if (isReady) {
+      fetchDistrict()
+      setDistrict(null)
+      setSubdistrict(null)
     }
-    fetchDistrict()
-
-    setDistrict(null)
-    setSubdistrict(null)
   }, [province])
 
   useEffect(() => {
-    const fetchSubDistrict = async () => {
-      if (district) {
-        const subdistricts = await getSubDistricts(district.id)
-        setSubDistrictsList(
-          subdistricts.map((element: any) => ({
-            id: element.id,
-            name: element.name_en,
-          }))
-        )
-      }
+    if (isReady) {
+      fetchSubDistrict()
+      setSubdistrict(null)
     }
-    fetchSubDistrict()
-
-    setSubdistrict(null)
   }, [district])
 
   if (!isReady) return <SuspenseUI />
@@ -335,59 +366,23 @@ export default function CreateCampground({
                     setRoad(event.target.value)
                   }}
                 />
-                {/* <TextField
-                  required
-                  id='subdistrict'
-                  label='Sub-district'
-                  variant='outlined'
-                  size='small'
-                  InputProps={{ style: { borderRadius: '10px' } }}
-                  value={subdistrict}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setSubdistrict(event.target.value)
-                  }}
-                />
-                <TextField
-                  required
-                  id='district'
-                  label='District'
-                  variant='outlined'
-                  size='small'
-                  InputProps={{ style: { borderRadius: '10px' } }}
-                  value={district}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setDistrict(event.target.value)
-                  }}
-                />
-                <TextField
-                  required
-                  id='province'
-                  label='Province'
-                  variant='outlined'
-                  size='small'
-                  InputProps={{ style: { borderRadius: '10px' } }}
-                  value={province}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setProvince(event.target.value)
-                  }}
-                /> */}
                 <Autocomplete
                   disablePortal
-                  id='subdistrict'
-                  options={subDistrictsList}
+                  id='province'
+                  options={provincesList}
                   getOptionLabel={(option: optionType) => `${option.name}`}
                   size='small'
                   onChange={(event, newValue) => {
                     if (newValue) {
-                      setSubdistrict({ name: newValue.name, id: newValue.id })
+                      setProvince({ name: newValue.name, id: newValue.id })
                     }
                   }}
                   renderInput={(params) => (
                     <TextField
                       required
                       {...params}
-                      label='Sub-district'
-                      value={subdistrict}
+                      label='Province'
+                      value={province?.name}
                     />
                   )}
                 />
@@ -407,27 +402,27 @@ export default function CreateCampground({
                       required
                       {...params}
                       label='District'
-                      value={district}
+                      value={district?.name}
                     />
                   )}
                 />
                 <Autocomplete
                   disablePortal
-                  id='province'
-                  options={provincesList}
+                  id='subdistrict'
+                  options={subDistrictsList}
                   getOptionLabel={(option: optionType) => `${option.name}`}
                   size='small'
                   onChange={(event, newValue) => {
                     if (newValue) {
-                      setProvince({ name: newValue.name, id: newValue.id })
+                      setSubdistrict({ name: newValue.name, id: newValue.id })
                     }
                   }}
                   renderInput={(params) => (
                     <TextField
                       required
                       {...params}
-                      label='Province'
-                      value={province}
+                      label='Sub-district'
+                      value={subdistrict?.name}
                     />
                   )}
                 />
@@ -479,13 +474,9 @@ export default function CreateCampground({
                           color: '#339989',
                           '&.Mui-checked': { color: '#339989' },
                         }}
-                        checked={tentForRent}
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>
-                        ) => {
-                          setTentForRent(event.target.checked)
-                        }}
-                        name='tentForRent'
+                        checked={facilities.tent}
+                        onChange={handleChangeFacilities}
+                        name='tent'
                       />
                     }
                     label='Tent'

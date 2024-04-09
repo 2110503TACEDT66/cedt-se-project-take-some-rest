@@ -152,7 +152,7 @@ export default function AdminViewCampground({
               <th>Delete</th>
             </tr>
             {campgroundSites.sites.map((obj) => (
-              <tr className='text-center'>
+              <tr className='text-center' key={obj._id}>
                 <td>{obj.zone}</td>
                 <td>{obj.number}</td>
                 <td>{obj.size.swidth + '*' + obj.size.slength}</td>
