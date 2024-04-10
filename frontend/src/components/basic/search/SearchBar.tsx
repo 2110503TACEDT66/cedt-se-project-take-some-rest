@@ -41,7 +41,11 @@ export default function SearchBar({
           setFacilities(selectedFacilities)
         }}
       />
-      <button className='bg-cgr-dark-green px-3 rounded-lg text-white m-0 p-0'>
+      <button
+        className='bg-cgr-dark-green px-3 rounded-lg text-white m-0 p-0'
+        onClick={() => {
+          handleChange(name, province, facilities)
+        }}>
         <i className='bi bi-search text-2xl'></i>
       </button>
     </div>

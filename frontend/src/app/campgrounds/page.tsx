@@ -7,7 +7,7 @@ import SearchBar from '@/components/basic/search/SearchBar'
 import CampgroundPanelCampgrounds from '@/components/complex/CampgroundPanelCampgrounds'
 import getCampgrounds from '@/libs/campgrounds/getCampgrounds'
 
-export default async function Campgrounds() {
+export default function Campgrounds() {
   const [isReady, setIsReady] = useState(false)
   const [campgrounds, setCampgrounds] = useState<CampgroundsJson>()
 
@@ -17,15 +17,19 @@ export default async function Campgrounds() {
     facilities: string
   ) => {
     let queryString = ''
-    if (name.trim.length != 0) {
-      queryString += 'name' + name
+    if (name.trim().length != 0) {
+      queryString += 'name=' + name
     }
-    if (province.trim.length != 0) {
-      queryString += 'province' + province
+    if (province.trim().length != 0) {
+      // To be fixed after got API finished
+      queryString += 'address.province=' + province
     }
-    if (facilities.trim.length != 0) {
-      queryString += 'facilities' + facilities
+    if (facilities.trim().length != 0) {
+      queryString += 'facilities=' + facilities
     }
+
+    console.log(name, province, facilities)
+    console.log(queryString)
 
     const campgroundList = await getCampgrounds(queryString)
     console.log(campgroundList)
@@ -61,8 +65,8 @@ export default async function Campgrounds() {
       }
     }
 
-    let facilities = facilitiesArray.join(',')
-    fetchCampground(selectedName, selectedProvince, facilities)
+    let selectedFacilitiesStr = facilitiesArray.join(',')
+    fetchCampground(selectedName, selectedProvince, selectedFacilitiesStr)
   }
 
   return (

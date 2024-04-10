@@ -52,7 +52,9 @@ export default function CampgroundCardCampgrounds({
             {/* Facility */}
             <div className='flex flex-row space-x-2 overflow-auto'>
               {campground.facilities.map((data) => (
-                <Tag size='xs'>{data}</Tag>
+                <Tag size='xs' key={data}>
+                  {data}
+                </Tag>
               ))}
             </div>
           </div>
