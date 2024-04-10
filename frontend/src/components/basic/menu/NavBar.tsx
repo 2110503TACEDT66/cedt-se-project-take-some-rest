@@ -34,16 +34,16 @@ export default function Navbar() {
         <NavbarItem path='/'>
           <i className='bi bi-house-fill mr-2'></i>Home
         </NavbarItem>
+        <NavbarItem path='/campgrounds'>
+          <i className='bi bi-tree-fill mr-2'></i>Campgrounds
+        </NavbarItem>
         {session ? (
-              <NavbarItem path='/bookings'>
+              <NavbarItem path='/bookmarks'>
                 <i className='bi bi-bookmarks-fill mr-2'></i>My Bookmark
               </NavbarItem>
             ) : (
               ''
             )}
-        <NavbarItem path='/campgrounds'>
-          <i className='bi bi-tree-fill mr-2'></i>Campgrounds
-        </NavbarItem>
         {session ? (
           <NavbarItem path='/bookings'>
             <i className='bi bi-calendar-check-fill mr-2'></i>My Booking
@@ -84,16 +84,16 @@ export default function Navbar() {
             <NavbarItem path='/'>
               <i className='bi bi-house-fill mr-2'></i>Home
             </NavbarItem>
+            <NavbarItem path='/campgrounds'>
+              <i className='bi bi-tree-fill mr-2'></i>Campgrounds
+            </NavbarItem>
             {session ? (
-              <NavbarItem path='/bookings'>
+              <NavbarItem path='/bookmarks'>
                 <i className='bi bi-bookmarks-fill mr-2'></i>My Bookmark
               </NavbarItem>
             ) : (
               ''
             )}
-            <NavbarItem path='/campgrounds'>
-              <i className='bi bi-tree-fill mr-2'></i>Campgrounds
-            </NavbarItem>
             {session ? (
               <NavbarItem path='/bookings'>
                 <i className='bi bi-calendar-check-fill mr-2'></i>My Booking
