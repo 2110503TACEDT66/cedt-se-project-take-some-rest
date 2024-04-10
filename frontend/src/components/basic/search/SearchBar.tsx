@@ -9,7 +9,7 @@ export default function SearchBar() {
         placeholder='Find something...'
       />
       <FilterButton />
-      <button className='bg-white px-3 rounded-lg border-2 border-cgr-dark-green text-cgr-dark-green m-0 p-0'>
+      <button className='bg-cgr-dark-green px-3 rounded-lg text-white m-0 p-0'>
         <i className='bi bi-search text-2xl'></i>
       </button>
     </div>
