@@ -38,8 +38,15 @@ export default function Navbar() {
           <i className='bi bi-tree-fill mr-2'></i>Campgrounds
         </NavbarItem>
         {session ? (
+              <NavbarItem path='/bookmarks'>
+                <i className='bi bi-bookmarks-fill mr-2'></i>My Bookmark
+              </NavbarItem>
+            ) : (
+              ''
+            )}
+        {session ? (
           <NavbarItem path='/bookings'>
-            <i className='bi bi-bookmarks-fill mr-2'></i>My Booking
+            <i className='bi bi-calendar-check-fill mr-2'></i>My Booking
           </NavbarItem>
         ) : (
           ''
@@ -81,8 +88,15 @@ export default function Navbar() {
               <i className='bi bi-tree-fill mr-2'></i>Campgrounds
             </NavbarItem>
             {session ? (
+              <NavbarItem path='/bookmarks'>
+                <i className='bi bi-bookmarks-fill mr-2'></i>My Bookmark
+              </NavbarItem>
+            ) : (
+              ''
+            )}
+            {session ? (
               <NavbarItem path='/bookings'>
-                <i className='bi bi-bookmarks-fill mr-2'></i>My Booking
+                <i className='bi bi-calendar-check-fill mr-2'></i>My Booking
               </NavbarItem>
             ) : (
               ''
