@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['customer', 'admin'],
+    enum: ['customer','campgroundOwner','admin'],
     default: 'customer',
   },
   bookmarkCampgrounds: [
