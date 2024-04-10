@@ -35,7 +35,7 @@ export default function CampgroundCardHome({
             {/* total site */}
             <div className='flex flex-row text-sm mt-3'>
               <i className='bi bi-signpost-split w-fill me-3'></i>
-              <p>Site number : {campground.amount}</p>
+              <p>Site available : {campground.amount}</p>
             </div>
             {/* tel */}
             <div className='flex flex-row text-sm'>
