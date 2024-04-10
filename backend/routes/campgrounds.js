@@ -38,17 +38,17 @@ router
 router
   .route("/:id")
   .get(getCampground)
-  .put(protect, authorize("admin"), updateCampground)
-  .delete(protect, authorize("admin"), deleteCampground);
+  .put(protect, authorize("admin","campgroundOwner"), updateCampground)
+  .delete(protect, authorize("admin","campgroundOwner"), deleteCampground);
 router.route("/:cgid/upload-image").post(uploadCampgroundImage);
 router
   .route("/:cgid/sites")
   .get(getCampgroundSites)
-  .post(protect, authorize("admin"), createCampgroundSite);
+  .post(protect, authorize("admin","campgroundOwner"), createCampgroundSite);
 router
   .route("/:cgid/sites/:sid")
   .get(getCampgroundSite)
-  .put(protect, authorize("admin"), updateCampgroundSite)
-  .delete(protect, authorize("admin"), deleteCampgroundSite);
+  .put(protect, authorize("admin","campgroundOwner"), updateCampgroundSite)
+  .delete(protect, authorize("admin","campgroundOwner"), deleteCampgroundSite);
 
 module.exports = router;
