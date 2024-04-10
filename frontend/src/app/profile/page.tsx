@@ -26,6 +26,12 @@ export default async function ViewProfile() {
             <p className='font-medium'>Email : </p>
             <p className='md:col-span-2'>{user.email}</p>
           </div>
+          <div className='flex flex-row mb-3'>
+            <p className='font-normal text-sm content-center'>Request to be an campground owner :</p>
+            <button className='border-solid border-2 border-cgr-dark-green text-cgr-dark-green
+            hover:bg-cgr-dark-green hover:text-white transition duration-200
+            h-8 w-18 ml-2 px-2 rounded-lg text-sm text-center'>Request</button>
+          </div>
           <div className='flex flex-row gap-3 justify-end'>
             <Link href='/profile/edit' className='flex justify-end'>
               <button className='cgr-btn-outline'>Edit</button>
