@@ -43,6 +43,10 @@ const UserSchema = new mongoose.Schema({
       ref: 'Campground',
     },
   ],
+  requestToBeCampgroundOwner: {
+    type:Boolean,
+    default: false,
+  }
 })
 
 // Delete user
