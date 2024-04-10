@@ -114,18 +114,14 @@ export default function FilterButton({
                 options={provincesList}
                 getOptionLabel={(option: optionType) => `${option.name}`}
                 size='small'
+                value={province}
                 onChange={(event, newValue) => {
                   if (newValue) {
                     setProvince({ name: newValue.name, id: newValue.id })
                   }
                 }}
                 renderInput={(params) => (
-                  <TextField
-                    required
-                    {...params}
-                    label='Province'
-                    value={province?.name}
-                  />
+                  <TextField required {...params} label='Province' />
                 )}
               />
             </div>
