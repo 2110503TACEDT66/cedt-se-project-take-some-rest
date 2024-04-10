@@ -38,14 +38,17 @@ exports.register = async (req, res, next) => {
       })
     }
 
-    // Test validate
-    const testUserValidation = new User({
+    const inputUser = {
       name,
       tel,
       email,
       password,
       role,
-    })
+      bookmarkCampgrounds: [],
+    }
+
+    // Test validate
+    const testUserValidation = new User(inputUser)
     const error = testUserValidation.validateSync()
     if (error) {
       return res
@@ -65,20 +68,14 @@ exports.register = async (req, res, next) => {
     }
 
     // Create user
-    const user = await User.create({
-      name,
-      tel,
-      email,
-      password,
-      role,
-    })
+    const user = await User.create(inputUser)
 
     // Create Log
     const log = await Log.create({ user: user.id, action: 'login' })
     if (!log) {
       return res
         .status(400)
-        .json({ sucess: false, message: 'Cannot create log for this login' })
+        .json({ success: false, message: 'Cannot create log for this login' })
     }
 
     sendTokenResponse(user, 201, res)
