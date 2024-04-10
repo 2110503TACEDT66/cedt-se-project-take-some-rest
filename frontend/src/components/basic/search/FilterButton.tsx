@@ -10,7 +10,11 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-export default function FilterButton() {
+export default function FilterButton({
+  handleChange,
+}: {
+  handleChange: Function
+}) {
   interface optionType {
     id: number
     name: string
@@ -48,6 +52,10 @@ export default function FilterButton() {
   useEffect(() => {
     checkSelectAll()
   }, [facilities])
+
+  useEffect(() => {
+    handleChange(province?.name, facilities)
+  }, [province, facilities])
 
   const handleChangeFacilities = (
     event: React.ChangeEvent<HTMLInputElement>
