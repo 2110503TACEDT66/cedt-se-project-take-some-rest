@@ -34,7 +34,7 @@ router.use("/:cgid/reserves", reservesRouter);
 router
   .route("/")
   .get(getCampgrounds)
-  .post(protect, authorize("admin"), createCampground);
+  .post(protect, authorize("admin","campgroundOwner"), createCampground);
 router
   .route("/:id")
   .get(getCampground)
