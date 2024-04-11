@@ -187,7 +187,7 @@ exports.updateUser = async (req, res, next) => {
 // @access : Admin
 exports.updateUserRole = async (req, res, next) => {
   const { role } = req.body 
-  const  requestToBeCampgroundOwner  = false
+  const  {requestToBeCampgroundOwner}  = false
   const newData = {role ,requestToBeCampgroundOwner}
   const validRoles = ['customer','campgroundOwner','admin']
 
@@ -218,6 +218,30 @@ exports.updateUserRole = async (req, res, next) => {
   } catch (err) {
     // console.log(err.stack)
     return res.status(400).json({ success: false })
+  }
+}
+
+// @desc : Reject update a user role to campground owner
+// @route : PUT /api/users/update-role/:uid/reject 
+// @access : Admin
+exports.RejectupdateUserRole = async (req, res, next) => {
+  const  {requestToBeCampgroundOwner}  = false
+  try {
+    const user = await User.findByIdAndUpdate(req.params.uid, {requestToBeCampgroundOwner}, {
+      new: true,
+      runValidators: true,
+    })
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find user' })
+    }
+
+    return res.status(200).json({ success: true, data: user })
+  } catch (err) {
+    // console.log(err.stack)
+    return res.status(500).json({ success: false })
   }
 }
 

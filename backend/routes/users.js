@@ -19,6 +19,7 @@ const {
   removeBookmark,
   requestCampgroundOwner,
   getUsersRequest,
+  RejectupdateUserRole,
 } = require('../controllers/users')
 
 // Import others router
@@ -41,6 +42,9 @@ router
 router
   .route('/update-role/:uid')
   .put(protect, authorize('admin'), updateUserRole)
+router
+  .route('/update-role/:uid/reject')
+  .put(protect, authorize('admin'), RejectupdateUserRole)
 router
   .route('/:uid')
   .get(protect, authorize('admin'), getUser)
