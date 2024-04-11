@@ -323,4 +323,13 @@ exports.removeBookmark = async (req, res, next) => {}
 // @desc : Get your bookmarked campgrounds
 // @route : GET /api/users/my-bookmark
 // @access : Private (Me)
-exports.getBookmarks = async (req, res, next) => {}
+exports.getBookmarks = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+
+    return res.status(200).json({ success: true, data: user.bookmarkCampgrounds })
+  } catch (err) {
+    // console.log(err.stack)
+    return res.status(500).json({ success: false })
+  }
+}
