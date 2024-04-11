@@ -14,7 +14,7 @@ exports.getCampgrounds = async (req, res, next) => {
     let query
 
     // Copy req.query
-    const reqQuery = { ...req.query }
+    let reqQuery = { ...req.query }
 
     // Fields to exclude
     const removeFields = ['select', 'sort', 'page', 'limit']
@@ -22,9 +22,24 @@ exports.getCampgrounds = async (req, res, next) => {
     // Loop over to remove fields and delete from reqQuery
     removeFields.forEach((param) => delete reqQuery[param])
 
+    // Create operator $gt $gte
+    let queryStr = JSON.stringify(reqQuery)
+
+    queryStr = queryStr.replace(
+      /\b(gt|gte|lt|lte|in)\b/g,
+      (match) => `$${match}`
+    )
+    reqQuery = JSON.parse(queryStr)
+
     // Edit reqQuery Into Template
     if (reqQuery.hasOwnProperty('name')) {
       reqQuery.name = { $regex: reqQuery.name, $options: 'i' }
+    }
+
+    if (reqQuery.hasOwnProperty('province')) {
+      const province = reqQuery.province
+      delete reqQuery['province']
+      reqQuery['address.province'] = province
     }
 
     if (reqQuery.hasOwnProperty('facilities')) {
