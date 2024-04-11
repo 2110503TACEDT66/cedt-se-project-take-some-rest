@@ -22,15 +22,6 @@ exports.getCampgrounds = async (req, res, next) => {
     // Loop over to remove fields and delete from reqQuery
     removeFields.forEach((param) => delete reqQuery[param])
 
-    // Create operator $gt $gte
-    let queryStr = JSON.stringify(reqQuery)
-
-    queryStr = queryStr.replace(
-      /\b(gt|gte|lt|lte|in)\b/g,
-      (match) => `$${match}`
-    )
-    reqQuery = JSON.parse(queryStr)
-
     // Edit reqQuery Into Template
     if (reqQuery.hasOwnProperty('name')) {
       reqQuery.name = { $regex: reqQuery.name, $options: 'i' }
@@ -47,6 +38,15 @@ exports.getCampgrounds = async (req, res, next) => {
         $all: reqQuery.facilities.split(','),
       }
     }
+
+    // Create operator $gt $gte
+    let queryStr = JSON.stringify(reqQuery)
+
+    queryStr = queryStr.replace(
+      /\b(gt|gte|lt|lte|in)\b/g,
+      (match) => `$${match}`
+    )
+    reqQuery = JSON.parse(queryStr)
 
     // Query Document
     query = Campground.find(reqQuery)
