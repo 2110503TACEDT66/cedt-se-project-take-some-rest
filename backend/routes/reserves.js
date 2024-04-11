@@ -19,7 +19,11 @@ router.route('/booked-reserves').get(getBookedReserves)
 router
   .route('/:rid')
   .delete(protect, deleteReserve)
-  .get(protect, authorize('admin', 'customer'), getReserve)
-  .put(protect, authorize('admin', 'customer'), updateReserve)
+  .get(protect, authorize('admin', 'customer', 'campgroundOwner'), getReserve)
+  .put(
+    protect,
+    authorize('admin', 'customer', 'campgroundOwner'),
+    updateReserve
+  )
 
 module.exports = router
