@@ -14,6 +14,7 @@ const {
   updateUserRole,
   deleteMe,
   deleteUser,
+  requestCampgroundOwner,
 } = require('../controllers/users')
 
 // Import others router
@@ -21,6 +22,7 @@ const reservesRouter = require('./reserves')
 
 // Reserve router
 router.use('/:uid/reserves', reservesRouter)
+router.use('/me/campground-owner-request',requestCampgroundOwner)
 
 // User router
 router.route('/')
