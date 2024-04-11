@@ -271,7 +271,21 @@ exports.requestCampgroundOwner = async (req, res, next) => {}
 // @desc : Add campground to your bookmark
 // @route : PUT /api/users/my-bookmark/:cgid
 // @access : Private (Me)
-exports.addBoookmark = async (req, res, next) => {}
+exports.addBookmark = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+    const campground = await Campground.findById(req.params.cgid)
+    if (!user || !campground) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find user or campground' })
+    }
+    return res.status(200).json({ success: true, data: user.bookmarkCampgrounds })
+  } catch (err) {
+    // console.log(err.stack)
+    return res.status(500).json({ success: false })
+  }
+}
 
 // @desc : Delete campground from your bookmark
 // @route : DEL /api/users/my-bookmark/:cgid

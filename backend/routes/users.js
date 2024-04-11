@@ -45,6 +45,6 @@ router
 router.route('/my-bookmark').get(protect, getBookmarks)
 router
   .route('/my-bookmark/:cgid')
-  .post(protect, addBookmark)
+  .put(protect, addBookmark)
   .delete(protect, removeBookmark)
 module.exports = router
