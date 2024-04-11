@@ -8,7 +8,7 @@ export default function CampgroundPanelCampgrounds({
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-9'>
       {campgrounds.map((obj) => (
-        <CampgroundCardCampgrounds campground={obj} />
+        <CampgroundCardCampgrounds campground={obj} key={obj._id} />
       ))}
     </div>
   )

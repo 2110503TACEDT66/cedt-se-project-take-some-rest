@@ -263,7 +263,22 @@ exports.deleteUser = async (req, res, next) => {
   }
 }
 
+// @desc : User request to be campground owner
+// @route : PUT /api/users/me/campground-owner-request
+// @access : Private (Me)
+exports.requestCampgroundOwner = async (req, res, next) => {}
 
-exports.requestCampgroundOwner = async (req, res, next) => {
-  
-}
+// @desc : Add campground to your bookmark
+// @route : PUT /api/users/my-bookmark/:cgid
+// @access : Private (Me)
+exports.addBoookmark = async (req, res, next) => {}
+
+// @desc : Delete campground from your bookmark
+// @route : DEL /api/users/my-bookmark/:cgid
+// @access : Private (Me)
+exports.removeBookmark = async (req, res, next) => {}
+
+// @desc : Get your bookmarked campgrounds
+// @route : GET /api/users/my-bookmark
+// @access : Private (Me)
+exports.getBookmarks = async (req, res, next) => {}

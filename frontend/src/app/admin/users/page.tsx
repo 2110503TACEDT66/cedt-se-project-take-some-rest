@@ -52,6 +52,49 @@ export default function UsersTable() {
           </button>
         </div>
       </div>
+
+      {/* Request */}
+      <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
+        Campground owner role request
+      </div>
+      <table className='cgr-table mb-20'>
+        <tr className='h-10'>
+          <th className='w-2/6'>Name</th>
+          <th className='w-1/6'>Email</th>
+          <th className='w-1/6'>Telephone</th>
+          <th className='w-1/6'>Accept</th>
+          <th className='w-1/6'>Decline</th>
+        </tr>
+        {isReady ? (
+          // Change the user to the request user (I didn't provide)
+          user.map((obj) => (
+            <tr key={obj._id}>
+              <td>{obj.name}</td>
+              <td>{obj.email}</td>
+              <td>{obj.tel}</td>
+              <td className='text-center'>
+                <button className='cgr-btn'>Accept</button>
+                {/* implement this button to call api */}
+              </td>
+              <td className='text-center'>
+                <button className='cgr-btn-red'>Decline</button>
+                {/* implement this button to call api */}
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={5}>
+              <SuspenseUI />
+            </td>
+          </tr>
+        )}
+      </table>
+
+      {/* Normal */}
+      <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
+        User information
+      </div>
       <table className='cgr-table'>
         <tr className='h-10'>
           <th className='w-2/6'>Name</th>

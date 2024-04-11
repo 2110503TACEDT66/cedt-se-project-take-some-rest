@@ -38,6 +38,16 @@ interface CampgroundJson {
   data: CampgroundItem
 }
 
+interface CampgroundFacilityItem {
+  tent: boolean
+  toilet: boolean
+  electricity: boolean
+  wifi: boolean
+  parking: boolean
+  breakfast: boolean
+  store: boolean
+}
+
 // campground site --------------------------------------------------------
 interface CampgroundSiteItem {
   _id: string
