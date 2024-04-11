@@ -18,7 +18,6 @@ const {
   getBookmarks,
   addBookmark,
   removeBookmark,
-  requestCampgroundOwner,
 } = require('../controllers/users')
 
 // Import others router
@@ -38,14 +37,14 @@ router
 router
   .route('/update-role/:uid')
   .put(protect, authorize('admin'), updateUserRole)
-router
-  .route('/:uid')
-  .get(protect, authorize('admin'), getUser)
-  .put(protect, authorize('admin'), updateUser)
-  .delete(protect, authorize('admin'), deleteUser)
 router.route('/my-bookmark').get(protect, getBookmarks)
 router
   .route('/my-bookmark/:cgid')
   .put(protect, addBookmark)
   .delete(protect, removeBookmark)
+router
+  .route('/:uid')
+  .get(protect, authorize('admin'), getUser)
+  .put(protect, authorize('admin'), updateUser)
+  .delete(protect, authorize('admin'), deleteUser)
 module.exports = router
