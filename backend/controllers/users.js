@@ -351,7 +351,11 @@ exports.getBookmarks = async (req, res, next) => {
 
     return res
       .status(200)
-      .json({ success: true, data: user.bookmarkCampgrounds })
+      .json({
+        success: true,
+        count: user.bookmarkCampgrounds.length,
+        data: user.bookmarkCampgrounds,
+      })
   } catch (err) {
     // console.log(err.stack)
     return res.status(500).json({ success: false })
