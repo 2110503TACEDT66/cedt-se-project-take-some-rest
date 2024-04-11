@@ -12,7 +12,7 @@ const path = require('path')
 exports.getCampgrounds = async (req, res, next) => {
   try {
     let query
-    //let regex = RegExp('/.*' + keyword + '.*/')
+
     // Copy req.query
     const reqQuery = { ...req.query }
 
@@ -23,7 +23,6 @@ exports.getCampgrounds = async (req, res, next) => {
     removeFields.forEach((param) => delete reqQuery[param])
 
     // Edit reqQuery Into Template
-
     if (reqQuery.hasOwnProperty('name')) {
       reqQuery.name = { $regex: reqQuery.name, $options: 'i' }
     }
@@ -34,6 +33,7 @@ exports.getCampgrounds = async (req, res, next) => {
       }
     }
 
+    // Query Document
     query = Campground.find(reqQuery)
 
     // Select field
