@@ -1,15 +1,25 @@
+'use client'
 import Link from 'next/link'
-import { getServerSession } from 'next-auth'
-
-import { authOptions } from '../api/auth/[...nextauth]/route'
 import Card from '@/components/basic/card/Card'
 import getMe from '@/libs/users/getMe'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 
-export default async function ViewProfile() {
-  const session = await getServerSession(authOptions)
+export default function ViewProfile() {
+  const { data: session } = useSession()
   if (!session || !session.user.token) return null
+  const [user, setUser] = useState<UserItem | null>(null)
 
-  const user = (await getMe(session.user.token)).data
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData: UserItem = (await getMe(session.user.token)).data
+      setUser(userData)
+    }
+
+    fetchUser()
+  }, [])
+
+  if (!user) return null
 
   return (
     <main className='bg-white p-10 md:px-16 lg:px-36 xl:px-72 2xl:px-96 min-h-screen'>
@@ -26,13 +36,30 @@ export default async function ViewProfile() {
             <p className='font-medium'>Email : </p>
             <p className='md:col-span-2'>{user.email}</p>
           </div>
-          <div className='flex flex-row gap-3 justify-end'>
-            <Link href='/profile/edit' className='flex justify-end'>
-              <button className='cgr-btn-outline'>Edit</button>
-            </Link>
-            <Link href='/logout' className='flex justify-end'>
-              <button className='cgr-btn-red'>Logout</button>
-            </Link>
+          <div className='flex flex-row gap-3 justify-between'>
+            <div className='flex flex-row space-x-4 items-center'>
+              <p className='font-normal text-sm'>
+                Request to be an campground owner :
+              </p>
+              <button
+                className='cgr-btn-outline text-sm !px-5 !py-1'
+                onClick={() =>
+                  // Fixing here to use API
+                  confirm(
+                    'Are you confirm to request to be an campground owner?'
+                  )
+                }>
+                Request
+              </button>
+            </div>
+            <div className='flex flex-row space-x-2'>
+              <Link href='/profile/edit' className='flex justify-end'>
+                <button className='cgr-btn-outline'>Edit</button>
+              </Link>
+              <Link href='/logout' className='flex justify-end'>
+                <button className='cgr-btn-red'>Logout</button>
+              </Link>
+            </div>
           </div>
         </div>
       </Card>

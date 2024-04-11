@@ -14,6 +14,9 @@ const {
   updateUserRole,
   deleteMe,
   deleteUser,
+  getBookmarks,
+  addBookmark,
+  removeBookmark
 } = require('../controllers/users')
 
 // Import others router
@@ -35,5 +38,9 @@ router.route('/:uid')
   .get(protect, authorize('admin'), getUser)
   .put(protect, authorize('admin'), updateUser)
   .delete(protect, authorize('admin'), deleteUser)
-
+router.route('/my-bookmark')
+  .get(protect, getBookmarks)
+router.route('/my-bookmark/:cgid')
+  .post(protect, addBookmark)
+  .delete(protect, removeBookmark)
 module.exports = router
