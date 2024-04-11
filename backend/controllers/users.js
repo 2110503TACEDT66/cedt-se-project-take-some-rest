@@ -182,12 +182,14 @@ exports.updateUser = async (req, res, next) => {
   }
 }
 
-// @desc : Update a user role (change between 'customer' and 'admin')
+// @desc : Update a user role 
 // @route : PUT /api/users/update-role/:uid
 // @access : Admin
 exports.updateUserRole = async (req, res, next) => {
-  const { role } = req.body
-  const validRoles = ['admin', 'customer']
+  const { role } = req.body 
+  const  requestToBeCampgroundOwner  = false
+  const newData = {role ,requestToBeCampgroundOwner}
+  const validRoles = ['customer','campgroundOwner','admin']
 
   if (!role || !validRoles.includes(role)) {
     return res.status(400).json({
@@ -199,7 +201,7 @@ exports.updateUserRole = async (req, res, next) => {
   try {
     const user = await User.findByIdAndUpdate(
       req.params.uid,
-      { role },
+      newData,
       {
         new: true,
         runValidators: true,
