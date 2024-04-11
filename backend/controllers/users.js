@@ -271,10 +271,14 @@ exports.deleteUser = async (req, res, next) => {
 exports.requestCampgroundOwner = async (req, res, next) => {
   const { requestToBeCampgroundOwner } = req.body
   try {
-    const user = await User.findByIdAndUpdate(req.user.id, requestToBeCampgroundOwner, {
-      new: true,
-      runValidators: true,
-    })
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      requestToBeCampgroundOwner,
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
 
     if (!user) {
       return res
@@ -296,22 +300,34 @@ exports.addBookmark = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
     if (!user) {
-      return res.status(404).json({ success: false, message: 'Cannot find user' })
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find user' })
     }
     const campground = await Campground.findById(req.params.cgid)
     if (!campground) {
-      return res.status(404).json({ success: false, message: 'Cannot find campground' })
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find campground' })
     }
     if (user.bookmarkCampgrounds.includes(req.params.cgid)) {
-      return res.status(400).json({ success: false, message: 'Campground already bookmarked' })
+      return res
+        .status(400)
+        .json({ success: false, message: 'Campground already bookmarked' })
     }
-    const result = await User.findByIdAndUpdate(req.user.id, 
-      { $push: { bookmarkCampgrounds: req.params.cgid } }, 
-      { new: true })
-    return res.status(200).json({ success: true, data: result.bookmarkCampgrounds })
+    const result = await User.findByIdAndUpdate(
+      req.user.id,
+      { $push: { bookmarkCampgrounds: req.params.cgid } },
+      { new: true }
+    )
+    return res
+      .status(200)
+      .json({ success: true, data: result.bookmarkCampgrounds })
   } catch (err) {
     //console.log(err)
-    return res.status(500).json({ success: false, message: 'Cannot add bookmark'})
+    return res
+      .status(500)
+      .json({ success: false, message: 'Cannot add bookmark' })
   }
 }
 
@@ -327,7 +343,15 @@ exports.getBookmarks = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
 
-    return res.status(200).json({ success: true, data: user.bookmarkCampgrounds })
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find user with that id' })
+    }
+
+    return res
+      .status(200)
+      .json({ success: true, data: user.bookmarkCampgrounds })
   } catch (err) {
     // console.log(err.stack)
     return res.status(500).json({ success: false })
