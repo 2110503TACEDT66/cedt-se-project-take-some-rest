@@ -21,18 +21,13 @@ export default function Campgrounds() {
       queryString += 'name=' + name
     }
     if (province.trim().length != 0) {
-      // To be fixed after got API finished
-      queryString += 'address.province=' + province
+      queryString += 'province=' + province
     }
     if (facilities.trim().length != 0) {
       queryString += 'facilities=' + facilities
     }
 
-    console.log(name, province, facilities)
-    console.log(queryString)
-
     const campgroundList = await getCampgrounds(queryString)
-    console.log(campgroundList)
     setCampgrounds(campgroundList)
   }
 
@@ -78,7 +73,13 @@ export default function Campgrounds() {
         <SearchBar handleChange={handleSearchQuery} />
       </div>
       <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
-      <CampgroundPanelCampgrounds campgrounds={campgrounds.data} />
+      {campgrounds.count > 0 ? (
+        <CampgroundPanelCampgrounds campgrounds={campgrounds.data} />
+      ) : (
+        <p className='text-2xl font-semibold text-center'>
+          No campground match your conditions
+        </p>
+      )}
     </main>
   )
 }

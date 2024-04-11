@@ -16,7 +16,7 @@ const {
   deleteUser,
   getBookmarks,
   addBookmark,
-  removeBookmark
+  removeBookmark,
 } = require('../controllers/users')
 
 // Import others router
@@ -26,21 +26,22 @@ const reservesRouter = require('./reserves')
 router.use('/:uid/reserves', reservesRouter)
 
 // User router
-router.route('/')
-  .get(protect, authorize('admin'), getUsers)
-router.route('/me')
+router.route('/').get(protect, authorize('admin'), getUsers)
+router
+  .route('/me')
   .get(protect, getMe)
   .put(protect, updateMe)
   .delete(protect, deleteMe)
-router.route('/update-role/:uid')
+router
+  .route('/update-role/:uid')
   .put(protect, authorize('admin'), updateUserRole)
-router.route('/:uid')
+router
+  .route('/:uid')
   .get(protect, authorize('admin'), getUser)
   .put(protect, authorize('admin'), updateUser)
   .delete(protect, authorize('admin'), deleteUser)
-router.route('/my-bookmark')
-  .get(protect, getBookmarks)
-router.route('/my-bookmark/:cgid')
-  .post(protect, addBookmark)
-  .delete(protect, removeBookmark)
+router.route('/my-bookmark').get(protect, getBookmarks)
+// router.route('/my-bookmark/:cgid')
+//   .post(protect, addBookmark)
+//   .delete(protect, removeBookmark)
 module.exports = router

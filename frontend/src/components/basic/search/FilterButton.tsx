@@ -115,8 +115,11 @@ export default function FilterButton({
                 getOptionLabel={(option: optionType) => `${option.name}`}
                 size='small'
                 value={province}
-                onChange={(event, newValue) => {
-                  if (newValue) {
+                onChange={(event, newValue, reason) => {
+                  if (reason === 'clear') {
+                    setProvince({ name: '', id: 0 })
+                    return
+                  } else if (newValue) {
                     setProvince({ name: newValue.name, id: newValue.id })
                   }
                 }}
