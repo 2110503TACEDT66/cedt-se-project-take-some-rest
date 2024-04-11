@@ -262,3 +262,18 @@ exports.deleteUser = async (req, res, next) => {
     return res.status(500).json({ success: false })
   }
 }
+
+// @desc : Add campground to your bookmark
+// @route : PUT /api/users/my-bookmark/:cgid
+// @access : Private (Me)
+exports.addBoookmark = async (req, res, next) => {}
+
+// @desc : Delete campground from your bookmark
+// @route : DEL /api/users/my-bookmark/:cgid
+// @access : Private (Me)
+exports.removeBookmark = async (req, res, next) => {}
+
+// @desc : Get your bookmarked campgrounds
+// @route : GET /api/users/my-bookmark
+// @access : Private (Me)
+exports.getBookmarks = async (req, res, next) => {}
