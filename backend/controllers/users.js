@@ -263,6 +263,11 @@ exports.deleteUser = async (req, res, next) => {
   }
 }
 
+// @desc : User request to be campground owner
+// @route : PUT /api/users/me/campground-owner-request
+// @access : Private (Me)
+exports.requestCampgroundOwner = async (req, res, next) => {}
+
 // @desc : Add campground to your bookmark
 // @route : PUT /api/users/my-bookmark/:cgid
 // @access : Private (Me)

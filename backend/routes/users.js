@@ -14,6 +14,7 @@ const {
   updateUserRole,
   deleteMe,
   deleteUser,
+  requestCampgroundOwner,
   getBookmarks,
   addBookmark,
   removeBookmark,
@@ -24,6 +25,7 @@ const reservesRouter = require('./reserves')
 
 // Reserve router
 router.use('/:uid/reserves', reservesRouter)
+router.use('/me/campground-owner-request',requestCampgroundOwner)
 
 // User router
 router.route('/').get(protect, authorize('admin'), getUsers)
