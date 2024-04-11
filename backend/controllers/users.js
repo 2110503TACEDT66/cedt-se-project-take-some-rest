@@ -279,12 +279,12 @@ exports.addBookmark = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ success: false, message: 'Cannot find user' })
     }
-    if (user.bookmarkCampgrounds.includes(req.params.cgid)) {
-      return res.status(400).json({ success: false, message: 'Campground already bookmarked' })
-    }
     const campground = await Campground.findById(req.params.cgid)
     if (!campground) {
       return res.status(404).json({ success: false, message: 'Cannot find campground' })
+    }
+    if (user.bookmarkCampgrounds.includes(req.params.cgid)) {
+      return res.status(400).json({ success: false, message: 'Campground already bookmarked' })
     }
     const result = await User.findByIdAndUpdate(req.user.id, 
       { $push: { bookmarkCampgrounds: req.params.cgid } }, 
