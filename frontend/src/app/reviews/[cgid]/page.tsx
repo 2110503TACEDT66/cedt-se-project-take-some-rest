@@ -43,7 +43,7 @@ export default function createReviewPage({
           alert(
               `create review successfully`
           )
-          router.back()
+          router.push(`/campgrounds/view/${params.cgid}`)
       } else {
           alert('Please provide rating')
       }
@@ -60,7 +60,7 @@ export default function createReviewPage({
 
     return (
     <main className="flex justify-center py-12">
-      <div className="w-2/3">
+      <div className="w-1/2">
       <Card>
         <div className='w-full h-60 relative rounded-t-xl'>
           <Image
@@ -70,19 +70,22 @@ export default function createReviewPage({
             className='object-cover rounded-t-xl'
           />
         </div>
-        <h1 className='text-3xl font-semibold text-cgr-dark-green flex justify-center py-6'>
+        <h1 className='text-3xl font-semibold text-cgr-dark-green flex justify-center pt-5 pb-2'>
           {campgroundName}
         </h1>
         <div className='px-4 md:px-16 lg:px-36 xl:px-40 py-3'>
           <div className='flex flex-col justify-start text-lg gap-5 mb-3'>
-            <Rating
-              name="campground-rating"
-              size="large"
-              value={rating}
-              onChange={(event, newValue) => {
-                setRating(newValue);
-              }}
-              ></Rating>
+            <div className='flex flex-row content-center'>
+              <h1 className='text-md font-medium my-auto mr-3'>rating </h1>
+              <Rating
+                name="campground-rating"
+                size="large"
+                value={rating}
+                onChange={(event, newValue) => {
+                  setRating(newValue);
+                }}
+                ></Rating>
+            </div>
             <TextField
               id='review'
               label='your review'
@@ -100,7 +103,7 @@ export default function createReviewPage({
             />
           </div>
           <div className='flex flex-row justify-end mt-4 mb-6'>
-            <button className='cgr-btn w-[35%]' onClick={submit}>
+            <button className='cgr-btn w-[45%]' onClick={submit}>
               Submit
             </button>
           </div>
