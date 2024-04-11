@@ -23,8 +23,15 @@ exports.getCampgrounds = async (req, res, next) => {
     removeFields.forEach((param) => delete reqQuery[param])
 
     // Edit reqQuery Into Template
+
     if (reqQuery.hasOwnProperty('name')) {
       reqQuery.name = { $regex: reqQuery.name, $options: 'i' }
+    }
+
+    if (reqQuery.hasOwnProperty('facilities')) {
+      reqQuery.facilities = {
+        $all: reqQuery.facilities.split(','),
+      }
     }
 
     query = Campground.find(reqQuery)
