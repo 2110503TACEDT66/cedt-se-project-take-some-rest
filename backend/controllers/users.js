@@ -262,3 +262,15 @@ exports.deleteUser = async (req, res, next) => {
     return res.status(500).json({ success: false })
   }
 }
+
+exports.addBoookmark = async (req, res, next) => {
+
+}
+
+exports.removeBookmark = async (req, res, next) => {
+
+}
+
+exports.getBookmarks = async (req, res, next) => {
+
+}
