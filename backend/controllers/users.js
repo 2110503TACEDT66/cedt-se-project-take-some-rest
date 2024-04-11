@@ -1,4 +1,6 @@
+var mongoose = require('mongoose')
 const User = require('../models/User')
+const Campground = require('../models/Campground')
 
 // @desc : Get your user's data
 // @route : GET /api/users/me
@@ -274,16 +276,21 @@ exports.requestCampgroundOwner = async (req, res, next) => {}
 exports.addBookmark = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
-    const campground = await Campground.findById(req.params.cgid)
-    if (!user || !campground) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Cannot find user or campground' })
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Cannot find user' })
     }
-    return res.status(200).json({ success: true, data: user.bookmarkCampgrounds })
+    const campground = await Campground.findById(req.params.cgid)
+    console.log(campground)
+    if (user.bookmarkCampgrounds.includes(campground._id)) {
+      return res.status(400).json({ success: false, message: 'Campground already bookmarked' })
+    }
+    const result = await User.findByIdAndUpdate(req.user.id, 
+      { $push: { bookmarkCampgrounds: campground._id } }, 
+      { new: true })
+    return res.status(200).json({ success: true, data: result.bookmarkCampgrounds })
   } catch (err) {
-    // console.log(err.stack)
-    return res.status(500).json({ success: false })
+    //console.log(err)
+    return res.status(500).json({ success: false, message: 'Cannot add bookmark'})
   }
 }
 
