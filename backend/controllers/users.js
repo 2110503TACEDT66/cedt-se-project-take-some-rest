@@ -224,7 +224,7 @@ exports.updateUserRole = async (req, res, next) => {
 // @desc : Reject update a user role to campground owner
 // @route : PUT /api/users/update-role/:uid/reject 
 // @access : Admin
-exports.RejectupdateUserRole = async (req, res, next) => {
+exports.rejectUpdateUserRole = async (req, res, next) => {
   const  {requestToBeCampgroundOwner}  = false
   try {
     const user = await User.findByIdAndUpdate(req.params.uid, {requestToBeCampgroundOwner}, {
