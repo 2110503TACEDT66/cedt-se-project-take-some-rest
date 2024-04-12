@@ -1,4 +1,6 @@
+var mongoose = require('mongoose')
 const User = require('../models/User')
+const Campground = require('../models/Campground')
 
 // @desc : Get your user's data
 // @route : GET /api/users/me
@@ -295,10 +297,14 @@ exports.deleteUser = async (req, res, next) => {
 exports.requestCampgroundOwner = async (req, res, next) => {
   const { requestToBeCampgroundOwner } = req.body
   try {
-    const user = await User.findByIdAndUpdate(req.user.id, requestToBeCampgroundOwner, {
-      new: true,
-      runValidators: true,
-    })
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      requestToBeCampgroundOwner,
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
 
     if (!user) {
       return res
@@ -394,14 +400,90 @@ exports.getUsersRequest = async (req, res, next) => {
 // @desc : Add campground to your bookmark
 // @route : PUT /api/users/my-bookmark/:cgid
 // @access : Private (Me)
-exports.addBoookmark = async (req, res, next) => {}
+exports.addBookmark = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find user' })
+    }
+    const campground = await Campground.findById(req.params.cgid)
+    if (!campground) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find campground' })
+    }
+    if (user.bookmarkCampgrounds.includes(req.params.cgid)) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Campground already bookmarked' })
+    }
+    const result = await User.findByIdAndUpdate(
+      req.user.id,
+      { $push: { bookmarkCampgrounds: req.params.cgid } },
+      { new: true }
+    )
+    return res
+      .status(200)
+      .json({ success: true, data: result.bookmarkCampgrounds })
+  } catch (err) {
+    //console.log(err)
+    return res
+      .status(500)
+      .json({ success: false, message: 'Cannot add bookmark' })
+  }
+}
 
 // @desc : Delete campground from your bookmark
 // @route : DEL /api/users/my-bookmark/:cgid
 // @access : Private (Me)
-exports.removeBookmark = async (req, res, next) => {}
+exports.removeBookmark = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Cannot find user' })
+    }
+    const campground = await Campground.findById(req.params.cgid)
+    if (!campground) {
+      return res.status(404).json({ success: false, message: 'Cannot find campground' })
+    }
+    if (!user.bookmarkCampgrounds.includes(req.params.cgid)) {
+      return res.status(400).json({ success: false, message: 'Campground not bookmarked' })
+    }
+    const result = await User.findByIdAndUpdate(req.user.id, 
+      { $pull: { bookmarkCampgrounds: req.params.cgid } }, 
+      { new: true })
+    return res.status(200).json({ success: true, data: result.bookmarkCampgrounds })
+  } catch (err) {
+    //console.log(err)
+    return res.status(500).json({ success: false, message: 'Cannot remove bookmark'})
+  
+  }
+}
 
 // @desc : Get your bookmarked campgrounds
 // @route : GET /api/users/my-bookmark
 // @access : Private (Me)
-exports.getBookmarks = async (req, res, next) => {}
+exports.getBookmarks = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find user with that id' })
+    }
+
+    return res
+      .status(200)
+      .json({
+        success: true,
+        count: user.bookmarkCampgrounds.length,
+        data: user.bookmarkCampgrounds,
+      })
+  } catch (err) {
+    // console.log(err.stack)
+    return res.status(500).json({ success: false })
+  }
+}
