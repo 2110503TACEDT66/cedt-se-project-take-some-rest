@@ -1,10 +1,28 @@
-import SuspenseUI from '@/components/basic/SuspenseUI'
-import CampgroundPanelCampgrounds from '@/components/complex/CampgroundPanelCampgrounds'
-import getCampgrounds from '@/libs/campgrounds/getCampgrounds'
+'use client'
+
 import { Suspense } from 'react'
+import SuspenseUI from '@/components/basic/SuspenseUI'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+
+import CampgroundPanelCampgrounds from '@/components/complex/CampgroundPanelCampgrounds'
+import getBookmarks from '@/libs/bookmarks/getBookmarks'
 
 export default async function Campgrounds() {
-  const campgrounds: CampgroundsJson = await getCampgrounds()
+  const { data: session } = useSession()
+  if (!session || !session.user.token) return null
+
+  const [bookmarks, setBookmarks] = useState<CampgroundItem[]>([])
+
+  useEffect(() => {
+    const fetchBookMark = async () => {
+      const campgrounds: CampgroundsJson = (
+        await getBookmarks(session.user.token)
+      )
+      setBookmarks(campgrounds.data)
+    }
+    fetchBookMark()
+  })
 
   return (
     <main className='px-5 pt-7'>
@@ -12,7 +30,11 @@ export default async function Campgrounds() {
         My Bookmark
       </div>
       <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
-      <CampgroundPanelCampgrounds campgrounds={campgrounds.data} />
+      {
+        bookmarks?
+        <CampgroundPanelCampgrounds campgrounds={bookmarks} />
+        : <h1>no bookmark yet</h1>
+      }
     </main>
   )
 }
