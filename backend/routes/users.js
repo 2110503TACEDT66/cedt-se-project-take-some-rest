@@ -18,7 +18,6 @@ const {
   getBookmarks,
   addBookmark,
   removeBookmark,
-  requestCampgroundOwner,
 } = require('../controllers/users')
 
 // Import others router
