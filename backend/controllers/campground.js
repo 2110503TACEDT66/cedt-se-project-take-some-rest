@@ -7,12 +7,14 @@ const path = require('path')
 // @desc : Get all campgrounds (with filter, sort, select and pagination)
 // @route : GET /api/campgrounds
 // @access : Public
+
+//TODO search by contain / match str in facilityArr
 exports.getCampgrounds = async (req, res, next) => {
   try {
     let query
 
     // Copy req.query
-    const reqQuery = { ...req.query }
+    let reqQuery = { ...req.query }
 
     // Fields to exclude
     const removeFields = ['select', 'sort', 'page', 'limit']
@@ -20,14 +22,34 @@ exports.getCampgrounds = async (req, res, next) => {
     // Loop over to remove fields and delete from reqQuery
     removeFields.forEach((param) => delete reqQuery[param])
 
-    let queryStr = JSON.stringify(reqQuery)
+    // Edit reqQuery Into Template
+    if (reqQuery.hasOwnProperty('name')) {
+      reqQuery.name = { $regex: reqQuery.name, $options: 'i' }
+    }
+
+    if (reqQuery.hasOwnProperty('province')) {
+      const province = reqQuery.province
+      delete reqQuery['province']
+      reqQuery['address.province'] = province
+    }
+
+    if (reqQuery.hasOwnProperty('facilities')) {
+      reqQuery.facilities = {
+        $all: reqQuery.facilities.split(','),
+      }
+    }
 
     // Create operator $gt $gte
+    let queryStr = JSON.stringify(reqQuery)
+
     queryStr = queryStr.replace(
       /\b(gt|gte|lt|lte|in)\b/g,
       (match) => `$${match}`
     )
-    query = Campground.find(JSON.parse(queryStr))
+    reqQuery = JSON.parse(queryStr)
+
+    // Query Document
+    query = Campground.find(reqQuery)
 
     // Select field
     if (req.query.select) {

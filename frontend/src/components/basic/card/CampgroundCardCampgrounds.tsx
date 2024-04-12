@@ -41,7 +41,7 @@ export default function CampgroundCardCampgrounds({
             <div className='my-4 flex flex-col space-y-1 text-sm'>
               <div className='flex flex-row'>
                 <i className='bi bi-signpost-split w-fill me-3'></i>
-                <p>Site number : {campground.amount}</p>
+                <p>Site available : {campground.amount}</p>
               </div>
               <div className='flex flex-row'>
                 <i className='bi bi-telephone w-fill me-3'></i>
@@ -52,7 +52,9 @@ export default function CampgroundCardCampgrounds({
             {/* Facility */}
             <div className='flex flex-row space-x-2 overflow-auto'>
               {campground.facilities.map((data) => (
-                <Tag size='xs'>{data}</Tag>
+                <Tag size='xs' key={data}>
+                  {data}
+                </Tag>
               ))}
             </div>
           </div>
