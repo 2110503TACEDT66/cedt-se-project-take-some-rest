@@ -4,10 +4,11 @@ import Card from '@/components/basic/card/Card'
 import getMe from '@/libs/users/getMe'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 
 export default function ViewProfile() {
   const { data: session } = useSession()
-  if (!session || !session.user.token) return null
+  if (!session || !session.user.token) return <NoPermissionUI />
   const [user, setUser] = useState<UserItem | null>(null)
 
   useEffect(() => {

@@ -18,6 +18,7 @@ import { useSession } from 'next-auth/react'
 import getCampgroundSite from '@/libs/campgrounds/getCampgroundSite'
 import createCampgroundSite from '@/libs/campgrounds/createCampgroundSite'
 import updateCampgroundSite from '@/libs/campgrounds/updateCampgroundSite'
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 
 export default function createCampground({
   params,
@@ -27,10 +28,12 @@ export default function createCampground({
   const router = useRouter()
 
   const { data: session } = useSession()
-  if (!session || !session.user.token || session.user.role !== 'admin') {
-    router.replace('/')
-    return null
-  }
+  if (
+    !session ||
+    !session.user.token ||
+    (session.user.role !== 'admin' && session.user.role !== 'campgroundOwner')
+  )
+    return <NoPermissionUI />
 
   const urlParams = useSearchParams()
   const sid = urlParams.get('sid')
