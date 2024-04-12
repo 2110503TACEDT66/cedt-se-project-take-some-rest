@@ -10,11 +10,12 @@ import SuspenseUI from '@/components/basic/SuspenseUI'
 import getMe from '@/libs/users/getMe'
 import updateMe from '@/libs/users/updateMe'
 import deleteMe from '@/libs/users/deleteMe'
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 
 export default function EditProfile() {
   const router = useRouter()
   const { data: session } = useSession()
-  if (!session || !session.user.token) return null
+  if (!session || !session.user.token) return <NoPermissionUI />
 
   const [isReady, setIsReady] = useState(false)
   const [name, setName] = useState('')

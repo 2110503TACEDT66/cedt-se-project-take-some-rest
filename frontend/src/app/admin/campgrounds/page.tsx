@@ -5,16 +5,12 @@ import getCampgrounds from '@/libs/campgrounds/getCampgrounds'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 
 export default function CampgroundsTable() {
-  const router = useRouter()
-
   const { data: session } = useSession()
-  if (!session || !session.user.token || session.user.role !== 'admin') {
-    router.replace('/')
-    return null
-  }
+  if (!session || !session.user.token || session.user.role !== 'admin')
+    return <NoPermissionUI />
 
   const [campground, setCampground] = useState<CampgroundItem[]>([])
   const [isReady, setIsReady] = useState(false)

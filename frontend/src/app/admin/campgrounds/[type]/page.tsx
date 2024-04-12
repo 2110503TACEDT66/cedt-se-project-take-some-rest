@@ -20,7 +20,7 @@ import SuspenseUI from '@/components/basic/SuspenseUI'
 import getProvinces from '@/libs/thaidatas/getProvinces'
 import getDistricts from '@/libs/thaidatas/getDistricts'
 import getSubDistricts from '@/libs/thaidatas/getSubDistricts'
-
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 export default function CreateCampground({
   params,
 }: {
@@ -29,10 +29,8 @@ export default function CreateCampground({
   const router = useRouter()
 
   const { data: session } = useSession()
-  if (!session || !session.user.token || session.user.role !== 'admin') {
-    router.replace('/')
-    return null
-  }
+  if (!session || !session.user.token || session.user.role !== 'admin')
+    return <NoPermissionUI />
 
   const title = params.type === 'create' ? 'Create new' : 'Edit'
   const submitBtnTitle = params.type === 'create' ? 'Create' : 'Done'
