@@ -36,30 +36,34 @@ export default function ViewProfile() {
             <p className='font-medium'>Email : </p>
             <p className='md:col-span-2'>{user.email}</p>
           </div>
-          <div className='flex flex-row gap-3 justify-between'>
-            <div className='flex flex-row space-x-4 items-center'>
-              <p className='font-normal text-sm'>
-                Request to be an campground owner :
-              </p>
-              <button
-                className='cgr-btn-outline text-sm !px-5 !py-1'
-                onClick={() =>
-                  // Fixing here to use API
-                  confirm(
-                    'Are you confirm to request to be an campground owner?'
-                  )
-                }>
-                Request
-              </button>
-            </div>
-            <div className='flex flex-row space-x-2'>
-              <Link href='/profile/edit' className='flex justify-end'>
+          <div className='flex flex-row-reverse justify-between'>
+            <div className='flex space-x-3 items-stretch'>
+              <Link href='/profile/edit'>
                 <button className='cgr-btn-outline'>Edit</button>
               </Link>
-              <Link href='/logout' className='flex justify-end'>
-                <button className='cgr-btn-red'>Logout</button>
+              <Link href='/logout'>
+                <button className='cgr-btn-red !h-full'>Logout</button>
               </Link>
             </div>
+            {session.user.role === 'customer' ? (
+              <div className='flex space-x-3 items-center'>
+                <p className='font-normal text-sm'>
+                  Request to be an campground owner :
+                </p>
+                <button
+                  className='cgr-btn-outline text-sm !px-5 !py-1'
+                  onClick={() =>
+                    // Fixing here to use API
+                    confirm(
+                      'Are you confirm to request to be an campground owner?'
+                    )
+                  }>
+                  Request
+                </button>
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </Card>
