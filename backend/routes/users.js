@@ -14,7 +14,6 @@ const {
   updateUserRole,
   deleteMe,
   deleteUser,
-  requestCampgroundOwner,
   getBookmarks,
   addBookmark,
   removeBookmark,
@@ -25,10 +24,13 @@ const reservesRouter = require('./reserves')
 
 // Reserve router
 router.use('/:uid/reserves', reservesRouter)
-router.use('/me/campground-owner-request',requestCampgroundOwner)
+router.use('/me/campground-owner-request', requestCampgroundOwner)
 
 // User router
 router.route('/').get(protect, authorize('admin'), getUsers)
+router
+  .route('/campground-owner-request')
+  .get(protect, authorize('admin'),getUsersRequest)
 router
   .route('/me')
   .get(protect, getMe)
@@ -37,14 +39,17 @@ router
 router
   .route('/update-role/:uid')
   .put(protect, authorize('admin'), updateUserRole)
-router
-  .route('/:uid')
-  .get(protect, authorize('admin'), getUser)
-  .put(protect, authorize('admin'), updateUser)
-  .delete(protect, authorize('admin'), deleteUser)
 router.route('/my-bookmark').get(protect, getBookmarks)
 router
   .route('/my-bookmark/:cgid')
   .put(protect, addBookmark)
   .delete(protect, removeBookmark)
+router
+  .route('/update-role/:uid/reject')
+  .put(protect, authorize('admin'),rejectUpdateUserRole)
+router
+  .route('/:uid')
+  .get(protect, authorize('admin'), getUser)
+  .put(protect, authorize('admin'), updateUser)
+  .delete(protect, authorize('admin'), deleteUser)
 module.exports = router
