@@ -23,7 +23,7 @@ export default function createReviewPage({
     const [rating, setRating] = useState<number | null>(0)
     const [reviewText, setReviewText] = useState('')
 
-    //mockup
+    //mockup POST API
     const createReview = (a:string, b:string, c:number, d:string) => {} 
 
     const submit = () => {
@@ -32,6 +32,7 @@ export default function createReviewPage({
           rating
       ) {
           const callAPI = async () => {
+            //add POST API here
               await createReview(
                   session.user.token,
                   params.cgid,
