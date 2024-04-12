@@ -29,7 +29,11 @@ export default function CreateCampground({
   const router = useRouter()
 
   const { data: session } = useSession()
-  if (!session || !session.user.token || session.user.role !== 'admin')
+  if (
+    !session ||
+    !session.user.token ||
+    (session.user.role !== 'admin' && session.user.role !== 'campgroundOwner')
+  )
     return <NoPermissionUI />
 
   const title = params.type === 'create' ? 'Create new' : 'Edit'

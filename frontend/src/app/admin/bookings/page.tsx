@@ -12,7 +12,11 @@ export default function BookingsTable() {
   const router = useRouter()
 
   const { data: session } = useSession()
-  if (!session || !session.user.token || session.user.role !== 'admin')
+  if (
+    !session ||
+    !session.user.token ||
+    (session.user.role !== 'admin' && session.user.role !== 'campgroundOwner')
+  )
     return <NoPermissionUI />
 
   const [booking, setBooking] = useState<MyReservesItem[]>([])
