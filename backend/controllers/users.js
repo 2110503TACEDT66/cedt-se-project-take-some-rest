@@ -184,14 +184,13 @@ exports.updateUser = async (req, res, next) => {
   }
 }
 
-// @desc : Update a user role 
+// @desc : Update a user role
 // @route : PUT /api/users/update-role/:uid
 // @access : Admin
 exports.updateUserRole = async (req, res, next) => {
-  const { role } = req.body 
-  const  {requestToBeCampgroundOwner}  = false
-  const newData = {role ,requestToBeCampgroundOwner}
-  const validRoles = ['customer','campgroundOwner','admin']
+  const { role } = req.body
+  const newData = { role, requestToBeCampgroundOwner: false }
+  const validRoles = ['customer', 'campgroundOwner', 'admin']
 
   if (!role || !validRoles.includes(role)) {
     return res.status(400).json({
@@ -201,14 +200,10 @@ exports.updateUserRole = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findByIdAndUpdate(
-      req.params.uid,
-      newData,
-      {
-        new: true,
-        runValidators: true,
-      }
-    )
+    const user = await User.findByIdAndUpdate(req.params.uid, newData, {
+      new: true,
+      runValidators: true,
+    })
 
     if (!user) {
       return res
@@ -224,15 +219,18 @@ exports.updateUserRole = async (req, res, next) => {
 }
 
 // @desc : Reject update a user role to campground owner
-// @route : PUT /api/users/update-role/:uid/reject 
+// @route : PUT /api/users/update-role/:uid/reject
 // @access : Admin
 exports.rejectUpdateUserRole = async (req, res, next) => {
-  const  {requestToBeCampgroundOwner}  = false
   try {
-    const user = await User.findByIdAndUpdate(req.params.uid, {requestToBeCampgroundOwner}, {
-      new: true,
-      runValidators: true,
-    })
+    const user = await User.findByIdAndUpdate(
+      req.params.uid,
+      { requestToBeCampgroundOwner: false },
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
 
     if (!user) {
       return res
@@ -442,23 +440,34 @@ exports.removeBookmark = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
     if (!user) {
-      return res.status(404).json({ success: false, message: 'Cannot find user' })
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find user' })
     }
     const campground = await Campground.findById(req.params.cgid)
     if (!campground) {
-      return res.status(404).json({ success: false, message: 'Cannot find campground' })
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find campground' })
     }
     if (!user.bookmarkCampgrounds.includes(req.params.cgid)) {
-      return res.status(400).json({ success: false, message: 'Campground not bookmarked' })
+      return res
+        .status(400)
+        .json({ success: false, message: 'Campground not bookmarked' })
     }
-    const result = await User.findByIdAndUpdate(req.user.id, 
-      { $pull: { bookmarkCampgrounds: req.params.cgid } }, 
-      { new: true })
-    return res.status(200).json({ success: true, data: result.bookmarkCampgrounds })
+    const result = await User.findByIdAndUpdate(
+      req.user.id,
+      { $pull: { bookmarkCampgrounds: req.params.cgid } },
+      { new: true }
+    )
+    return res
+      .status(200)
+      .json({ success: true, data: result.bookmarkCampgrounds })
   } catch (err) {
     //console.log(err)
-    return res.status(500).json({ success: false, message: 'Cannot remove bookmark'})
-  
+    return res
+      .status(500)
+      .json({ success: false, message: 'Cannot remove bookmark' })
   }
 }
 
@@ -475,15 +484,15 @@ exports.getBookmarks = async (req, res, next) => {
         .json({ success: false, message: 'Cannot find user with that id' })
     }
 
-    let bookmarkedCampground = await Campground.find( { "_id" : { "$in" : user.bookmarkCampgrounds } } )
+    let bookmarkedCampground = await Campground.find({
+      _id: { $in: user.bookmarkCampgrounds },
+    })
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        count: user.bookmarkCampgrounds.length,
-        data: bookmarkedCampground,
-      })
+    return res.status(200).json({
+      success: true,
+      count: user.bookmarkCampgrounds.length,
+      data: bookmarkedCampground,
+    })
   } catch (err) {
     // console.log(err.stack)
     return res.status(500).json({ success: false })
