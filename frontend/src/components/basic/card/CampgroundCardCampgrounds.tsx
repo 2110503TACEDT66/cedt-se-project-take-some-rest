@@ -15,7 +15,7 @@ export default function CampgroundCardCampgrounds({
       className='hover:scale-105 duration-300'>
       <Card>
         <div className='p-0 flex flex-row'>
-          {campground.pictures.length != 0 ? (
+          {campground.pictures && campground.pictures.length != 0 ? (
             <Image
               src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
               alt={`${campground.name} picture`}
@@ -32,9 +32,11 @@ export default function CampgroundCardCampgrounds({
               <p className='text-2xl font-bold text-cgr-black'>
                 {campground.name}
               </p>
-              <p className='text-md font-light'>
-                {campground.address.province}
-              </p>
+              {campground.address ?
+                <p className='text-md font-light'>
+                  {campground.address.province}
+                </p> : <p></p>
+              }
             </div>
 
             {/* Card Detail */}
@@ -50,13 +52,15 @@ export default function CampgroundCardCampgrounds({
             </div>
 
             {/* Facility */}
-            <div className='flex flex-row space-x-2 overflow-auto'>
-              {campground.facilities.map((data) => (
-                <Tag size='xs' key={data}>
-                  {data}
-                </Tag>
-              ))}
-            </div>
+            {campground.facilities ? 
+              <div className='flex flex-row space-x-2 overflow-auto'>
+                {campground.facilities.map((data) => (
+                  <Tag size='xs' key={data}>
+                    {data}
+                  </Tag>
+                ))}
+              </div> : <div></div>
+            }
           </div>
         </div>
       </Card>
