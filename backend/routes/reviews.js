@@ -8,7 +8,7 @@ const {
   getReview,
   createReview,
   deleteReview,
-  updateReviewReport,
+  reportReview,
 } = require('../controllers/reviews')
 
 const { protect, authorize } = require('../middleware/auth')
@@ -21,7 +21,7 @@ router
 router
   .route('/:rvid')
   .get(getReview)
-  .put(protect, authorize('admin', 'campgroundOwner'), updateReviewReport)
+  .put(protect, authorize('admin', 'campgroundOwner'), reportReview)
   .delete(protect, authorize('admin', 'customer'), deleteReview)
 
 module.exports = router

@@ -7,4 +7,4 @@ exports.getReportedReviews = async (req, res, next) => {}
 exports.getReview = async (req, res, next) => {}
 exports.createReview = async (req, res, next) => {}
 exports.deleteReview = async (req, res, next) => {}
-exports.updateReviewReport = async (req, res, next) => {}
+exports.reportReview = async (req, res, next) => {}
