@@ -295,11 +295,10 @@ exports.deleteUser = async (req, res, next) => {
 // @route : PUT /api/users/me/campground-owner-request
 // @access : Private (Me)
 exports.requestCampgroundOwner = async (req, res, next) => {
-  const requestToBeCampgroundOwner = true
   try {
     const user = await User.findByIdAndUpdate(
       req.user.id,
-      requestToBeCampgroundOwner,
+      { requestToBeCampgroundOwner: true },
       {
         new: true,
         runValidators: true,
