@@ -295,7 +295,7 @@ exports.deleteUser = async (req, res, next) => {
 // @route : PUT /api/users/me/campground-owner-request
 // @access : Private (Me)
 exports.requestCampgroundOwner = async (req, res, next) => {
-  const { requestToBeCampgroundOwner } = req.body
+  const requestToBeCampgroundOwner = true
   try {
     const user = await User.findByIdAndUpdate(
       req.user.id,
@@ -314,7 +314,7 @@ exports.requestCampgroundOwner = async (req, res, next) => {
 
     return res.status(200).json({ success: true, data: user })
   } catch (err) {
-    // console.log(err.stack)
+    console.log(err.stack)
     return res.status(500).json({ success: false })
   }
 }

@@ -27,7 +27,7 @@ const reservesRouter = require('./reserves')
 
 // Reserve router
 router.use('/:uid/reserves', reservesRouter)
-router.use('/me/campground-owner-request', requestCampgroundOwner)
+//router.use('/me/campground-owner-request', protect, requestCampgroundOwner)
 
 // User router
 router.route('/').get(protect, authorize('admin'), getUsers)
@@ -39,6 +39,9 @@ router
   .get(protect, getMe)
   .put(protect, updateMe)
   .delete(protect, deleteMe)
+router
+  .route('/me/campground-owner-request')
+  .put(protect, requestCampgroundOwner)
 router
   .route('/update-role/:uid')
   .put(protect, authorize('admin'), updateUserRole)
