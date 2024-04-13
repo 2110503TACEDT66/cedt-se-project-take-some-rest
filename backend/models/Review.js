@@ -13,6 +13,8 @@ const ReviewSchema = new mongoose.Schema({
   },
   score: {
     type: Number,
+    min: 0,
+    max: 5,
     required: [true, 'Please add a review score'],
   },
   comment: {
