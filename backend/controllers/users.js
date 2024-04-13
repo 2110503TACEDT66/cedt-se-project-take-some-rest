@@ -475,12 +475,14 @@ exports.getBookmarks = async (req, res, next) => {
         .json({ success: false, message: 'Cannot find user with that id' })
     }
 
+    let bookmarkedCampground = await Campground.find( { "_id" : { "$in" : user.bookmarkCampgrounds } } )
+
     return res
       .status(200)
       .json({
         success: true,
         count: user.bookmarkCampgrounds.length,
-        data: user.bookmarkCampgrounds,
+        data: bookmarkedCampground,
       })
   } catch (err) {
     // console.log(err.stack)
