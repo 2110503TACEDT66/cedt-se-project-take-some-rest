@@ -21,7 +21,7 @@ router
 router
   .route('/:rvid')
   .get(getReview)
-  .put(protect, authorize('admin', 'campgroundOwner'), reportReview)
-  .delete(protect, authorize('admin', 'customer'), deleteReview)
+  .put(protect, authorize('campgroundOwner'), reportReview)
+  .delete(protect, deleteReview)
 
 module.exports = router
