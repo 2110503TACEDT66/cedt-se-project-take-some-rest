@@ -55,7 +55,7 @@ export default function ViewProfile() {
                 <button
                   className='cgr-btn-outline text-sm !px-5 !py-1'
                   onClick={async () => {
-                    if (confirm('Are you sure to delete this campground?')) {
+                    if (confirm('Are you sure to request to be campground owner?')) {
                       await updateUserRequest(session.user.token)
                     }
                   }}>
