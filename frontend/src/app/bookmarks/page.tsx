@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import CampgroundPanelCampgrounds from '@/components/complex/CampgroundPanelCampgrounds'
 import getBookmarks from '@/libs/bookmarks/getBookmarks'
 
-export default async function Campgrounds() {
+export default function Bookmark() {
   const { data: session } = useSession()
   if (!session || !session.user.token) return null
 
