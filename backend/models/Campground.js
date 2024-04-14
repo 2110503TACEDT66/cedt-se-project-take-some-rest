@@ -46,7 +46,7 @@ const CampgroundSchema = new mongoose.Schema({
     min: 0,
     require: [true, 'Please add total amount'],
   },
-  averageRating: {
+  averageScore: {
     type: Number,
     min: 0,
     max: 5,
