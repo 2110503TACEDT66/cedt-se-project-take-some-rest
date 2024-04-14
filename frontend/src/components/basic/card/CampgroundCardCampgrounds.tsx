@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Card from '@/components/basic/card/Card'
 import Tag from '@/components/basic/Tag'
 import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 export default function CampgroundCardCampgrounds({
   campground,
@@ -14,7 +15,7 @@ export default function CampgroundCardCampgrounds({
 }) {
   //set up that if this campground is in book mark then let the use state be true
   const [bookmark, setBookmark] = useState(false)
-
+  const { data: session } = useSession()
   const handleClickBookmark = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -75,13 +76,17 @@ export default function CampgroundCardCampgrounds({
               </div> : <div></div>
             }
           </div>
-          <div className='mt-5 mr-5' onClick={handleClickBookmark}>
-            {bookmark ? (
-              <i className='bi bi-bookmark-check-fill text-xl'></i>
-            ) : (
-              <i className='bi bi-bookmark-fill text-xl text-[#ECECEC]'></i>
-            )}
-          </div>
+          {session ? (
+            <div className='mt-5 mr-5' onClick={handleClickBookmark}>
+              {bookmark ? (
+                <i className='bi bi-bookmark-check-fill text-xl'></i>
+              ) : (
+                <i className='bi bi-bookmark-fill text-xl text-[#ECECEC]'></i>
+              )}
+            </div>
+          ) : ( 
+            <div></div>
+          )}
         </div>
       </Card>
     </Link>
