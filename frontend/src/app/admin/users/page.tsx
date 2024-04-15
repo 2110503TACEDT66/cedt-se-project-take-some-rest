@@ -7,6 +7,7 @@ import { getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import getUserRequests from '@/libs/users/getUserRequests'
 
 export default function UsersTable() {
   const { data: session } = useSession()
@@ -15,6 +16,7 @@ export default function UsersTable() {
   const [user, setUser] = useState<UserItem[]>([])
   const [isReady, setIsReady] = useState(false)
   const [query, setQuery] = useState('')
+  const [userRequests,setUserRequests] = useState<UserItem[]>([])
 
   const fetchData = async () => {
     setIsReady(false)
@@ -26,8 +28,19 @@ export default function UsersTable() {
     setIsReady(true)
   }
 
+  const fetchRequestData = async () => {
+    setIsReady(false)
+    var queryString = query.length != 0 ? `name=${query}` : ''
+    const userFromFetch: UserItem[] = (
+      await getUserRequests(session.user?.token, queryString)
+    ).data
+    setUserRequests(userFromFetch)
+    setIsReady(true)
+  }
+
   useEffect(() => {
     fetchData()
+    fetchRequestData()
   }, [])
 
   return (
@@ -67,7 +80,7 @@ export default function UsersTable() {
         </tr>
         {isReady ? (
           // Change the user to the request user (I didn't provide)
-          user.map((obj) => (
+          userRequests.map((obj) => (
             <tr key={obj._id}>
               <td>{obj.name}</td>
               <td>{obj.email}</td>

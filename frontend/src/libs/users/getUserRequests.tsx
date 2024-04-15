@@ -1,4 +1,4 @@
-export default async function getAllUserRequests (token: string, query={ "requestToBeCampgroundOwner": {"eq": "true"}}) {
+export default async function getAllUserRequests (token: string, query?: string) {
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/users/campground-owner-request`,
       {
@@ -9,7 +9,7 @@ export default async function getAllUserRequests (token: string, query={ "reques
     )
   
     if (!response.ok) {
-      throw new Error("Cannot fetch user's profile")
+      throw new Error("Cannot fetch user requests ")
     }
   
     return response.json()
