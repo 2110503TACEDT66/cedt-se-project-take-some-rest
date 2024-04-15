@@ -319,7 +319,7 @@ exports.requestCampgroundOwner = async (req, res, next) => {
 // @desc : Get all user request
 // @route : GET /api/users/campground-owner-request
 // @access : Admin
-exports.getUsersRequest = async (req, res, next) => {
+exports.getUserRequests = async (req, res, next) => {
   try {
     let query
 
@@ -339,7 +339,9 @@ exports.getUsersRequest = async (req, res, next) => {
       /\b(gt|gte|lt|lte|in)\b/g,
       (match) => `$${match}`
     )
-    query = User.find(JSON.parse(queryStr))
+    let queryjson = JSON.parse(queryStr)
+    queryjson.requestToBeCampgroundOwner=true
+    query = User.find(queryjson)
 
     //Select field
     if (req.query.select) {

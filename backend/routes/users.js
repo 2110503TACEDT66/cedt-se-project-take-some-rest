@@ -18,7 +18,7 @@ const {
   addBookmark,
   removeBookmark,
   requestCampgroundOwner,
-  getUsersRequest,
+  getUserRequests,
   rejectUpdateUserRole,
 } = require('../controllers/users')
 
@@ -33,7 +33,7 @@ router.use('/:uid/reserves', reservesRouter)
 router.route('/').get(protect, authorize('admin'), getUsers)
 router
   .route('/campground-owner-request')
-  .get(protect, authorize('admin'), getUsersRequest)
+  .get(protect, authorize('admin'), getUserRequests)
 router
   .route('/me')
   .get(protect, getMe)
