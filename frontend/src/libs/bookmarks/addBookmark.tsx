@@ -2,7 +2,7 @@ export default async function addBookmark(token: string,campgroundId: string) {
     const response = await fetch(
         `${process.env.BACKEND_URL}/api/users/my-bookmark/${campgroundId}`,
         {
-          method: 'POST',
+          method: 'PUT',
           headers: {authorization: `Bearer ${token}`},
           cache: 'no-store',
         }
