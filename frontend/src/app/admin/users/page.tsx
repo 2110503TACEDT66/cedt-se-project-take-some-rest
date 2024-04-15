@@ -8,6 +8,8 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import getUserRequests from '@/libs/users/getUserRequests'
+import rejectRequest from '@/libs/users/RejectRequest'
+import updateUserRole from '@/libs/users/updateUserRole'
 
 export default function UsersTable() {
   const { data: session } = useSession()
@@ -86,12 +88,22 @@ export default function UsersTable() {
               <td>{obj.email}</td>
               <td>{obj.tel}</td>
               <td className='text-center'>
-                <button className='cgr-btn'>Accept</button>
-                {/* implement this button to call api */}
+                <button className='cgr-btn'
+                onClick={async () => {
+                  if (confirm(`Are you sure you want to approve this user's request ?`)) {
+                    window.location.reload();
+                    updateUserRole(session.user.token,obj._id,'campgroundOwner')
+                  }
+                }}>Accept</button>
               </td>
               <td className='text-center'>
-                <button className='cgr-btn-red'>Decline</button>
-                {/* implement this button to call api */}
+                <button className='cgr-btn-red'
+                onClick={async () => {
+                  if (confirm(`Are you sure you want to reject this user's request ?`)) {
+                    window.location.reload();
+                    rejectRequest(session.user.token,obj._id)
+                  }
+                }}>Decline</button>
               </td>
             </tr>
           ))
