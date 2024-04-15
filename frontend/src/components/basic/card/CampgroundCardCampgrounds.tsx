@@ -19,8 +19,8 @@ export default function CampgroundCardCampgrounds({
 }) {
   //set up that if this campground is in book mark then let the use state be true
   const isBookmark = bookmarkedCampgrounds.includes(campground._id)
-  console.log(isBookmark)
-  console.log(campground.name)
+  //console.log(isBookmark)
+  //console.log(campground.name)
   const [bookmark, setBookmark] = useState(isBookmark)
   const { data: session } = useSession()
 
