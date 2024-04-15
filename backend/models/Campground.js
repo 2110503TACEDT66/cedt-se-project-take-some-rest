@@ -46,6 +46,12 @@ const CampgroundSchema = new mongoose.Schema({
     min: 0,
     require: [true, 'Please add total amount'],
   },
+  averageScore: {
+    type: Number,
+    min: 0,
+    max: 5,
+    default: null,
+  },
   sites: [
     {
       type: mongoose.Schema.ObjectId,

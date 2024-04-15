@@ -164,3 +164,25 @@ interface LogJson {
   }
   data: LogItem[]
 }
+
+interface reviewItem {
+  _id: string
+  user: UserItem
+  campground: CampgroundItem
+  score: number
+  comment: string
+  createdAt: Date
+  isReport: boolean
+}
+
+interface reviewJson {
+  success: boolean
+  count: number
+  pagination: {
+    next: {
+      page: number
+      limit: number
+    }
+  }
+  data: reviewItem[]
+}

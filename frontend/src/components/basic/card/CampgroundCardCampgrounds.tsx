@@ -7,6 +7,8 @@ import Card from '@/components/basic/card/Card'
 import Tag from '@/components/basic/Tag'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import addBookmark from '@/libs/bookmarks/addBookmark'
+import removeBookmark from '@/libs/bookmarks/removeBookmark'
 
 export default function CampgroundCardCampgrounds({
   campground, isBookmark
@@ -20,6 +22,14 @@ export default function CampgroundCardCampgrounds({
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     event.preventDefault()
+    if (session) {
+      if (!bookmark) {
+        addBookmark(session.user.token, campground._id)
+      }
+      else {
+        removeBookmark(session.user.token, campground._id)
+      }
+    }
     setBookmark(!bookmark)
   }
 
