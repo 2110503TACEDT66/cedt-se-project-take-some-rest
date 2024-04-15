@@ -13,7 +13,7 @@ export default function Campgrounds() {
   const [isReady, setIsReady] = useState(false)
   const [campgrounds, setCampgrounds] = useState<CampgroundsJson>()
   const { data: session } = useSession()
-  const [bookmarkedCampgrounds, setBookmarkedCampgrounds] = useState<CampgroundItem[]>([])
+  const [bookmarkedCampgrounds, setBookmarkedCampgrounds] = useState<string[]>([])
 
   const fetchCampground = async (
     name: string,
@@ -38,12 +38,9 @@ export default function Campgrounds() {
   const fetchBookmark = async () => {
     if (session) {
       const me = await getMe(session.user.token)
-      if (campgrounds) {
-        const bookmarkedCampgrounds = campgrounds.data.filter((campground) =>
-          me.bookmarks.includes(campground._id)
-        )
-        setBookmarkedCampgrounds(bookmarkedCampgrounds)
-      }
+      const bookmarkedCampgrounds = me.data.bookmarkCampgrounds
+      setBookmarkedCampgrounds(bookmarkedCampgrounds)
+      //console.log(bookmarkedCampgrounds)
     }
   }
   useEffect(() => {
@@ -51,7 +48,7 @@ export default function Campgrounds() {
     setIsReady(true)
     fetchBookmark()
   }, [])
-
+  
   if (!isReady || !campgrounds) return <SuspenseUI />
 
   const handleSearchQuery = (
@@ -79,7 +76,7 @@ export default function Campgrounds() {
     let selectedFacilitiesStr = facilitiesArray.join(',')
     fetchCampground(selectedName, selectedProvince, selectedFacilitiesStr)
   }
-
+  
   return (
     <main className='px-12 pt-9'>
       <div className='flex justify-between items-center mb-6'>
