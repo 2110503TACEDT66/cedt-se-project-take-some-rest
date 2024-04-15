@@ -9,12 +9,12 @@ import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 
 export default function CampgroundCardCampgrounds({
-  campground,
+  campground, isBookmark
 }: {
-  campground: CampgroundItem
+  campground: CampgroundItem; isBookmark: boolean
 }) {
   //set up that if this campground is in book mark then let the use state be true
-  const [bookmark, setBookmark] = useState(false)
+  const [bookmark, setBookmark] = useState(isBookmark)
   const { data: session } = useSession()
   const handleClickBookmark = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>

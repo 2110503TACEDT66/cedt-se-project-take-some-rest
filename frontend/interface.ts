@@ -89,6 +89,7 @@ interface UserItem {
   email: string
   password: string
   role: string
+  bookmarkCampgrounds: string[]
 }
 
 interface UserJson {
