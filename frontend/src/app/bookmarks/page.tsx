@@ -16,12 +16,10 @@ export default function Bookmark() {
   const [bookmarks, setBookmarks] = useState<CampgroundItem[]>([])
   const [bookmarkedCampgrounds, setBookmarkedCampgrounds] = useState<string[]>([])
 
-  const fetchBookmarkID = async () => {
-    if (session) {
-      const me = await getMe(session.user.token)
-      const bookmarkedCampgrounds = me.data.bookmarkCampgrounds
-      setBookmarkedCampgrounds(bookmarkedCampgrounds)
-      //console.log(bookmarkedCampgrounds)
+  const fetchBookmarkID = () => {
+    for (const campground of bookmarks) {
+      const campgroundID = campground._id
+      setBookmarkedCampgrounds(bookmarkedCampgrounds => [...bookmarkedCampgrounds, campgroundID])
     }
   }
   
