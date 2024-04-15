@@ -45,7 +45,8 @@ export default function ViewProfile() {
                 <button className='cgr-btn-red !h-full'>Logout</button>
               </Link>
             </div>
-            {session.user.role === 'customer' ? (
+            {user.role === 'customer' &&
+            user.requestToBeCampgroundOwner === false ? (
               <div className='flex space-x-3 items-center'>
                 <p className='font-normal text-sm'>
                   Request to be an campground owner :
@@ -62,7 +63,16 @@ export default function ViewProfile() {
                 </button>
               </div>
             ) : (
-              ''
+              <div className='flex space-x-3 items-center'>
+                <p className='font-normal text-sm'>
+                  Request to be an campground owner :
+                </p>
+                <button
+                  disabled
+                  className='cgr-btn-outline text-sm !px-5 !py-1'>
+                  Request
+                </button>
+              </div>
             )}
           </div>
         </div>
