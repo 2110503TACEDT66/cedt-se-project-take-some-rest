@@ -11,7 +11,9 @@ export default function ReviewsPanel({
         <ReviewCard 
         userName={obj.user.name}
         rating= {obj.score}
-        comment={obj.comment}/>
+        comment={obj.comment}
+        reviewID={obj._id}
+        userID={obj.user._id}/>
       ))}
     </div>
   )
