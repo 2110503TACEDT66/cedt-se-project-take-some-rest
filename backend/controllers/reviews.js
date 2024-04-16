@@ -138,7 +138,7 @@ exports.createReview = async (req, res, next) => {
   try {
     // Check if data is valid
     const { score, comment } = req.body
-    if (!score) {
+    if (score < 0) {
       return res
         .status(400)
         .json({ success: false, message: 'Please enter score' })
