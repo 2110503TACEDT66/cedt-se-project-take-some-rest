@@ -24,7 +24,11 @@ export default function ReviewCard ({
                 <p className="font-semibold text-xl">{review.user.name}</p>
                 <Rating name={`${review.user.name}Rating`} value={review.score} readOnly></Rating>
             </div>
-            <p className="block">{review.comment}</p>
+            {
+                review.comment?<p className="block">{review.comment}</p>
+                :<div className="block text-slate-400"> No Comment</div>
+            }
+
             { isMyReview ?
                 (<i className="bi bi-trash3 ml-auto mt-auto" onClick={handleDelete}></i>)
                 : null
