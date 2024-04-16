@@ -9,8 +9,8 @@ export default function ReviewCard ({userName , rating , comment} : {userName:st
                 <Rating name={`${userName}Rating`} value={rating} readOnly></Rating>
             </div>
             {
-                !comment?<p className="block">{comment}</p>
-                :<p className="block text-gray">(No Comment)</p>
+                comment?<p className="block">{comment}</p>
+                :<p className="block">(No Comment)</p>
             }
             
             <i className="bi bi-trash3 ml-auto mt-auto"></i>
