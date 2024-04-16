@@ -6,14 +6,9 @@ export default function ReviewsPanel({
   reviews: reviewItem[]
 }) {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-9'>
+    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-9 mt-3 mb-10'>
       {reviews.map((obj) => (
-        <ReviewCard 
-        userName={obj.user.name}
-        rating= {obj.score}
-        comment={obj.comment}
-        reviewID={obj._id}
-        userID={obj.user._id}/>
+        <ReviewCard review={obj} />
       ))}
     </div>
   )
