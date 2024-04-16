@@ -172,8 +172,32 @@ exports.createReview = async (req, res, next) => {
 
 // @desc    Delete a review
 // @route   DEL /api/reviews/:rvid
-// @access  Admin
-exports.deleteReview = async (req, res, next) => {}
+// @access  Admin & Private me
+exports.deleteReview = async (req, res, next) => {
+  try {
+    const review = await Review.findById(req.params.rvid)
+
+    if (!review) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find this review' })
+    }
+
+    if (req.user.role !== 'admin' && review.user.toString() !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: 'User is not authorized to delete this review',
+      })
+    }
+
+    await review.deleteOne()
+
+    return res.status(200).json({ success: true, data: {} })
+  } catch (err) {
+    // console.log(err)
+    return res.status(500).json({ success: false })
+  }
+}
 
 // @desc    Request to del review
 // @route   PUT /api/reviews/:rvid/report
