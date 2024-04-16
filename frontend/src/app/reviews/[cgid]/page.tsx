@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Card from "@/components/basic/card/Card";
 import Image from "next/image";
 import getCampground from '@/libs/campgrounds/getCampground';
+import createReview from '@/libs/reviews/createReview';
 
 export default function createReviewPage({
     params,
@@ -22,9 +23,6 @@ export default function createReviewPage({
     const [campgroundImage, setCampgroundImage] = useState('')
     const [rating, setRating] = useState<number | null>(0)
     const [reviewText, setReviewText] = useState('')
-
-    //mockup POST API
-    const createReview = (a:string, b:string, c:number, d:string) => {} 
 
     const submit = () => {
       if(
