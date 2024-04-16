@@ -3,8 +3,10 @@ import Card from '@/components/basic/card/Card'
 import CampgroundDetail from '@/components/complex/CampgroundDetail'
 import getCampground from '@/libs/campgrounds/getCampground'
 import getCampgroundSites from '@/libs/campgrounds/getCampgroundSites'
+import getReviews from '@/libs/reviews/getReviews'
 import Image from 'next/image'
 import Link from 'next/link'
+import ReviewCard from '@/components/basic/card/ReviewCard'
 import { Suspense } from 'react'
 
 export default async function ViewCampground({
@@ -13,6 +15,8 @@ export default async function ViewCampground({
   params: { cgid: string }
 }) {
   const campground: CampgroundItem = (await getCampground(params.cgid)).data
+
+  const review: reviewItem = (await getReviews(params.cgid)).data
 
   const campgroundSites: CampgroundSitesJson = await getCampgroundSites(
     params.cgid
@@ -109,6 +113,11 @@ export default async function ViewCampground({
               </tr>
             ))}
           </table>
+          
+        </div>
+        {/* review */}
+        <div className='px-10 py-4 text-black z-50'>
+        <ReviewCard userName='wow' rating={review.score} comment={review.comment}></ReviewCard>
         </div>
       </Card>
     </main>
