@@ -2,8 +2,8 @@ const Campground = require('../models/Campground')
 const Review = require('../models/Review')
 const User = require('../models/User')
 
-// @desc    Get all review (with filter, sort, select and pagination)
-// @route   GET /api/review
+// @desc    Get all reviews (with filter, sort, select and pagination)
+// @route   GET /api/reviews or /api/campgrounds/:cgid/reviews
 // @access  Public
 exports.getReviews = async (req, res, next) => {
   try {
@@ -101,8 +101,8 @@ exports.getReviews = async (req, res, next) => {
 exports.getReportedReviews = async (req, res, next) => {}
 
 // @desc    Get all reported reviews (with filter, sort, select and pagination)
-// @route   GET /api/reviews/reported-review
-// @access  Admin
+// @route   GET /api/reviews/:rvid
+// @access  Public
 exports.getReview = async (req, res, next) => {
   try {
     const review = await Review.findById(req.params.rvid)
@@ -132,16 +132,50 @@ exports.getReview = async (req, res, next) => {
 }
 
 // @desc    Create a review
-// @route   POST /api/reviews/:rid
-// @access  Public
-exports.createReview = async (req, res, next) => {}
+// @route   POST  /api/campgrounds/:cgid/reviews
+// @access  All role
+exports.createReview = async (req, res, next) => {
+  try {
+    // Check if data is valid
+    const { score, comment } = req.body
+    if (!score) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Please enter score' })
+    }
+
+    const data = {
+      user: req.user.id,
+      campground: req.params.cgid,
+      score,
+      comment,
+    }
+    // Find campground
+    const campgroundObj = await Campground.findOne({
+      _id: data.campground,
+    })
+
+    if (!campgroundObj) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find this campground' })
+    }
+    //console.log(data)
+    const review = await Review.create(data)
+
+    return res.status(201).json({ success: true, data: review })
+  } catch (err) {
+    //console.log(err)
+    return res.status(500).json({ success: false })
+  }
+}
 
 // @desc    Delete a review
-// @route   DEL /api/reviews/:rid
+// @route   DEL /api/reviews/:rvid
 // @access  Admin
 exports.deleteReview = async (req, res, next) => {}
 
 // @desc    Request to del review
-// @route   PUT /api/reviews/:rid/report
+// @route   PUT /api/reviews/:rvid/report
 // @access  Campground Owner
 exports.reportReview = async (req, res, next) => {}
