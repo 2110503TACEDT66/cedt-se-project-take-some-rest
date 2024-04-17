@@ -114,8 +114,17 @@ export default async function ViewCampground({
               </tr>
             ))}
           </table>
-          
         </div>
+        {/* add review button & avg rating*/}
+        <div className='flex flex-row justify-between px-10 pt-5'>
+          <p className='px-4 pt-2 text-3xl font font-medium'> Rating : {campground.averageScore}  </p>
+          <Link href={`/reviews/${params.cgid}`}>
+            <button className='cgr-btn'>
+              Add Your Review
+            </button>
+          </Link>
+        </div>
+        
         {/* review */}
         <div className='px-10 py-4 text-black z-50 text-lg text-center'>
           {
