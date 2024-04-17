@@ -13,8 +13,8 @@ const UserSchema = new mongoose.Schema({
     maxLength: 20,
     unique: true,
     match: [
-      /^([0-9]{3}|[0-9]{2})-[0-9]{3}-[0-9]{4}$/, 
-      'Please add a valid tel'
+      /^([0-9]{3}|[0-9]{2})-[0-9]{3}-[0-9]{4}$/,
+      'Please add a valid tel',
     ],
   },
   email: {
@@ -34,8 +34,18 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['customer', 'admin'],
+    enum: ['customer', 'campgroundOwner', 'admin'],
     default: 'customer',
+  },
+  bookmarkCampgrounds: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Campground',
+    },
+  ],
+  requestToBeCampgroundOwner: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -46,6 +56,7 @@ UserSchema.pre(
   async function (next) {
     await this.model('Reserve').deleteMany({ user: this._id })
     await this.model('Log').deleteMany({ user: this._id })
+    await this.model('Review').deleteMany({ user: this._id })
     next()
   }
 )

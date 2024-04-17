@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import deleteCampgroundSite from '@/libs/campgrounds/deleteCampgroundSite'
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 
 export default function AdminViewCampground({
   params,
@@ -21,10 +22,12 @@ export default function AdminViewCampground({
   const router = useRouter()
 
   const { data: session } = useSession()
-  if (!session || !session.user.token || session.user.role !== 'admin') {
-    router.replace('/')
-    return null
-  }
+  if (
+    !session ||
+    !session.user.token ||
+    (session.user.role !== 'admin' && session.user.role !== 'campgroundOwner')
+  )
+    return <NoPermissionUI />
 
   const [isReady, setIsReady] = useState(false)
   const [campground, setCampground] = useState<CampgroundItem | null>(null)
