@@ -9,15 +9,25 @@ import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import addBookmark from '@/libs/bookmarks/addBookmark'
 import removeBookmark from '@/libs/bookmarks/removeBookmark'
+import { useEffect } from 'react'
 
 export default function CampgroundCardCampgrounds({
-  campground,
+  campground, bookmarkedCampgrounds
 }: {
   campground: CampgroundItem
+  bookmarkedCampgrounds: string[]
 }) {
   //set up that if this campground is in book mark then let the use state be true
-  const [bookmark, setBookmark] = useState(false)
+  const isBookmark = bookmarkedCampgrounds.includes(campground._id)
+  //console.log(isBookmark)
+  //console.log(campground.name)
+  const [bookmark, setBookmark] = useState(isBookmark)
   const { data: session } = useSession()
+
+  useEffect(() => {
+    setBookmark(isBookmark)
+  }, [bookmarkedCampgrounds])
+  
   const handleClickBookmark = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -32,7 +42,7 @@ export default function CampgroundCardCampgrounds({
     }
     setBookmark(!bookmark)
   }
-
+  
   return (
     <Link
       href={`/campgrounds/view/${campground._id}`}

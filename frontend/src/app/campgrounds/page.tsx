@@ -6,10 +6,14 @@ import SuspenseUI from '@/components/basic/SuspenseUI'
 import SearchBar from '@/components/basic/search/SearchBar'
 import CampgroundPanelCampgrounds from '@/components/complex/CampgroundPanelCampgrounds'
 import getCampgrounds from '@/libs/campgrounds/getCampgrounds'
+import { useSession } from 'next-auth/react'
+import getMe from '@/libs/users/getMe'
 
 export default function Campgrounds() {
   const [isReady, setIsReady] = useState(false)
   const [campgrounds, setCampgrounds] = useState<CampgroundsJson>()
+  const { data: session } = useSession()
+  const [bookmarkedCampgrounds, setBookmarkedCampgrounds] = useState<string[]>([])
 
   const fetchCampground = async (
     name: string,
@@ -31,11 +35,20 @@ export default function Campgrounds() {
     setCampgrounds(campgroundList)
   }
 
+  const fetchBookmark = async () => {
+    if (session) {
+      const me = await getMe(session.user.token)
+      const bookmarkedCampgrounds = me.data.bookmarkCampgrounds
+      setBookmarkedCampgrounds(bookmarkedCampgrounds)
+      //console.log(bookmarkedCampgrounds)
+    }
+  }
   useEffect(() => {
     fetchCampground('', '', '')
     setIsReady(true)
+    fetchBookmark()
   }, [])
-
+  
   if (!isReady || !campgrounds) return <SuspenseUI />
 
   const handleSearchQuery = (
@@ -63,7 +76,7 @@ export default function Campgrounds() {
     let selectedFacilitiesStr = facilitiesArray.join(',')
     fetchCampground(selectedName, selectedProvince, selectedFacilitiesStr)
   }
-
+  
   return (
     <main className='px-12 pt-9'>
       <div className='flex justify-between items-center mb-6'>
@@ -74,7 +87,7 @@ export default function Campgrounds() {
       </div>
       <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
       {campgrounds.count > 0 ? (
-        <CampgroundPanelCampgrounds campgrounds={campgrounds.data} />
+        <CampgroundPanelCampgrounds campgrounds={campgrounds.data} bookmarkedCampgrounds={bookmarkedCampgrounds}/>
       ) : (
         <p className='text-2xl font-semibold text-center'>
           No campground match your conditions
