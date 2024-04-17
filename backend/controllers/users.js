@@ -340,7 +340,7 @@ exports.getUserRequests = async (req, res, next) => {
       (match) => `$${match}`
     )
     let queryjson = JSON.parse(queryStr)
-    queryjson.requestToBeCampgroundOwner=true
+    queryjson.requestToBeCampgroundOwner = true
     query = User.find(queryjson)
 
     //Select field
@@ -487,7 +487,7 @@ exports.getBookmarks = async (req, res, next) => {
 
     let bookmarkedCampground = await Campground.find({
       _id: { $in: user.bookmarkCampgrounds },
-    })
+    }).select('-sites')
 
     return res.status(200).json({
       success: true,

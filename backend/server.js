@@ -25,7 +25,7 @@ const app = express()
 //Limit
 const limiter = rateLimit({
   windowsMs: 10 * 60 * 1000,
-  max: 100,
+  max: 1000,
 })
 
 // Body JSON Parser
