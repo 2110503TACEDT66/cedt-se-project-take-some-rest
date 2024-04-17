@@ -161,6 +161,25 @@ exports.createReview = async (req, res, next) => {
         .json({ success: false, message: 'Cannot find this campground' })
     }
     //console.log(data)
+
+    //Update AvgRating
+    const oldScore = campgroundObj.averageScore
+    if (score !== oldScore) {
+      const count = (await Review.find({ campground: data.campground })).length
+      let newScore = (oldScore * count + score) / (count + 1)
+      // let newScore = 2
+      const camp = await Campground.findByIdAndUpdate(
+        req.params.cgid,
+        { averageScore: newScore },
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+      //console.log(camp)
+    }
+
+    //Create Review
     const review = await Review.create(data)
 
     return res.status(201).json({ success: true, data: review })
@@ -190,11 +209,33 @@ exports.deleteReview = async (req, res, next) => {
       })
     }
 
+    const campgroundObj = await Campground.findOne({
+      _id: review.campground,
+    })
+
+    //Update AvgRating
+    const oldScore = campgroundObj.averageScore
+
+    const count = (await Review.find({ campground: review.campground })).length
+    let newScoreDel
+    if (count <= 1) newScoreDel = 0
+    else newScoreDel = (oldScore * count - review.score) / (count - 1)
+    const camp = await Campground.findByIdAndUpdate(
+      review.campground,
+      { averageScore: newScoreDel },
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
+    //console.log(camp)
+
+    //Delete Review
     await review.deleteOne()
 
     return res.status(200).json({ success: true, data: {} })
   } catch (err) {
-    // console.log(err)
+    //console.log(err)
     return res.status(500).json({ success: false })
   }
 }
