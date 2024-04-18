@@ -46,6 +46,12 @@ const CampgroundSchema = new mongoose.Schema({
     min: 0,
     require: [true, 'Please add total amount'],
   },
+  averageScore: {
+    type: Number,
+    min: 0,
+    max: 5,
+    default: null,
+  },
   sites: [
     {
       type: mongoose.Schema.ObjectId,
@@ -62,6 +68,7 @@ CampgroundSchema.pre(
     console.log(this._id)
     await this.model('Reserve').deleteMany({ campground: this._id })
     await this.model('Site').deleteMany({ campground: this._id })
+    await this.model('Review').deleteMany({ campground: this._id })
     next()
   }
 )

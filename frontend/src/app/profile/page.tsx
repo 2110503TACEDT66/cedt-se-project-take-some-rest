@@ -4,10 +4,12 @@ import Card from '@/components/basic/card/Card'
 import getMe from '@/libs/users/getMe'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
+import updateUserRequest from '@/libs/users/updateUserRequest'
 
 export default function ViewProfile() {
   const { data: session } = useSession()
-  if (!session || !session.user.token) return null
+  if (!session || !session.user.token) return <NoPermissionUI />
   const [user, setUser] = useState<UserItem | null>(null)
 
   useEffect(() => {
@@ -53,12 +55,11 @@ export default function ViewProfile() {
                 </p>
                 <button
                   className='cgr-btn-outline text-sm !px-5 !py-1'
-                  onClick={() =>
-                    // Fixing here to use API
-                    confirm(
-                      'Are you confirm to request to be an campground owner?'
-                    )
-                  }>
+                  onClick={async () => {
+                    if (confirm('Are you sure to request to be campground owner?')) {
+                      await updateUserRequest(session.user.token)
+                    }
+                  }}>
                   Request
                 </button>
               </div>

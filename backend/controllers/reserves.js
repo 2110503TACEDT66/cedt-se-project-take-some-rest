@@ -86,7 +86,7 @@ exports.getReserves = async (req, res, next) => {
     query = Reserve.find(queryStr)
       .populate({
         path: 'campground',
-        select: 'name tel address',
+        select: 'name tel address pictures',
       })
       .populate({
         path: 'user',

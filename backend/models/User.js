@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['customer','campgroundOwner','admin'],
+    enum: ['customer', 'campgroundOwner', 'admin'],
     default: 'customer',
   },
   bookmarkCampgrounds: [
@@ -44,9 +44,9 @@ const UserSchema = new mongoose.Schema({
     },
   ],
   requestToBeCampgroundOwner: {
-    type:Boolean,
+    type: Boolean,
     default: false,
-  }
+  },
 })
 
 // Delete user
@@ -56,6 +56,7 @@ UserSchema.pre(
   async function (next) {
     await this.model('Reserve').deleteMany({ user: this._id })
     await this.model('Log').deleteMany({ user: this._id })
+    await this.model('Review').deleteMany({ user: this._id })
     next()
   }
 )

@@ -1,21 +1,54 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
 import Card from '@/components/basic/card/Card'
 import Tag from '@/components/basic/Tag'
+import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import addBookmark from '@/libs/bookmarks/addBookmark'
+import removeBookmark from '@/libs/bookmarks/removeBookmark'
+import { useEffect } from 'react'
 
 export default function CampgroundCardCampgrounds({
-  campground,
+  campground, bookmarkedCampgrounds
 }: {
   campground: CampgroundItem
+  bookmarkedCampgrounds: boolean
 }) {
+  //set up that if this campground is in book mark then let the use state be true
+  //console.log(isBookmark)
+  //console.log(campground.name)
+  const [bookmark, setBookmark] = useState(bookmarkedCampgrounds)
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    setBookmark(bookmarkedCampgrounds)
+  }, [bookmarkedCampgrounds])
+  
+  const handleClickBookmark = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.preventDefault()
+    if (session) {
+      if (!bookmark) {
+        addBookmark(session.user.token, campground._id)
+      }
+      else {
+        removeBookmark(session.user.token, campground._id)
+      }
+    }
+    setBookmark(!bookmark)
+  }
+  
   return (
     <Link
       href={`/campgrounds/view/${campground._id}`}
       className='hover:scale-105 duration-300'>
       <Card>
         <div className='p-0 flex flex-row'>
-          {campground.pictures.length != 0 ? (
+          {campground.pictures && campground.pictures.length != 0 ? (
             <Image
               src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
               alt={`${campground.name} picture`}
@@ -32,9 +65,11 @@ export default function CampgroundCardCampgrounds({
               <p className='text-2xl font-bold text-cgr-black'>
                 {campground.name}
               </p>
-              <p className='text-md font-light'>
-                {campground.address.province}
-              </p>
+              {campground.address ?
+                <p className='text-md font-light'>
+                  {campground.address.province}
+                </p> : <p></p>
+              }
             </div>
 
             {/* Card Detail */}
@@ -50,14 +85,27 @@ export default function CampgroundCardCampgrounds({
             </div>
 
             {/* Facility */}
-            <div className='flex flex-row space-x-2 overflow-auto'>
-              {campground.facilities.map((data) => (
-                <Tag size='xs' key={data}>
-                  {data}
-                </Tag>
-              ))}
-            </div>
+            {campground.facilities ? 
+              <div className='flex flex-row space-x-2 overflow-auto'>
+                {campground.facilities.map((data) => (
+                  <Tag size='xs' key={data}>
+                    {data}
+                  </Tag>
+                ))}
+              </div> : <div></div>
+            }
           </div>
+          {session ? (
+            <div className='mt-5 mr-5' onClick={handleClickBookmark}>
+              {bookmark ? (
+                <i className='bi bi-bookmark-check-fill text-xl'></i>
+              ) : (
+                <i className='bi bi-bookmark-fill text-xl text-[#ECECEC]'></i>
+              )}
+            </div>
+          ) : ( 
+            <div></div>
+          )}
         </div>
       </Card>
     </Link>

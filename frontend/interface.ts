@@ -17,6 +17,7 @@ interface CampgroundItem {
   pictures: string[]
   facilities: string[]
   amount: number
+  averageScore : number
 }
 
 interface CampgroundsJson {
@@ -90,6 +91,7 @@ interface UserItem {
   password: string
   role: string
   requestToBeCampgroundOwner: boolean
+  bookmarkCampgrounds: string[]
 }
 
 interface UserJson {
@@ -163,4 +165,28 @@ interface LogJson {
     }
   }
   data: LogItem[]
+}
+
+// review --------------------------------------------------------
+
+interface reviewItem {
+  _id: string
+  user: UserItem
+  campground: CampgroundItem
+  score: number
+  comment: string
+  createdAt: Date
+  isReport: boolean
+}
+
+interface reviewJson {
+  success: boolean
+  count: number
+  pagination: {
+    next: {
+      page: number
+      limit: number
+    }
+  }
+  data: reviewItem[]
 }
