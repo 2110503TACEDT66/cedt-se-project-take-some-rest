@@ -1,20 +1,22 @@
-import SuspenseUI from '@/components/basic/SuspenseUI'
+import Image from 'next/image'
+import Link from 'next/link'
+import { getServerSession } from 'next-auth'
+
 import Card from '@/components/basic/card/Card'
 import CampgroundDetail from '@/components/complex/CampgroundDetail'
 import getCampground from '@/libs/campgrounds/getCampground'
 import getCampgroundSites from '@/libs/campgrounds/getCampgroundSites'
 import getReviews from '@/libs/reviews/getReviews'
-import Image from 'next/image'
-import Link from 'next/link'
-import ReviewCard from '@/components/basic/card/ReviewCard'
 import ReviewsPanel from '@/components/complex/ReviewPanel'
-import { Suspense } from 'react'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 export default async function ViewCampground({
   params,
 }: {
   params: { cgid: string }
 }) {
+  const session = await getServerSession(authOptions)
+
   const campground: CampgroundItem = (await getCampground(params.cgid)).data
 
   const reviews = (await getReviews(params.cgid)).data
@@ -115,24 +117,29 @@ export default async function ViewCampground({
             ))}
           </table>
         </div>
+
         {/* add review button & avg rating*/}
         <div className='flex flex-row justify-between px-10 pt-5'>
-          <p className='px-4 pt-2 text-3xl font font-medium'> Rating : {campground.averageScore}  </p>
-          <Link href={`/reviews/${params.cgid}`}>
-            <button className='cgr-btn'>
-              Add Your Review
-            </button>
-          </Link>
+          <p className='px-4 pt-2 text-3xl font font-medium'>
+            {' '}
+            Rating : {campground.averageScore}{' '}
+          </p>
+          {session ? (
+            <Link href={`/reviews/${params.cgid}`}>
+              <button className='cgr-btn'>Add Your Review</button>
+            </Link>
+          ) : (
+            ''
+          )}
         </div>
-        
+
         {/* review */}
         <div className='px-10 py-4 text-black z-50 text-lg text-center'>
-          {
-            reviews.length > 0?
-            <ReviewsPanel reviews={reviews}/>
-             : "No Review"
-          }
-          
+          {reviews.length > 0 ? (
+            <ReviewsPanel reviews={reviews} />
+          ) : (
+            'No Review'
+          )}
         </div>
       </Card>
     </main>
