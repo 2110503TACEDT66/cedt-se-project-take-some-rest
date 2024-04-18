@@ -1,9 +1,7 @@
 'use client'
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import getUsers from '@/libs/users/getUsers'
-import { getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -18,7 +16,7 @@ export default function UsersTable() {
   const [user, setUser] = useState<UserItem[]>([])
   const [isReady, setIsReady] = useState(false)
   const [query, setQuery] = useState('')
-  const [userRequests,setUserRequests] = useState<UserItem[]>([])
+  const [userRequests, setUserRequests] = useState<UserItem[]>([])
 
   const fetchData = async () => {
     setIsReady(false)
@@ -88,22 +86,40 @@ export default function UsersTable() {
               <td>{obj.email}</td>
               <td>{obj.tel}</td>
               <td className='text-center'>
-                <button className='cgr-btn'
-                onClick={async () => {
-                  if (confirm(`Are you sure you want to approve this user's request ?`)) {
-                    window.location.reload();
-                    updateUserRole(session.user.token,obj._id,'campgroundOwner')
-                  }
-                }}>Accept</button>
+                <button
+                  className='cgr-btn'
+                  onClick={async () => {
+                    if (
+                      confirm(
+                        `Are you sure you want to approve this user's request ?`
+                      )
+                    ) {
+                      window.location.reload()
+                      updateUserRole(
+                        session.user.token,
+                        obj._id,
+                        'campgroundOwner'
+                      )
+                    }
+                  }}>
+                  Accept
+                </button>
               </td>
               <td className='text-center'>
-                <button className='cgr-btn-red'
-                onClick={async () => {
-                  if (confirm(`Are you sure you want to reject this user's request ?`)) {
-                    window.location.reload();
-                    rejectRequest(session.user.token,obj._id)
-                  }
-                }}>Decline</button>
+                <button
+                  className='cgr-btn-red'
+                  onClick={async () => {
+                    if (
+                      confirm(
+                        `Are you sure you want to reject this user's request ?`
+                      )
+                    ) {
+                      window.location.reload()
+                      rejectRequest(session.user.token, obj._id)
+                    }
+                  }}>
+                  Decline
+                </button>
               </td>
             </tr>
           ))

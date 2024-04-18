@@ -1,32 +1,34 @@
 'use client'
 
-import { Suspense } from 'react'
-import SuspenseUI from '@/components/basic/SuspenseUI'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 import CampgroundPanelCampgrounds from '@/components/complex/CampgroundPanelCampgrounds'
 import getBookmarks from '@/libs/bookmarks/getBookmarks'
-import getMe from '@/libs/users/getMe'
 
 export default function Bookmark() {
   const { data: session } = useSession()
   if (!session || !session.user.token) return null
 
   const [bookmarks, setBookmarks] = useState<CampgroundItem[]>([])
-  const [bookmarkedCampgrounds, setBookmarkedCampgrounds] = useState<string[]>([])
+  const [bookmarkedCampgrounds, setBookmarkedCampgrounds] = useState<string[]>(
+    []
+  )
 
   const fetchBookmarkID = () => {
     for (const campground of bookmarks) {
       const campgroundID = campground._id
-      setBookmarkedCampgrounds(bookmarkedCampgrounds => [...bookmarkedCampgrounds, campgroundID])
+      setBookmarkedCampgrounds((bookmarkedCampgrounds) => [
+        ...bookmarkedCampgrounds,
+        campgroundID,
+      ])
     }
   }
-  
+
   const fetchBookMark = async () => {
     if (session) {
-      const campgrounds: CampgroundsJson = (
-        await getBookmarks(session.user.token)
+      const campgrounds: CampgroundsJson = await getBookmarks(
+        session.user.token
       )
       setBookmarks(campgrounds.data)
     }
@@ -34,10 +36,10 @@ export default function Bookmark() {
 
   useEffect(() => {
     fetchBookMark()
-  },[])
+  }, [])
   useEffect(() => {
     fetchBookmarkID()
-  },[bookmarks])
+  }, [bookmarks])
 
   return (
     <main className='px-5 pt-7'>
@@ -45,11 +47,14 @@ export default function Bookmark() {
         My Bookmark
       </div>
       <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
-      {
-        bookmarks?
-        <CampgroundPanelCampgrounds campgrounds={bookmarks} bookmarkedCampgrounds={bookmarkedCampgrounds}/>
-        : <h1>no bookmark yet</h1>
-      }
+      {bookmarks ? (
+        <CampgroundPanelCampgrounds
+          campgrounds={bookmarks}
+          bookmarkedCampgrounds={bookmarkedCampgrounds}
+        />
+      ) : (
+        <h1>no bookmark yet</h1>
+      )}
     </main>
   )
 }

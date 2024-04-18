@@ -6,11 +6,9 @@ import getLogs from '@/libs/log/getLogs'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import NoPermissionUI from '@/components/basic/NoPermissionUI'
 
 export default function LogsTable() {
-  const router = useRouter()
   const { data: session } = useSession()
   if (!session || !session.user.token || session.user.role !== 'admin')
     return <NoPermissionUI />

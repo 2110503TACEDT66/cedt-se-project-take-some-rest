@@ -5,16 +5,12 @@ const router = express.Router()
 const { protect, authorize } = require('../middleware/auth')
 
 // Import controllers
-const { 
-  getLogs, 
-  getLog, 
-  deleteLog 
-} = require('../controllers/logs')
+const { getLogs, getLog, deleteLog } = require('../controllers/logs')
 
 // Logs router
-router.route('/')
-  .get(protect, authorize('admin'), getLogs)
-router.route('/:lid')
+router.route('/').get(protect, authorize('admin'), getLogs)
+router
+  .route('/:lid')
   .get(protect, authorize('admin'), getLog)
   .delete(protect, authorize('admin'), deleteLog)
 
