@@ -31,8 +31,9 @@ export default async function createReserve(
     alert((await response.json()).message)
     return await response.json()
   }
+
   if (!response.ok) {
-    throw new Error("Cannot fetch user's profile")
+    throw new Error('Cannot create reserve')
   }
 
   return await response.json()

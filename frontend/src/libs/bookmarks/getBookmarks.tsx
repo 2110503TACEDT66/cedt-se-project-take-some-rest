@@ -9,7 +9,7 @@ export default async function getBookmarks(token: string) {
   )
 
   if (!response.ok) {
-    throw new Error('Data cannot fetch')
+    throw new Error('Cannot fetch bookmarks data')
   }
 
   return response.json()

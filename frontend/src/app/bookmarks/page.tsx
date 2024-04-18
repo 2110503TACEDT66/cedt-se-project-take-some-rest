@@ -11,17 +11,11 @@ export default function Bookmark() {
   if (!session || !session.user.token) return null
 
   const [bookmarks, setBookmarks] = useState<CampgroundItem[]>([])
-  const [bookmarkedCampgrounds, setBookmarkedCampgrounds] = useState<string[]>(
-    []
-  )
+  const [bookmarkCgids, setBookmarkCgids] = useState<string[]>([])
 
   const fetchBookmarkID = () => {
     for (const campground of bookmarks) {
-      const campgroundID = campground._id
-      setBookmarkedCampgrounds((bookmarkedCampgrounds) => [
-        ...bookmarkedCampgrounds,
-        campgroundID,
-      ])
+      setBookmarkCgids((bookmarkCgids) => [...bookmarkCgids, campground._id])
     }
   }
 
@@ -34,26 +28,35 @@ export default function Bookmark() {
     }
   }
 
+  const handleBookmarkChange = async (id: string, isAdd: boolean) => {
+    const campgrounds = bookmarks.filter((obj) => obj._id != id)
+    const campgroundIds = bookmarkCgids.filter((obj) => obj != id)
+    setBookmarks(campgrounds)
+    setBookmarkCgids(campgroundIds)
+  }
+
   useEffect(() => {
     fetchBookMark()
   }, [])
+
   useEffect(() => {
     fetchBookmarkID()
   }, [bookmarks])
 
   return (
-    <main className='px-5 pt-7'>
+    <main className='px-12 pt-9'>
       <div className='text-4xl font-bold mb-6 z-30 text-cgr-black'>
         My Bookmark
       </div>
       <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
-      {bookmarks ? (
+      {bookmarks.length > 0 ? (
         <CampgroundPanelCampgrounds
           campgrounds={bookmarks}
-          bookmarkedCampgrounds={bookmarkedCampgrounds}
+          bookmarkedCampgroundIds={bookmarkCgids}
+          handleChange={handleBookmarkChange}
         />
       ) : (
-        <h1>no bookmark yet</h1>
+        <p className='text-2xl font-semibold text-center'>No bookmark yet</p>
       )}
     </main>
   )

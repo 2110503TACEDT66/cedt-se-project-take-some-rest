@@ -1,4 +1,4 @@
-export default async function userLogin(
+export default async function register(
   name: string,
   tel: string,
   email: string,
@@ -17,8 +17,13 @@ export default async function userLogin(
     }),
   })
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error('Failed to register')
+    throw new Error('Cannot register')
   }
 
   return await response.json()

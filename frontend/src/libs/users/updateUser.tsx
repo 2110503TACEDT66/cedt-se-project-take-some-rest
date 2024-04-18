@@ -18,6 +18,11 @@ export default async function updateUser(
     body: JSON.stringify(bodyData),
   })
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
     throw new Error("Cannot update user's profile")
   }

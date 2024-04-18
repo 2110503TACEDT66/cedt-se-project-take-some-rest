@@ -11,8 +11,13 @@ export default async function removeBookmark(
     }
   )
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error('Data cannot fetch, can not remove bookmark')
+    throw new Error('Cannot remove bookmark')
   }
 
   return response.json()

@@ -13,6 +13,11 @@ export default async function rejectRequest(token: string, uid: string) {
     }
   )
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
     throw new Error("Cannot reject user's request")
   }

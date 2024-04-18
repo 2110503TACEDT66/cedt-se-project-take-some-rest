@@ -1,4 +1,4 @@
-export default async function updateUser(
+export default async function updateUserRole(
   token: string,
   uid: string,
   role: string
@@ -16,6 +16,11 @@ export default async function updateUser(
       }),
     }
   )
+
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
 
   if (!response.ok) {
     throw new Error("Cannot update user's role")

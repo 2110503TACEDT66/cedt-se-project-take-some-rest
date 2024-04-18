@@ -10,6 +10,7 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
   const handleDelete = async () => {
     if (session) {
       await deleteReview(session.user.token, review._id)
+      alert('Successfully delete you review')
     }
     location.reload()
   }
@@ -17,7 +18,7 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
     <div className='w-full h-44 shadow-[7px_7px_12px_#EFEFEF,-7px_-7px_12px_#F7F7F7] rounded-xl bg-white text-[#343434] flex justify-center'>
       <div className='flex flex-col w-[90%] m-8'>
         <div className='flex flex-row justify-between'>
-          <p className='font-semibold text-xl'>{review.user.name}</p>
+          <p className='font-semibold text-xl text-start'>{review.user.name}</p>
           <Rating
             name={`${review.user.name}Rating`}
             value={review.score}

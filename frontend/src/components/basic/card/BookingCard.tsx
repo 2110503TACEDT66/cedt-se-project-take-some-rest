@@ -3,7 +3,6 @@ import Link from 'next/link'
 
 import Card from '@/components/basic/card/Card'
 import { getMonthName } from '@/utils/dateUtils'
-import getCampground from '@/libs/campgrounds/getCampground'
 
 export default async function Component({
   campground,

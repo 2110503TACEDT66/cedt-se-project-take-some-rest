@@ -2,20 +2,23 @@ import CampgroundCardCampgrounds from '../basic/card/CampgroundCardCampgrounds'
 
 export default function CampgroundPanelCampgrounds({
   campgrounds,
-  bookmarkedCampgrounds,
+  bookmarkedCampgroundIds,
+  handleChange,
 }: {
   campgrounds: CampgroundItem[]
-  bookmarkedCampgrounds: string[]
+  bookmarkedCampgroundIds: string[]
+  handleChange?: Function
 }) {
-  //console.log(bookmarkedCampgrounds)
+  // console.log(bookmarkedCampgroundIds)
   //console.log(campgrounds)
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-9'>
       {campgrounds.map((obj) => (
         <CampgroundCardCampgrounds
-          campground={obj}
           key={obj._id}
-          bookmarkedCampgrounds={bookmarkedCampgrounds.includes(obj._id)}
+          campground={obj}
+          isBookmarked={bookmarkedCampgroundIds.includes(obj._id)}
+          handleChange={handleChange}
         />
       ))}
     </div>

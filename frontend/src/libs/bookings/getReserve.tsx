@@ -9,7 +9,7 @@ export default async function getReserve(token: string, rid: string) {
   )
 
   if (!response.ok) {
-    throw new Error('Data cannot fetch')
+    throw new Error('Cannot fetch booking data')
   }
 
   return response.json()

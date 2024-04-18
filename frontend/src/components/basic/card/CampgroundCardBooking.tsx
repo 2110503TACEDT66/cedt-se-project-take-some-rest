@@ -1,15 +1,10 @@
-'use client'
-
 import Link from 'next/link'
-import SuspenseUI from '../SuspenseUI'
 
 export default function CampgroundCardBooking({
   campground,
 }: {
   campground: CampgroundItem
 }) {
-  if (!campground) return <SuspenseUI />
-
   const googleMapString = campground.address.link
     .split('/')
     .slice(0, 3)

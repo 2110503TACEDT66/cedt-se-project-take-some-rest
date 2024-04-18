@@ -9,7 +9,7 @@ export default async function getLogs(token: string, query?: string) {
   )
 
   if (!response.ok) {
-    throw new Error("Cannot fetch user's profile")
+    throw new Error('Cannot fetch logs data')
   }
 
   return await response.json()

@@ -3,7 +3,7 @@
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import CampgroundCardBooking from '@/components/basic/card/CampgroundCardBooking'
 import Card from '@/components/basic/card/Card'
-import deleteReserves from '@/libs/bookings/deleteReserve'
+import deleteReserve from '@/libs/bookings/deleteReserve'
 import getReserve from '@/libs/bookings/getReserve'
 import getCampground from '@/libs/campgrounds/getCampground'
 import { useSession } from 'next-auth/react'
@@ -78,7 +78,7 @@ export default function BookingView({ params }: { params: { bid: string } }) {
                 className='cgr-btn-red'
                 onClick={async () => {
                   if (confirm('Please confirm to delete this reserve')) {
-                    await deleteReserves(session.user?.token, booking._id)
+                    await deleteReserve(session.user?.token, booking._id)
                     router.push('/bookings')
                   }
                 }}>

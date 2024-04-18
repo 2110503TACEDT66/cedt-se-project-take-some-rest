@@ -1,7 +1,4 @@
-export default async function getAllUserRequests(
-  token: string,
-  query?: string
-) {
+export default async function getUserRequests(token: string, query?: string) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/users/campground-owner-request`,
     {
@@ -11,8 +8,13 @@ export default async function getAllUserRequests(
     }
   )
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error('Cannot fetch user requests ')
+    throw new Error('Cannot fetch user requests data')
   }
 
   return response.json()

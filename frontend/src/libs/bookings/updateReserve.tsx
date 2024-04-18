@@ -1,4 +1,4 @@
-export default async function createReserve(
+export default async function updateReserve(
   token: string,
   rid: string,
   cgid: string,
@@ -30,12 +30,13 @@ export default async function createReserve(
     }
   )
 
-  // if (response.status === 400) {
-  //   alert((await response.json()).message)
-  //   return await response.json()
-  // }
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error("Cannot fetch user's profile")
+    throw new Error('Cannot update booking')
   }
 
   return await response.json()

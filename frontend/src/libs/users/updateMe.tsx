@@ -1,4 +1,4 @@
-export default async function uploadMe(
+export default async function updateMe(
   token: string,
   name: string,
   tel: string,
@@ -23,8 +23,13 @@ export default async function uploadMe(
     body: JSON.stringify(bodyData),
   })
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error("Cannot fetch user's profile")
+    throw new Error("Cannot update user's profile")
   }
 
   return await response.json()

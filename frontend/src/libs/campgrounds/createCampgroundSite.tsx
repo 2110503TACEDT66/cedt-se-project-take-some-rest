@@ -24,8 +24,13 @@ export default async function createCampgroundSite(
     }
   )
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error('Failed to register')
+    throw new Error('Cannot create campground site')
   }
 
   return await response.json()

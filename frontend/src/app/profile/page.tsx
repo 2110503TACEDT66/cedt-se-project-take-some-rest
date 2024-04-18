@@ -5,7 +5,7 @@ import getMe from '@/libs/users/getMe'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import NoPermissionUI from '@/components/basic/NoPermissionUI'
-import updateUserRequest from '@/libs/users/updateUserRequest'
+import updateUserRequest from '@/libs/users/userRequestToBeCampgroundOwner'
 
 export default function ViewProfile() {
   const { data: session } = useSession()
@@ -60,22 +60,15 @@ export default function ViewProfile() {
                       confirm('Are you sure to request to be campground owner?')
                     ) {
                       await updateUserRequest(session.user.token)
+                      alert('Successfully request to be a campground owner')
+                      window.location.reload()
                     }
                   }}>
                   Request
                 </button>
               </div>
             ) : (
-              <div className='flex space-x-3 items-center'>
-                <p className='font-normal text-sm'>
-                  Request to be an campground owner :
-                </p>
-                <button
-                  disabled
-                  className='cgr-btn-outline text-sm !px-5 !py-1'>
-                  Request
-                </button>
-              </div>
+              ''
             )}
           </div>
         </div>

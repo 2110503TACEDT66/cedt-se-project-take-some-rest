@@ -13,7 +13,7 @@ export default function Navbar() {
   const [menuSpan, setMenuSpan] = useState(false)
 
   useEffect(() => {
-    console.log(session)
+    // console.log(session)
     if (session) {
       setLoginTitle(session.user?.name)
       setLoginAction('profile')

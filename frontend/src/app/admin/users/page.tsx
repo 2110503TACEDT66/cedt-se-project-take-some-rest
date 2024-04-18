@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import getUserRequests from '@/libs/users/getUserRequests'
-import rejectRequest from '@/libs/users/RejectRequest'
+import rejectRequest from '@/libs/users/rejectRequest'
 import updateUserRole from '@/libs/users/updateUserRole'
 
 export default function UsersTable() {
@@ -43,6 +43,8 @@ export default function UsersTable() {
     fetchRequestData()
   }, [])
 
+  if (!isReady) return <SuspenseUI />
+
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
       <h1 className='text-cgr-black text-4xl font-bold mb-4'>Users</h1>
@@ -67,70 +69,67 @@ export default function UsersTable() {
       </div>
 
       {/* Request */}
-      <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
-        Campground owner role request
-      </div>
-      <table className='cgr-table mb-20'>
-        <tr className='h-10'>
-          <th className='w-2/6'>Name</th>
-          <th className='w-1/6'>Email</th>
-          <th className='w-1/6'>Telephone</th>
-          <th className='w-1/6'>Accept</th>
-          <th className='w-1/6'>Decline</th>
-        </tr>
-        {isReady ? (
-          // Change the user to the request user (I didn't provide)
-          userRequests.map((obj) => (
-            <tr key={obj._id}>
-              <td>{obj.name}</td>
-              <td>{obj.email}</td>
-              <td>{obj.tel}</td>
-              <td className='text-center'>
-                <button
-                  className='cgr-btn'
-                  onClick={async () => {
-                    if (
-                      confirm(
-                        `Are you sure you want to approve this user's request ?`
-                      )
-                    ) {
-                      window.location.reload()
-                      updateUserRole(
-                        session.user.token,
-                        obj._id,
-                        'campgroundOwner'
-                      )
-                    }
-                  }}>
-                  Accept
-                </button>
-              </td>
-              <td className='text-center'>
-                <button
-                  className='cgr-btn-red'
-                  onClick={async () => {
-                    if (
-                      confirm(
-                        `Are you sure you want to reject this user's request ?`
-                      )
-                    ) {
-                      window.location.reload()
-                      rejectRequest(session.user.token, obj._id)
-                    }
-                  }}>
-                  Decline
-                </button>
-              </td>
+      {userRequests.length > 0 ? (
+        <div>
+          <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
+            Campground owner role request
+          </div>
+          <table className='cgr-table mb-20'>
+            <tr className='h-10'>
+              <th className='w-2/6'>Name</th>
+              <th className='w-1/6'>Email</th>
+              <th className='w-1/6'>Telephone</th>
+              <th className='w-1/6'>Accept</th>
+              <th className='w-1/6'>Decline</th>
             </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan={5}>
-              <SuspenseUI />
-            </td>
-          </tr>
-        )}
-      </table>
+            {userRequests.map((obj) => (
+              <tr key={obj._id}>
+                <td>{obj.name}</td>
+                <td>{obj.email}</td>
+                <td>{obj.tel}</td>
+                <td className='text-center'>
+                  <button
+                    className='cgr-btn'
+                    onClick={async () => {
+                      if (
+                        confirm(
+                          `Are you sure you want to approve this user's request ?`
+                        )
+                      ) {
+                        window.location.reload()
+                        updateUserRole(
+                          session.user.token,
+                          obj._id,
+                          'campgroundOwner'
+                        )
+                      }
+                    }}>
+                    Accept
+                  </button>
+                </td>
+                <td className='text-center'>
+                  <button
+                    className='cgr-btn-red'
+                    onClick={async () => {
+                      if (
+                        confirm(
+                          `Are you sure you want to reject this user's request ?`
+                        )
+                      ) {
+                        window.location.reload()
+                        rejectRequest(session.user.token, obj._id)
+                      }
+                    }}>
+                    Decline
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </table>
+        </div>
+      ) : (
+        ''
+      )}
 
       {/* Normal */}
       <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
@@ -144,27 +143,21 @@ export default function UsersTable() {
           <th className='w-1/6'>Role</th>
           <th className='w-1/6'>View</th>
         </tr>
-        {isReady ? (
-          user.map((obj) => (
-            <tr key={obj._id}>
-              <td>{obj.name}</td>
-              <td>{obj.email}</td>
-              <td>{obj.tel}</td>
-              <td className='text-center'>{obj.role}</td>
-              <td className='text-center'>
-                <Link href={`/admin/users/view/${obj._id}`}>
-                  <button className='cgr-btn-outline-gray'>View</button>
-                </Link>
-              </td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan={5}>
-              <SuspenseUI />
+        {user.map((obj) => (
+          <tr key={obj._id}>
+            <td>{obj.name}</td>
+            <td>{obj.email}</td>
+            <td>{obj.tel}</td>
+            <td className='text-center'>
+              {obj.role.replace(/([A-Z])/g, ' $1').toLowerCase()}
+            </td>
+            <td className='text-center'>
+              <Link href={`/admin/users/view/${obj._id}`}>
+                <button className='cgr-btn-outline-gray'>View</button>
+              </Link>
             </td>
           </tr>
-        )}
+        ))}
       </table>
     </main>
   )

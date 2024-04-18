@@ -8,7 +8,7 @@ export default async function getReviews(cgid: string) {
   )
 
   if (!response.ok) {
-    throw new Error('Cannot fetch reviews')
+    throw new Error('Cannot fetch reviews data')
   }
 
   return await response.json()

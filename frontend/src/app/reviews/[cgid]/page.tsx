@@ -31,7 +31,9 @@ export default function createReviewPage({
         await createReview(session.user.token, params.cgid, rating, reviewText)
       }
       callAPI()
-      alert(`create review successfully`)
+      alert(
+        `Create review successfully. Please refresh page if you can't see your review.`
+      )
       router.push(`/campgrounds/view/${params.cgid}`)
     } else {
       alert('Please provide rating')

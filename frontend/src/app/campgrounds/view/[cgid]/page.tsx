@@ -138,7 +138,7 @@ export default async function ViewCampground({
           {reviews.length > 0 ? (
             <ReviewsPanel reviews={reviews} />
           ) : (
-            'No Review'
+            <p className='m-6'>No review yet</p>
           )}
         </div>
       </Card>
