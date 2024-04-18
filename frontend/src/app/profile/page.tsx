@@ -66,16 +66,7 @@ export default function ViewProfile() {
                 </button>
               </div>
             ) : (
-              <div className='flex space-x-3 items-center'>
-                <p className='font-normal text-sm'>
-                  Request to be an campground owner :
-                </p>
-                <button
-                  disabled
-                  className='cgr-btn-outline text-sm !px-5 !py-1'>
-                  Request
-                </button>
-              </div>
+              ''
             )}
           </div>
         </div>
