@@ -1,9 +1,7 @@
 'use client'
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import getUsers from '@/libs/users/getUsers'
-import { getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'

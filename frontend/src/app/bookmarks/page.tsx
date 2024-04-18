@@ -1,13 +1,10 @@
 'use client'
 
-import { Suspense } from 'react'
-import SuspenseUI from '@/components/basic/SuspenseUI'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 import CampgroundPanelCampgrounds from '@/components/complex/CampgroundPanelCampgrounds'
 import getBookmarks from '@/libs/bookmarks/getBookmarks'
-import getMe from '@/libs/users/getMe'
 
 export default function Bookmark() {
   const { data: session } = useSession()

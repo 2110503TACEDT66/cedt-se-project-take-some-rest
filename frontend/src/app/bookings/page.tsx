@@ -1,5 +1,4 @@
 import BookingPanel from '@/components/complex/BookingPanel'
-import SortButton from '@/components/template/SortButton'
 import getReserves from '@/libs/bookings/getReserves'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]/route'
