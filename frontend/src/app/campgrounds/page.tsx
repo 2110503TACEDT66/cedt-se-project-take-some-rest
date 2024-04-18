@@ -22,6 +22,7 @@ export default function Campgrounds() {
     province: string,
     facilities: string
   ) => {
+    setIsReady(false)
     let queryString = ''
     if (name.trim().length != 0) {
       queryString += 'name=' + name
@@ -35,19 +36,21 @@ export default function Campgrounds() {
 
     const campgroundList = await getCampgrounds(queryString)
     setCampgrounds(campgroundList)
+    console.log(province)
+    setIsReady(true)
   }
 
   const fetchBookmark = async () => {
+    setIsReady(false)
     if (session) {
       const me = await getMe(session.user.token)
       const bookmarkedCampgrounds = me.data.bookmarkCampgrounds
       setBookmarkedCampgrounds(bookmarkedCampgrounds)
-      //console.log(bookmarkedCampgrounds)
     }
+    setIsReady(true)
   }
   useEffect(() => {
-    fetchCampground('', '', '')
-    setIsReady(true)
+    fetchCampground(' ', ' ', ' ')
     fetchBookmark()
   }, [])
 

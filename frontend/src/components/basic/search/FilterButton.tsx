@@ -5,7 +5,6 @@ import {
   Autocomplete,
   Checkbox,
   FormControlLabel,
-  FormGroup,
   TextField,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
@@ -25,7 +24,7 @@ export default function FilterButton({
   const [province, setProvince] = useState<optionType | null>(null)
 
   const [selectAll, setSelectAll] = useState(false)
-  const [facilities, setFacilities] = useState({
+  const [facilities, setFacilities] = useState<CampgroundFacilityItem>({
     tent: false,
     toilet: false,
     electricity: false,
@@ -54,7 +53,11 @@ export default function FilterButton({
   }, [facilities])
 
   useEffect(() => {
-    handleChange(province?.name, facilities)
+    if (province) {
+      handleChange(province.name, facilities)
+    } else {
+      handleChange('', facilities)
+    }
   }, [province, facilities])
 
   const handleChangeFacilities = (
