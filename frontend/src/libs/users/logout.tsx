@@ -4,6 +4,11 @@ export default async function logout(token: string) {
     headers: { authorization: `Bearer ${token}` },
   })
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
     throw new Error('Cannot logout')
   }

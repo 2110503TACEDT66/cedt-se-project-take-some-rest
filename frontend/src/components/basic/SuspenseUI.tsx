@@ -1,4 +1,4 @@
-import { CircularProgress, LinearProgress } from '@mui/material'
+import { LinearProgress } from '@mui/material'
 
 export default function SuspenseUI() {
   return (

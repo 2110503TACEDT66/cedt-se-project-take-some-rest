@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import getUserRequests from '@/libs/users/getUserRequests'
-import rejectRequest from '@/libs/users/RejectRequest'
+import rejectRequest from '@/libs/users/rejectRequest'
 import updateUserRole from '@/libs/users/updateUserRole'
 
 export default function UsersTable() {

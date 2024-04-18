@@ -5,7 +5,7 @@ import getMe from '@/libs/users/getMe'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import NoPermissionUI from '@/components/basic/NoPermissionUI'
-import updateUserRequest from '@/libs/users/updateUserRequest'
+import updateUserRequest from '@/libs/users/userRequestToBeCampgroundOwner'
 
 export default function ViewProfile() {
   const { data: session } = useSession()

@@ -9,7 +9,7 @@ export default async function getUsers(token: string, query?: string) {
   )
 
   if (!response.ok) {
-    throw new Error("Cannot fetch user's profile")
+    throw new Error('Cannot fetch users data')
   }
 
   return response.json()

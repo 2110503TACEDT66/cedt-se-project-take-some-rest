@@ -9,7 +9,7 @@ export default function CampgroundPanelCampgrounds({
   bookmarkedCampgroundIds: string[]
   handleChange?: Function
 }) {
-  console.log(bookmarkedCampgroundIds)
+  // console.log(bookmarkedCampgroundIds)
   //console.log(campgrounds)
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-9'>

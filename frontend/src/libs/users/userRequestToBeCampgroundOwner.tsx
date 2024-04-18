@@ -1,4 +1,4 @@
-export default async function updateUserRequest(token: string) {
+export default async function userRequestToBeCampgroundOwner(token: string) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/users/me/campground-owner-request`,
     {
@@ -7,14 +7,16 @@ export default async function updateUserRequest(token: string) {
         authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        requestToBeCampgroundOwner: true,
-      }),
     }
   )
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error("Cannot update user's Role")
+    throw new Error('Cannot request to be a campground owner')
   }
 
   return await response.json()

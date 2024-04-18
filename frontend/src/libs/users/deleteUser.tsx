@@ -5,7 +5,7 @@ export default async function deleteUser(token: string, uid: string) {
   })
 
   if (!response.ok) {
-    throw new Error("Cannot delete user's profile")
+    throw new Error('Cannot delete user')
   }
 
   return await response.json()

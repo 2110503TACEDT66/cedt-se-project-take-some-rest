@@ -7,8 +7,14 @@ export default async function addBookmark(token: string, campgroundId: string) {
       cache: 'no-store',
     }
   )
+
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error('Data cannot fetch, can not add bookmark')
+    throw new Error('Cannot add bookmark')
   }
 
   return response.json()

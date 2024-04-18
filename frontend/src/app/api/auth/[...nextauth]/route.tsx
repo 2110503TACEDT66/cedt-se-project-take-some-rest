@@ -1,7 +1,7 @@
 import NextAuth, { AuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-import userLogin from '@/libs/users/login'
+import login from '@/libs/users/login'
 import getMe from '@/libs/users/getMe'
 
 export const authOptions: AuthOptions = {
@@ -15,7 +15,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         if (!credentials) return null
 
-        const user = await userLogin(credentials.email, credentials.password)
+        const user = await login(credentials.email, credentials.password)
 
         if (user) {
           const userData = await getMe(user.token)

@@ -11,8 +11,13 @@ export default async function deleteCampgroundSite(
     }
   )
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error('Cannot delete campground')
+    throw new Error('Cannot delete campground site')
   }
 
   return await response.json()

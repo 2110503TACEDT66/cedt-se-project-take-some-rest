@@ -11,7 +11,7 @@ export default async function getReserves(token: string, query?: string) {
   )
 
   if (!response.ok) {
-    throw new Error('Data cannot fetch')
+    throw new Error('Cannot fetch bookings data')
   }
 
   return response.json()

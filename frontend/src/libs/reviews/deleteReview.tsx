@@ -7,8 +7,13 @@ export default async function deleteReview(token: string, rvid: string) {
     }
   )
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error('Cannot Delete Review')
+    throw new Error('Cannot delete review')
   }
 
   return await response.json()

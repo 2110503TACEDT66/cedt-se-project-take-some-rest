@@ -1,4 +1,4 @@
-export default async function createCampground(
+export default async function updateCampgroundSite(
   token: string,
   cgid: string,
   sid: string,
@@ -25,8 +25,13 @@ export default async function createCampground(
     }
   )
 
+  if (response.status === 400) {
+    alert((await response.json()).message)
+    return await response.json()
+  }
+
   if (!response.ok) {
-    throw new Error('Failed to register')
+    throw new Error('Cannot update campground site')
   }
 
   return await response.json()

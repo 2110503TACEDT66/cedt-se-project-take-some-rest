@@ -5,7 +5,7 @@ export default async function getCampgroundSite(cgid: string, sid: string) {
   )
 
   if (!response.ok) {
-    throw new Error('Data cannot fetch')
+    throw new Error('Cannot fetch campground site data')
   }
 
   return response.json()
