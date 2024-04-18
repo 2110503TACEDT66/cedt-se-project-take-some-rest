@@ -34,8 +34,10 @@ export default function Bookmark() {
 
   useEffect(() => {
     fetchBookMark()
+  },[])
+  useEffect(() => {
     fetchBookmarkID()
-  })
+  },[bookmarks])
 
   return (
     <main className='px-5 pt-7'>
