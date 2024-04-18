@@ -94,7 +94,7 @@ export default function Campgrounds() {
       {campgrounds.count > 0 ? (
         <CampgroundPanelCampgrounds
           campgrounds={campgrounds.data}
-          bookmarkedCampgrounds={bookmarkedCampgrounds}
+          bookmarkedCampgroundIds={bookmarkedCampgrounds}
         />
       ) : (
         <p className='text-2xl font-semibold text-center'>

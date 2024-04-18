@@ -13,30 +13,35 @@ import { useEffect } from 'react'
 
 export default function CampgroundCardCampgrounds({
   campground,
-  bookmarkedCampgrounds,
+  isBookmarked,
+  handleChange,
 }: {
   campground: CampgroundItem
-  bookmarkedCampgrounds: boolean
+  isBookmarked: boolean
+  handleChange?: Function
 }) {
   //set up that if this campground is in book mark then let the use state be true
   //console.log(isBookmark)
   //console.log(campground.name)
-  const [bookmark, setBookmark] = useState(bookmarkedCampgrounds)
+  const [bookmark, setBookmark] = useState(isBookmarked)
   const { data: session } = useSession()
 
   useEffect(() => {
-    setBookmark(bookmarkedCampgrounds)
-  }, [bookmarkedCampgrounds])
+    setBookmark(isBookmarked)
+  }, [isBookmarked])
 
-  const handleClickBookmark = (
+  const handleClickBookmark = async (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     event.preventDefault()
     if (session) {
       if (!bookmark) {
-        addBookmark(session.user.token, campground._id)
+        await addBookmark(session.user.token, campground._id)
       } else {
-        removeBookmark(session.user.token, campground._id)
+        await removeBookmark(session.user.token, campground._id)
+        if (handleChange) {
+          handleChange(campground._id, false)
+        }
       }
     }
     setBookmark(!bookmark)
