@@ -60,6 +60,8 @@ export default function ViewProfile() {
                       confirm('Are you sure to request to be campground owner?')
                     ) {
                       await updateUserRequest(session.user.token)
+                      alert('Successfully request to be a campground owner')
+                      window.location.reload()
                     }
                   }}>
                   Request
