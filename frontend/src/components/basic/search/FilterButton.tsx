@@ -95,7 +95,7 @@ export default function FilterButton({
   }
 
   return (
-    <div className='m-0 p-0 z-[100]'>
+    <div className='m-0 p-0 z-[90]'>
       <button
         className='bg-white px-2 rounded-lg border-2 border-cgr-dark-green text-cgr-dark-green h-full'
         onClick={() => setIsDropdown(!isDropdown)}>

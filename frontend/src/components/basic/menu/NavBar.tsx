@@ -30,7 +30,7 @@ export default function Navbar() {
       </div>
 
       {/* incase of bigger than breakpoinr md */}
-      <div className='flex flex-row text-center col-span-3 hidden lg:block'>
+      <div className='flex flex-row text-center col-span-3 hidden lg:block z-[100]'>
         <NavbarItem path='/'>
           <i className='bi bi-house-fill mr-2'></i>Home
         </NavbarItem>
@@ -75,7 +75,7 @@ export default function Navbar() {
         </button>
       </div>
       {menuSpan ? (
-        <div className='lg:hidden absolute mt-60 bg-cgr-gray-20 rounded-lg w-fill px-8 py-3 right-10 flex flex-col gap-y-5 shadow-xl'>
+        <div className='lg:hidden absolute mt-60 bg-cgr-gray-20 rounded-lg w-fill px-8 py-3 right-10 flex flex-col gap-y-5 shadow-xl z-[100]'>
           <div
             className='flex flex-col gap-y-4'
             onClick={() => {
