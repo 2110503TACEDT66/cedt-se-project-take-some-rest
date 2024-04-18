@@ -17,7 +17,7 @@ interface CampgroundItem {
   pictures: string[]
   facilities: string[]
   amount: number
-  averageScore : number
+  averageScore: number
 }
 
 interface CampgroundsJson {

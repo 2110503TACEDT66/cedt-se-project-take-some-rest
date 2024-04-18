@@ -12,7 +12,8 @@ import removeBookmark from '@/libs/bookmarks/removeBookmark'
 import { useEffect } from 'react'
 
 export default function CampgroundCardCampgrounds({
-  campground, bookmarkedCampgrounds
+  campground,
+  bookmarkedCampgrounds,
 }: {
   campground: CampgroundItem
   bookmarkedCampgrounds: boolean
@@ -26,7 +27,7 @@ export default function CampgroundCardCampgrounds({
   useEffect(() => {
     setBookmark(bookmarkedCampgrounds)
   }, [bookmarkedCampgrounds])
-  
+
   const handleClickBookmark = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -34,14 +35,13 @@ export default function CampgroundCardCampgrounds({
     if (session) {
       if (!bookmark) {
         addBookmark(session.user.token, campground._id)
-      }
-      else {
+      } else {
         removeBookmark(session.user.token, campground._id)
       }
     }
     setBookmark(!bookmark)
   }
-  
+
   return (
     <Link
       href={`/campgrounds/view/${campground._id}`}
@@ -65,11 +65,13 @@ export default function CampgroundCardCampgrounds({
               <p className='text-2xl font-bold text-cgr-black'>
                 {campground.name}
               </p>
-              {campground.address ?
+              {campground.address ? (
                 <p className='text-md font-light'>
                   {campground.address.province}
-                </p> : <p></p>
-              }
+                </p>
+              ) : (
+                <p></p>
+              )}
             </div>
 
             {/* Card Detail */}
@@ -85,15 +87,17 @@ export default function CampgroundCardCampgrounds({
             </div>
 
             {/* Facility */}
-            {campground.facilities ? 
+            {campground.facilities ? (
               <div className='flex flex-row space-x-2 overflow-auto'>
                 {campground.facilities.map((data) => (
                   <Tag size='xs' key={data}>
                     {data}
                   </Tag>
                 ))}
-              </div> : <div></div>
-            }
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
           {session ? (
             <div className='mt-5 mr-5' onClick={handleClickBookmark}>
@@ -103,7 +107,7 @@ export default function CampgroundCardCampgrounds({
                 <i className='bi bi-bookmark-fill text-xl text-[#ECECEC]'></i>
               )}
             </div>
-          ) : ( 
+          ) : (
             <div></div>
           )}
         </div>
