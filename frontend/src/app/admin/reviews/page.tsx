@@ -36,6 +36,12 @@ export default function ReviewTable() {
     await deleteReviewMock(review)
   }
 
+  //mock API for delete review
+  const ignoreReviewMock = (review: reviewItem) => {}
+  const ignoreR = async (review: reviewItem) => {
+    await ignoreReviewMock(review)
+  }
+
   if (!isReady) return <SuspenseUI />
 
   return (
@@ -43,6 +49,40 @@ export default function ReviewTable() {
       <h1 className='text-cgr-black text-4xl font-bold mb-4'>Reviews</h1>
 
       {/* Request */}
+      {session.user.role == 'admin' ? (
+        <div>
+        <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
+        Reported Reviews
+      </div>
+      <table className='cgr-table'>
+        <tr className='h-10'>
+          <th className='w-8/12'>Comment</th>
+          <th className='w-2/12'>Rating</th>
+          <th className='w-1/12'></th>
+          <th className='w-1/12'></th>
+        </tr>
+        {review.map((obj) => (
+          <tr key={obj._id}>
+            <td>{obj.comment}</td>
+            <td className='text-center'>{obj.score}</td>
+            <td className='text-center'>
+                <button className='cgr-btn-red'
+                onClick={() => {
+                  deleteR(obj)
+                }}>Delete</button>
+            </td>
+            <td className='text-center'>
+            <button className='cgr-btn'
+                onClick={() => {
+                  ignoreR(obj)
+                }}>Ignore</button>
+            </td>
+          </tr>
+        ))}
+      </table>
+      </div>
+      ) : null }
+      
 
       {/* Normal */}
       <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
