@@ -4,6 +4,7 @@ import SuspenseUI from '@/components/basic/SuspenseUI'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import getReviews from '@/libs/reviews/getReviews'
+import deleteReview from '@/libs/reviews/deleteReview'
 
 export default function ReviewTable() {
   const { data: session } = useSession()
@@ -26,14 +27,18 @@ export default function ReviewTable() {
 
   //mock API for report review
   const reportReviewMock = (review: reviewItem) => {}
-  const report = async (review: reviewItem) => {
+  const handleReport = async (review: reviewItem) => {
     await reportReviewMock(review)
   }
 
+  const handleDelete = async (review: reviewItem) => {
+    await deleteReview(session.user.token, review._id)
+  }
+
   //mock API for delete review
-  const deleteReviewMock = (review: reviewItem) => {}
-  const deleteR = async (review: reviewItem) => {
-    await deleteReviewMock(review)
+  const ignoreReviewMock = (review: reviewItem) => {}
+  const handleIgnore = async (review: reviewItem) => {
+    await ignoreReviewMock(review)
   }
 
   if (!isReady) return <SuspenseUI />
@@ -43,6 +48,40 @@ export default function ReviewTable() {
       <h1 className='text-cgr-black text-4xl font-bold mb-4'>Reviews</h1>
 
       {/* Request */}
+      {session.user.role == 'admin' ? (
+        <div>
+        <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
+        Reported Reviews
+      </div>
+      <table className='cgr-table'>
+        <tr className='h-10'>
+          <th className='w-8/12'>Comment</th>
+          <th className='w-2/12'>Rating</th>
+          <th className='w-1/12'></th>
+          <th className='w-1/12'></th>
+        </tr>
+        {review.map((obj) => (
+          <tr key={obj._id}>
+            <td>{obj.comment}</td>
+            <td className='text-center'>{obj.score}</td>
+            <td className='text-center'>
+                <button className='cgr-btn-red'
+                onClick={() => {
+                  handleDelete(obj)
+                }}>Delete</button>
+            </td>
+            <td className='text-center'>
+            <button className='cgr-btn'
+                onClick={() => {
+                  handleIgnore(obj)
+                }}>Ignore</button>
+            </td>
+          </tr>
+        ))}
+      </table>
+      </div>
+      ) : null }
+      
 
       {/* Normal */}
       <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
@@ -67,7 +106,7 @@ export default function ReviewTable() {
                 <i
                   className='bi bi-trash3-fill ml-auto mt-auto cursor-pointer hover:text-cgr-red'
                   onClick={() => {
-                    deleteR(obj)
+                    handleDelete(obj)
                   }}></i>
               ) : obj.isReport ? (
                 <p className='text-sm'>reported</p>
@@ -75,7 +114,7 @@ export default function ReviewTable() {
                 <i
                   className='bi bi-flag-fill ml-auto mt-auto cursor-pointer hover:text-cgr-red'
                   onClick={() => {
-                    report(obj)
+                    handleReport(obj)
                   }}></i>
               )}
             </td>
