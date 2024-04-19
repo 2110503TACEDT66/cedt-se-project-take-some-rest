@@ -21,6 +21,7 @@ const {
   deleteCampgroundSite,
   getCampgroundSites,
   updateCampgroundSite,
+  uploadSiteImage,
 } = require('../controllers/campgroundSites')
 
 // Import others router
@@ -54,5 +55,8 @@ router
   .get(getCampgroundSite)
   .put(protect, authorize('admin', 'campgroundOwner'), updateCampgroundSite)
   .delete(protect, authorize('admin', 'campgroundOwner'), deleteCampgroundSite)
+router
+  .route('/:cgid/sites/:sid/upload-image')
+  .post(protect, authorize('admin', 'campgroundOwner'), uploadSiteImage)
 
 module.exports = router

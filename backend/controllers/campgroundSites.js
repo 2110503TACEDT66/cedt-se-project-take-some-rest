@@ -1,6 +1,8 @@
 const Campground = require('../models/Campground')
 const Site = require('../models/Site')
 
+const multer = require('multer')
+
 // @desc    Get a campground site in specific campground
 // @route   GET /api/campgrounds/:cgid/sites/:sid
 // @access  Public
@@ -244,5 +246,49 @@ exports.deleteCampgroundSite = async (req, res, next) => {
   } catch (err) {
     // console.log(err.stack)
     return res.status(500).json({ success: false })
+  }
+}
+
+
+const upload = multer().single('file')
+
+exports.uploadSiteImage = async (req, res, next) => {
+  try {
+    upload(req, res, async function (err) {
+      // Call the multer middleware to handle file upload
+      if (err instanceof multer.MulterError) {
+        // Handle multer errors
+        console.log(err)  
+        return res.status(400).json({ success: false, message: err.message })
+      } else if (err) {
+        // Handle other errors
+        console.error(err)
+        return res
+          .status(500)
+          .json({ success: false, message: 'Internal server error' })
+      }
+      if (!req.file) {
+        console.log(req.file)
+        return res
+          .status(400)
+          .json({ success: false, message: 'No file uploaded' })
+      }
+
+      const site = await Site.findByIdAndUpdate(
+        req.params.sid,
+        { pictureString: req.file.buffer.toString('base64') },
+        { new: true }
+      )
+      if (!site) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Cannot find site" })
+      }
+
+      res.status(201).json({ success: true, data: site })
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ success: false, message: 'Cannot upload image' })
   }
 }
