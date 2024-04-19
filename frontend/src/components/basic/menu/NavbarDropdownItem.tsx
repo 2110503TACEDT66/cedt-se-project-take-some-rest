@@ -20,6 +20,7 @@ export default function NavbarDropdownItem() {
           <NavbarItem path='/admin/campgrounds'>Campgrounds</NavbarItem>
           <NavbarItem path='/admin/bookings'>Bookings</NavbarItem>
           <NavbarItem path='/admin/users'>Users</NavbarItem>
+          <NavbarItem path='/admin/reviews'>Reviews</NavbarItem>
           <NavbarItem path='/admin/logs'>Logs</NavbarItem>
         </div>
       ) : (
