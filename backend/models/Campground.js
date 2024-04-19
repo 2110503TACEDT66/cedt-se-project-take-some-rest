@@ -39,7 +39,11 @@ const CampgroundSchema = new mongoose.Schema({
     link: String,
   },
   website: String,
-  pictures: [String],
+  // pictures: [String],
+  pictureString: {
+    base64: String,
+    imageFormat: String,
+  },
   facilities: [String],
   amount: {
     type: Number,

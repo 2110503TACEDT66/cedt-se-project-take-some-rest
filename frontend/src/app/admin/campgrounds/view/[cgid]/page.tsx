@@ -114,9 +114,9 @@ export default function AdminViewCampground({
               />
             </div>
             <div className='h-full w-full'>
-              {campground.pictures.length != 0 ? (
+              {campground.pictureString ? (
                 <Image
-                  src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
+                  src={`data:image/png;base64,${campground.pictureString}`}
                   alt={`${campground.name} picture`}
                   width={0}
                   height={0}

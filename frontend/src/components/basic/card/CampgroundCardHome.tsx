@@ -15,9 +15,9 @@ export default function CampgroundCardHome({
       data-testid='card'>
       <Card>
         <div className='flex flex-col'>
-          {campground.pictures.length != 0 ? (
+          {campground.pictureString ? (
             <Image
-              src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
+              src={`data:image/png;base64,${campground.pictureString}`}
               alt={`${campground.name} picture`}
               width={0}
               height={0}

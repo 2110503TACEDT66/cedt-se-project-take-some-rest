@@ -14,7 +14,10 @@ interface CampgroundItem {
     link: string
   }
   website: string
-  pictures: string[]
+  pictureString: {
+    base64: string
+    imageFormat: string
+  }
   facilities: string[]
   amount: number
   averageScore: number
