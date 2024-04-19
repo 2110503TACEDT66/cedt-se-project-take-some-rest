@@ -41,7 +41,7 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
           <p className='block text-cgr-gray-40 font-medium'> no comment </p>
         )}
 
-        {isMyReview ? (
+        {isMyReview || session?.user.role == 'admin' ? (
           <i
             className='bi bi-trash3 ml-auto mt-auto cursor-pointer hover:text-cgr-red transition-colors'
             onClick={handleDelete}></i>
