@@ -25,18 +25,17 @@ export default function Campgrounds() {
     setIsReady(false)
     let queryString = ''
     if (name.trim().length != 0) {
-      queryString += 'name=' + name
+      queryString += '&' + 'name=' + name
     }
     if (province.trim().length != 0) {
-      queryString += 'province=' + province
+      queryString += '&' + 'province=' + province
     }
     if (facilities.trim().length != 0) {
-      queryString += 'facilities=' + facilities
+      queryString += '&' + 'facilities=' + facilities
     }
 
     const campgroundList = await getCampgrounds(queryString)
     setCampgrounds(campgroundList)
-    console.log(province)
     setIsReady(true)
   }
 
