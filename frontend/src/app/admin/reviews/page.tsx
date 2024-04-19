@@ -14,10 +14,8 @@ export default function ReviewTable() {
 
   const fetchData = async () => {
     setIsReady(false)
-    const reviewData: reviewItem[] = (
-      //edit API here (get all review)
-      await  getReviews('66024afe9fd7c52c54b67f49') 
-    ).data
+    const reviewData: reviewItem[] = //edit API here (get all review)
+      (await getReviews('66024afe9fd7c52c54b67f49')).data
     setReview(reviewData)
     setIsReady(true)
   }
@@ -27,14 +25,14 @@ export default function ReviewTable() {
   }, [])
 
   //mock API for report review
-  const reportReviewMock = (review : reviewItem) => {}
-  const report = async (review : reviewItem) => {
+  const reportReviewMock = (review: reviewItem) => {}
+  const report = async (review: reviewItem) => {
     await reportReviewMock(review)
   }
 
   //mock API for delete review
-  const deleteReviewMock = (review : reviewItem) => {}
-  const deleteR = async (review : reviewItem) => {
+  const deleteReviewMock = (review: reviewItem) => {}
+  const deleteR = async (review: reviewItem) => {
     await deleteReviewMock(review)
   }
 
@@ -42,11 +40,9 @@ export default function ReviewTable() {
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
-
       <h1 className='text-cgr-black text-4xl font-bold mb-4'>Reviews</h1>
 
       {/* Request */}
-      
 
       {/* Normal */}
       <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
@@ -63,26 +59,24 @@ export default function ReviewTable() {
         {review.map((obj) => (
           <tr key={obj._id}>
             <td>{obj.comment}</td>
-            <td className='text-center'>
-              {obj.score}
-            </td>
-            <td className='text-center'>
-              {obj.campground.name}
-            </td>
-            <td className='text-center'>
-              {obj.user.name}
-            </td>
+            <td className='text-center'>{obj.score}</td>
+            <td className='text-center'>{obj.campground.name}</td>
+            <td className='text-center'>{obj.user.name}</td>
             <td className='text-center'>
               {session.user.role == 'admin' ? (
                 <i
-                className='bi bi-trash3-fill ml-auto mt-auto cursor-pointer hover:text-cgr-red'
-                onClick={()=>{deleteR(obj)}}></i>
+                  className='bi bi-trash3-fill ml-auto mt-auto cursor-pointer hover:text-cgr-red'
+                  onClick={() => {
+                    deleteR(obj)
+                  }}></i>
               ) : obj.isReport ? (
                 <p className='text-sm'>reported</p>
               ) : (
                 <i
                   className='bi bi-flag-fill ml-auto mt-auto cursor-pointer hover:text-cgr-red'
-                  onClick={()=>{report(obj)}}></i>
+                  onClick={() => {
+                    report(obj)
+                  }}></i>
               )}
             </td>
           </tr>
