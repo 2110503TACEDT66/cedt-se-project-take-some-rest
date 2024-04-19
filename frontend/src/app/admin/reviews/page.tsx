@@ -17,7 +17,8 @@ export default function ReviewTable() {
   const fetchData = async () => {
     setIsReady(false)
     const reviewData: reviewItem[] = (
-      await  getReviews('66024afe9fd7c52c54b67f49') //edit API here (get all review)
+      //edit API here (get all review)
+      await  getReviews('66024afe9fd7c52c54b67f49') 
     ).data
     setReview(reviewData)
     setIsReady(true)
@@ -31,6 +32,12 @@ export default function ReviewTable() {
   const reportReviewMock = (review : reviewItem) => {}
   const report = async (review : reviewItem) => {
     await reportReviewMock(review)
+  }
+
+  //mock API for delete review
+  const deleteReviewMock = (review : reviewItem) => {}
+  const deleteR = async (review : reviewItem) => {
+    await deleteReviewMock(review)
   }
 
   if (!isReady) return <SuspenseUI />
@@ -68,7 +75,11 @@ export default function ReviewTable() {
               {obj.user.name}
             </td>
             <td className='text-center'>
-              {obj.isReport ? (
+              {session.user.role == 'admin' ? (
+                <i
+                className='bi bi-trash3-fill ml-auto mt-auto'
+                onClick={()=>{deleteR(obj)}}></i>
+              ) : obj.isReport ? (
                 <p className='text-sm'>reported</p>
               ) : (
                 <i
