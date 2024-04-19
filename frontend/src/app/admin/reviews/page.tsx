@@ -1,9 +1,7 @@
 'use client'
 
 import SuspenseUI from '@/components/basic/SuspenseUI'
-import getUsers from '@/libs/users/getUsers'
 import { useSession } from 'next-auth/react'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import getReviews from '@/libs/reviews/getReviews'
 
