@@ -75,13 +75,13 @@ export default function ReviewTable() {
             <td className='text-center'>
               {session.user.role == 'admin' ? (
                 <i
-                className='bi bi-trash3-fill ml-auto mt-auto'
+                className='bi bi-trash3-fill ml-auto mt-auto cursor-pointer hover:text-cgr-red'
                 onClick={()=>{deleteR(obj)}}></i>
               ) : obj.isReport ? (
                 <p className='text-sm'>reported</p>
               ) : (
                 <i
-                  className='bi bi-flag-fill ml-auto mt-auto'
+                  className='bi bi-flag-fill ml-auto mt-auto cursor-pointer hover:text-cgr-red'
                   onClick={()=>{report(obj)}}></i>
               )}
             </td>
