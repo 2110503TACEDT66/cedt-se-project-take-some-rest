@@ -38,9 +38,9 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
         </div>
 
         {review.comment ? (
-          <p className='block'>{review.comment}</p>
+          <p className='block text-start'>{review.comment}</p>
         ) : (
-          <div className='block text-slate-400'> No Comment</div>
+          <p className='block text-cgr-gray-40 font-medium'> no comment </p>
         )}
 
         {isMyReview ? (
