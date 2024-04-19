@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const CampgroundSchema = new mongoose.Schema({
+
+  campgroundOwner: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+  },
   name: {
     type: String,
     require: [true, 'Please add a name'],
