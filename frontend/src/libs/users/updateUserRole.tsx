@@ -26,5 +26,9 @@ export default async function updateUserRole(
     throw new Error("Cannot update user's role")
   }
 
+  alert(
+    'Update user role successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

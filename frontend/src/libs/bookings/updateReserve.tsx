@@ -39,5 +39,9 @@ export default async function updateReserve(
     throw new Error('Cannot update booking')
   }
 
+  alert(
+    'Update booking successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

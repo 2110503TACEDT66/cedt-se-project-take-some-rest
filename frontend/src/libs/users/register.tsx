@@ -4,7 +4,6 @@ export default async function register(
   email: string,
   password: string
 ) {
-  console.log('registering')
   const response = await fetch(`${process.env.BACKEND_URL}/api/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -25,6 +24,8 @@ export default async function register(
   if (!response.ok) {
     throw new Error('Cannot register')
   }
+
+  alert('Registered successfully')
 
   return await response.json()
 }

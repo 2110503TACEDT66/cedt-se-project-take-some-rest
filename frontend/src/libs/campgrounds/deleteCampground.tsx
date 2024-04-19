@@ -17,5 +17,9 @@ export default async function deleteCampground(token: string, cgid: string) {
     throw new Error('Cannot delete campground')
   }
 
+  alert(
+    'Delete campground successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

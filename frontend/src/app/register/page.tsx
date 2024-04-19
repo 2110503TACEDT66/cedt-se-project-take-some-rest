@@ -21,7 +21,6 @@ export default function Register() {
         await register(name, tel, email, password)
       }
       callRegister()
-      alert('Registered successfully')
       router.push('/login')
     } else {
       alert('Please provide all required information')

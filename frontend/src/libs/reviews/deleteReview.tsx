@@ -16,5 +16,9 @@ export default async function deleteReview(token: string, rvid: string) {
     throw new Error('Cannot delete review')
   }
 
+  alert(
+    'Delete review successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

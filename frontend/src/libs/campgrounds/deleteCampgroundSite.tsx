@@ -20,5 +20,9 @@ export default async function deleteCampgroundSite(
     throw new Error('Cannot delete campground site')
   }
 
+  alert(
+    'Delete campground site successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

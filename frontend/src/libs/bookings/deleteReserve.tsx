@@ -16,5 +16,9 @@ export default async function deleteReserve(token: string, rid: string) {
     throw new Error('Cannot delete reserve')
   }
 
+  alert(
+    'Delete booking successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }
