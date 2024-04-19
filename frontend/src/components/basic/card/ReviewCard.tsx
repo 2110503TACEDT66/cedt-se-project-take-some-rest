@@ -12,7 +12,6 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
   const handleDelete = async () => {
     if (session) {
       await deleteReview(session.user.token, review._id)
-      alert('Successfully delete your review')
     }
     location.reload()
   }
@@ -22,7 +21,6 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
   const report = async () => {
     if (isMyCampGround) {
       await reportReviewMock(review)
-      alert('Successfully report the review')
     }
   }
 
