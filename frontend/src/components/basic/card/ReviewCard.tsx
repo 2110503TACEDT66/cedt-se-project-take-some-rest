@@ -43,7 +43,7 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
 
         {isMyReview ? (
           <i
-            className='bi bi-trash3 ml-auto mt-auto'
+            className='bi bi-trash3 ml-auto mt-auto cursor-pointer hover:text-cgr-red transition-colors'
             onClick={handleDelete}></i>
         ) : review.isReport ? (
           <h1 className='text-sm text-cgr-gray-50 ml-auto mt-auto'>
@@ -51,7 +51,7 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
           </h1>
         ) : isMyCampGround ? (
           <i
-            className='bi bi-flag ml-auto mt-auto'
+            className='bi bi-flag ml-auto mt-auto cursor-pointer hover:text-cgr-red transition-colors'
             onClick={report}></i>
         ) : null }
 
