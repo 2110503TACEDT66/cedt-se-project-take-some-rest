@@ -47,7 +47,7 @@ export default function createReviewPage({
       setCampgroundImage(`data:image/png;base64,${campground.pictureString}`)
     }
     fetchCampgroundName()
-  })
+  }, [])
 
   console.log(campgroundImage)
 
@@ -56,7 +56,7 @@ export default function createReviewPage({
       <div className='w-1/2'>
         <Card>
           <div className='w-full h-60 relative rounded-t-xl'>
-            {campgroundImage == '' ? (
+            {campgroundImage != '' ? (
               <Image
                 src={campgroundImage}
                 alt={`${campgroundName} picture`}
