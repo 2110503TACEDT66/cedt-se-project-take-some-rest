@@ -84,9 +84,6 @@ export default function CreateBooking({
         }
       }
       callAPI()
-      alert(
-        `${title} booking successfully. Please refresh the profile page if your data is not updated`
-      )
       router.back()
     } else {
       alert('Please provide all required information')

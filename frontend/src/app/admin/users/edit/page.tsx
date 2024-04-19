@@ -31,18 +31,12 @@ export default function EditUser() {
   const [role, setRole] = useState('')
   // const [password, setPassword] = useState('')
 
-  const submit = () => {
+  const submit = async () => {
     if (name && tel && email && role) {
-      const callRegister = async () => {
-        if (paramsUid) {
-          await updateUser(session.user.token, paramsUid, name, tel, email)
-          await updateUserRole(session.user.token, paramsUid, role)
-        }
+      if (paramsUid) {
+        await updateUser(session.user.token, paramsUid, name, tel, email)
+        await updateUserRole(session.user.token, paramsUid, role)
       }
-      callRegister()
-      alert(
-        'Update data successfully. Please refresh the the page if your data is not updated'
-      )
       router.back()
     } else {
       alert('Please provide all required information')

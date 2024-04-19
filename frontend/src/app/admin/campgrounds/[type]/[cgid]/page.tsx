@@ -101,7 +101,7 @@ export default function createCampground({
       }
       const callAPI = async () => {
         if (params.type === 'create') {
-          createCampgroundSite(
+          await createCampgroundSite(
             session.user.token,
             params.cgid,
             zone,
@@ -110,7 +110,7 @@ export default function createCampground({
           )
         } else {
           if (!sid) return null
-          updateCampgroundSite(
+          await updateCampgroundSite(
             session.user.token,
             params.cgid,
             sid,
@@ -122,9 +122,6 @@ export default function createCampground({
       }
       callAPI()
       router.push(`/admin/campgrounds/view/${params.cgid}`)
-      alert(
-        `${title} campground site successfully. Please refresh page if your data is not updated`
-      )
     }
   }
 

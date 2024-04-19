@@ -13,5 +13,9 @@ export default async function deleteLog(token: string, lid: string) {
     throw new Error('Cannot delete log')
   }
 
+  alert(
+    'Delete log successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

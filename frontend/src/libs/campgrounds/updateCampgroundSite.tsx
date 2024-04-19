@@ -34,5 +34,9 @@ export default async function updateCampgroundSite(
     throw new Error('Cannot update campground site')
   }
 
+  alert(
+    'Update campground site successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

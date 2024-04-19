@@ -30,9 +30,7 @@ export default function EditProfile() {
         await updateMe(session.user.token, name, tel, email)
       }
       callRegister()
-      alert(
-        'Update data successfully. Please refresh the profile page if your data is not updated'
-      )
+
       router.back()
     } else {
       alert('Please provide all required information')

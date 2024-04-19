@@ -96,12 +96,12 @@ export default function UsersTable() {
                           `Are you sure you want to approve this user's request ?`
                         )
                       ) {
-                        window.location.reload()
-                        updateUserRole(
+                        await updateUserRole(
                           session.user.token,
                           obj._id,
                           'campgroundOwner'
                         )
+                        window.location.reload()
                       }
                     }}>
                     Accept
@@ -116,8 +116,8 @@ export default function UsersTable() {
                           `Are you sure you want to reject this user's request ?`
                         )
                       ) {
+                        await rejectRequest(session.user.token, obj._id)
                         window.location.reload()
-                        rejectRequest(session.user.token, obj._id)
                       }
                     }}>
                     Decline

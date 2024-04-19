@@ -22,5 +22,9 @@ export default async function rejectRequest(token: string, uid: string) {
     throw new Error("Cannot reject user's request")
   }
 
+  alert(
+    "Reject user's request successfully. Please refresh the page if data is not updated."
+  )
+
   return await response.json()
 }

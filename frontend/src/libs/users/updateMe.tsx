@@ -32,5 +32,9 @@ export default async function updateMe(
     throw new Error("Cannot update user's profile")
   }
 
+  alert(
+    'Update profile successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }
