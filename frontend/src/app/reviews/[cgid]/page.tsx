@@ -27,13 +27,10 @@ export default function createReviewPage({
   const submit = () => {
     if (params.cgid && rating) {
       const callAPI = async () => {
-        //add POST API here
         await createReview(session.user.token, params.cgid, rating, reviewText)
       }
       callAPI()
-      alert(
-        `Create review successfully. Please refresh page if you can't see your review.`
-      )
+
       router.push(`/campgrounds/view/${params.cgid}`)
     } else {
       alert('Please provide rating')

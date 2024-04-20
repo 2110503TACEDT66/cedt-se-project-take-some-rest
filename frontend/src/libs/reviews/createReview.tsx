@@ -30,5 +30,9 @@ export default async function createReview(
     throw new Error('Cannot create review')
   }
 
+  alert(
+    `Create review successfully. Please refresh the page if data is not updated.`
+  )
+
   return await response.json()
 }

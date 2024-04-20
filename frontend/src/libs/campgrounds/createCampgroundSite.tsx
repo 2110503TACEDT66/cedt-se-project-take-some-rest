@@ -33,5 +33,9 @@ export default async function createCampgroundSite(
     throw new Error('Cannot create campground site')
   }
 
+  alert(
+    'Create campground site successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

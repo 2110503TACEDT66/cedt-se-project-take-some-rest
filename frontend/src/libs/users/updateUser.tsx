@@ -27,5 +27,9 @@ export default async function updateUser(
     throw new Error("Cannot update user's profile")
   }
 
+  alert(
+    'Update user successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

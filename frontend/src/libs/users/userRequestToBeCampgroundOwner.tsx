@@ -19,5 +19,7 @@ export default async function userRequestToBeCampgroundOwner(token: string) {
     throw new Error('Cannot request to be a campground owner')
   }
 
+  alert('Request to be a campground owner successfully.')
+
   return await response.json()
 }

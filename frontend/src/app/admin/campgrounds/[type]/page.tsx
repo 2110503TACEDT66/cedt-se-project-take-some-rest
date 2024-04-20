@@ -21,6 +21,7 @@ import getProvinces from '@/libs/thaidatas/getProvinces'
 import getDistricts from '@/libs/thaidatas/getDistricts'
 import getSubDistricts from '@/libs/thaidatas/getSubDistricts'
 import NoPermissionUI from '@/components/basic/NoPermissionUI'
+import uploadCampgroundImage from '@/libs/campgrounds/uploadCampgroundImage'
 export default function CreateCampground({
   params,
 }: {
@@ -170,7 +171,7 @@ export default function CreateCampground({
           }
         } else {
           if (!paramsCgid) return null
-          updateCampground(
+          await updateCampground(
             session.user.token,
             paramsCgid,
             name,
@@ -181,16 +182,7 @@ export default function CreateCampground({
           )
           if (image) {
             try {
-              const response = await fetch(
-                `${process.env.BACKEND_URL}/api/campgrounds/${paramsCgid}/upload-image`,
-                {
-                  method: 'POST',
-                  headers: {
-                    authorization: `Bearer ${session.user?.token}`,
-                  },
-                  body: image,
-                }
-              )
+              await uploadCampgroundImage(session.user.token, paramsCgid, image)
             } catch (error) {
               console.error('Error enhancing image:', error)
             }
@@ -198,9 +190,6 @@ export default function CreateCampground({
         }
       }
       callAPI()
-      alert(
-        `${title} campground successfully. Please refresh page if your data is not updated`
-      )
       router.push('/admin/campgrounds')
     } else {
       alert('Please provide all required information')

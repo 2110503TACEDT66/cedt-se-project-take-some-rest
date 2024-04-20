@@ -36,5 +36,9 @@ export default async function createReserve(
     throw new Error('Cannot create reserve')
   }
 
+  alert(
+    'Create booking successfully. Please refresh the page if data is not updated.'
+  )
+
   return await response.json()
 }

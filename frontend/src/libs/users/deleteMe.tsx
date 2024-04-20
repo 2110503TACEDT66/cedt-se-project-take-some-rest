@@ -13,5 +13,7 @@ export default async function deleteMe(token: string) {
     throw new Error('Cannot delete your account')
   }
 
+  alert('Delete account successfully.')
+
   return await response.json()
 }

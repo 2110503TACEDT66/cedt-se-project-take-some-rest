@@ -57,6 +57,7 @@ UserSchema.pre(
     await this.model('Reserve').deleteMany({ user: this._id })
     await this.model('Log').deleteMany({ user: this._id })
     await this.model('Review').deleteMany({ user: this._id })
+    await this.model('Campground').deleteMany({ campgroundOwner: this._id })
     next()
   }
 )
