@@ -4,6 +4,7 @@ import Calendar from '@/components/basic/Calendar'
 import Link from 'next/link'
 import getCampgroundSite from '@/libs/campgrounds/getCampgroundSite'
 import getBookedReserves from '@/libs/bookings/getBookedReserves'
+import Image from 'next/image'
 
 export default async function ViewCampgroundSite({
   params,
@@ -100,19 +101,39 @@ export default async function ViewCampgroundSite({
               {`${campgroundSite.size.slength} * ${campgroundSite.size.swidth}`}
             </p>
           </div>
-          <div className='flex flex-wrap justify-between'>
-            <CampgroundDetail
-              address={addressString}
-              googleMap={campground.address.link}
-              website={campground.website}
-              tel={campground.tel}
-              facilities={campground.facilities}
-            />
-            <Link
-              href={`/bookings/create?sid=${params.sid}&cgid=${params.cgid}`}
-              className='right-0 w-full lg:w-fit h-fit self-end mt-5'>
-              <button className='cgr-btn'>Book Now</button>
-            </Link>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+            <div className='flex flex-col justify-start'>
+              <CampgroundDetail
+                address={addressString}
+                googleMap={campground.address.link}
+                website={campground.website}
+                tel={campground.tel}
+                facilities={campground.facilities}
+              />
+              <Link
+                href={`/bookings/create?sid=${params.sid}&cgid=${params.cgid}`}
+                className='left-0 w-full lg:w-fit h-fit mt-5'>
+                <button className='cgr-btn'>Book Now</button>
+              </Link>
+            </div>
+            <div className='w-full col-span-1'>
+              {campgroundSite.pictureString ? (
+                <Image
+                  src={`data:image/png;base64,${campgroundSite.pictureString}`}
+                  alt={`${campgroundSite.zone} picture`}
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  style={{ objectFit: 'cover' }}
+                  className='w-full h-full rounded-lg'></Image>
+              ) : (
+                <div className='rounded-xl shadow-none bg-cgr-gray-10 w-full h-full flex items-center justify-center'>
+                  <div>
+                    <i className='bi bi-image h-full text-3xl'></i>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         {/* site */}

@@ -122,7 +122,10 @@ export default async function ViewCampground({
         <div className='flex flex-row justify-between px-10 pt-5'>
           <p className='px-4 pt-2 text-3xl font font-medium'>
             {' '}
-            Rating : {campground.averageScore.toFixed(1)}{' '}
+            Rating :{' '}
+            {!campground.averageScore
+              ? '0'
+              : campground.averageScore.toFixed(1)}{' '}
           </p>
           {session ? (
             <Link href={`/reviews/${params.cgid}`}>

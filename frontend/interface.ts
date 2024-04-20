@@ -63,6 +63,10 @@ interface CampgroundSiteItem {
     slength: number
     _id: string
   }
+  pictureString: {
+    base64: string
+    imageFormat: string
+  }
 }
 
 interface CampgroundSitesJson {
