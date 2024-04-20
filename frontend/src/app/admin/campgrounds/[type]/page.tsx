@@ -198,19 +198,20 @@ export default function CreateCampground({
 
   // Function for fetch provinces, district, sub-district
   const fetchProvinces = async () => {
-    const provinces = await getProvinces()
-    const provinceList: optionType[] = provinces.map((element: any) => ({
-      id: element.id,
-      name: element.name_en,
-    }))
-    setProvincesList(provinceList)
+    const fetchedProvinces = await getProvinces()
+    setProvincesList(
+      fetchedProvinces.map((element: any) => ({
+        id: element.id,
+        name: element.name_en,
+      }))
+    )
   }
 
   const fetchDistrict = async () => {
     if (province) {
-      const districts = await getDistricts(province.id)
+      const fetchedDistricts = await getDistricts(province.id)
       setDistrictsList(
-        districts.map((element: any) => ({
+        fetchedDistricts.map((element: any) => ({
           id: element.id,
           name: element.name_en,
         }))
@@ -220,9 +221,9 @@ export default function CreateCampground({
 
   const fetchSubDistrict = async () => {
     if (district) {
-      const subdistricts = await getSubDistricts(district.id)
+      const fetchedSubdistricts = await getSubDistricts(district.id)
       setSubDistrictsList(
-        subdistricts.map((element: any) => ({
+        fetchedSubdistricts.map((element: any) => ({
           id: element.id,
           name: element.name_en,
         }))
@@ -231,32 +232,58 @@ export default function CreateCampground({
   }
 
   useEffect(() => {
-    fetchProvinces()
-
     if (params.type === 'edit') {
       if (!paramsCgid) return
       const fetchData = async () => {
+        setIsReady(false)
         const campground = (await getCampground(paramsCgid)).data
+        // console.log(campground)
 
-        if (provincesList.length === 0) {
-          await fetchProvinces()
-        }
-        let currentProvince = provincesList.find((province) => {
-          province.name === campground.address.province
-        })
+        // Fetch and set province data & find current province
+        const fetchedProvinces = (await getProvinces()).map((element: any) => ({
+          id: element.id,
+          name: element.name_en,
+        }))
+        setProvincesList(fetchedProvinces)
+        let currentProvince = fetchedProvinces.find(
+          (province: optionType) =>
+            province.name === campground.address.province
+        )
+        setProvince(currentProvince)
+        // console.log(currentProvince)
         if (!currentProvince) return
-        await fetchDistrict()
 
-        let currentDistrict = districtsList.find((district) => {
-          district.name === campground.address.district
-        })
+        // Fetch and set district data & find current district
+        const fetchedDistricts = (await getDistricts(currentProvince.id)).map(
+          (element: any) => ({
+            id: element.id,
+            name: element.name_en,
+          })
+        )
+        setDistrictsList(fetchedDistricts)
+        let currentDistrict = fetchedDistricts.find(
+          (district: optionType) =>
+            district.name === campground.address.district
+        )
+        setDistrict(currentDistrict)
         if (!currentDistrict) return
-        await fetchSubDistrict()
+        // console.log(currentDistrict)
 
-        let currentSubDistrict = subDistrictsList.find((subdistrict) => {
-          subdistrict.name === campground.address.subDistrict
-        })
+        // Fetch and set subdistrict data & find current subdistrict
+        const fetchedSubdistricts = (
+          await getSubDistricts(currentDistrict.id)
+        ).map((element: any) => ({
+          id: element.id,
+          name: element.name_en,
+        }))
+        setSubDistrictsList(fetchedSubdistricts)
+        let currentSubDistrict = fetchedSubdistricts.find(
+          (subdistrict: optionType) =>
+            subdistrict.name === campground.address.subDistrict
+        )
+        setSubdistrict(currentSubDistrict)
         if (!currentSubDistrict) return
+        // console.log(currentSubDistrict)
 
         setName(campground.name)
         setTel(campground.tel)
@@ -264,9 +291,6 @@ export default function CreateCampground({
         setHouseNum(campground.address.houseNumber)
         setLane(campground.address.lane)
         setRoad(campground.address.road)
-        setSubdistrict(currentSubDistrict)
-        setDistrict(currentDistrict)
-        setProvince(currentProvince)
         setPostalCode(campground.address.postalCode)
         for (let facility of facilitiesList) {
           if (campground.facilities.includes(facility)) {
@@ -275,11 +299,13 @@ export default function CreateCampground({
             setFacilities(newFacilities)
           }
         }
+        setIsReady(true)
       }
-      fetchData()
-    }
 
-    setIsReady(true)
+      fetchData()
+    } else {
+      fetchProvinces()
+    }
   }, [])
 
   useEffect(() => {
@@ -384,13 +410,9 @@ export default function CreateCampground({
                       setProvince({ name: newValue.name, id: newValue.id })
                     }
                   }}
+                  value={province}
                   renderInput={(params) => (
-                    <TextField
-                      required
-                      {...params}
-                      label='Province'
-                      value={province?.name}
-                    />
+                    <TextField required {...params} label='Province' />
                   )}
                 />
                 <Autocomplete
@@ -404,13 +426,9 @@ export default function CreateCampground({
                       setDistrict({ name: newValue.name, id: newValue.id })
                     }
                   }}
+                  value={district}
                   renderInput={(params) => (
-                    <TextField
-                      required
-                      {...params}
-                      label='District'
-                      value={district?.name}
-                    />
+                    <TextField required {...params} label='District' />
                   )}
                 />
                 <Autocomplete
@@ -424,13 +442,9 @@ export default function CreateCampground({
                       setSubdistrict({ name: newValue.name, id: newValue.id })
                     }
                   }}
+                  value={subdistrict}
                   renderInput={(params) => (
-                    <TextField
-                      required
-                      {...params}
-                      label='Sub-district'
-                      value={subdistrict?.name}
-                    />
+                    <TextField required {...params} label='Sub-district' />
                   )}
                 />
                 <TextField
