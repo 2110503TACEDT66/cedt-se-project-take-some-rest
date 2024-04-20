@@ -73,7 +73,7 @@ export default function CampgroundDetail({
 
       {/* tag */}
       <h1 className='text-md font-medium'>Facilities</h1>
-      <div className='flex flex-row gap-3'>
+      <div className='flex flex-wrap gap-3'>
         {facilities.map((obj) => (
           <Tag size='sm' key={obj}>
             {obj}
