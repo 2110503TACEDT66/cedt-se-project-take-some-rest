@@ -41,24 +41,28 @@ export default function createReviewPage({
     const fetchCampgroundName = async () => {
       const campground: CampgroundItem = (await getCampground(params.cgid)).data
       setCampgroundName(campground.name)
-      setCampgroundImage(
-        `${process.env.BACKEND_URL}/images/${campground.pictures[0]}`
-      )
+      setCampgroundImage(`data:image/png;base64,${campground.pictureString}`)
     }
     fetchCampgroundName()
-  })
+  }, [])
+
+  console.log(campgroundImage)
 
   return (
     <main className='flex justify-center py-12'>
       <div className='w-1/2'>
         <Card>
           <div className='w-full h-60 relative rounded-t-xl'>
-            <Image
-              src={campgroundImage}
-              alt={`${campgroundName} picture`}
-              fill={true}
-              className='object-cover rounded-t-xl'
-            />
+            {campgroundImage != '' ? (
+              <Image
+                src={campgroundImage}
+                alt={`${campgroundName} picture`}
+                fill={true}
+                className='object-cover rounded-t-xl'
+              />
+            ) : (
+              <div className='w-full h-full bg-cgr-dark-green rounded-t-xl'></div>
+            )}
           </div>
           <h1 className='text-3xl font-semibold text-cgr-dark-green flex justify-center pt-5 pb-2'>
             {campgroundName}

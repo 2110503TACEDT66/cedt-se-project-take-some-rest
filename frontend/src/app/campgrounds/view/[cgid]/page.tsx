@@ -69,9 +69,9 @@ export default async function ViewCampground({
               />
             </div>
             <div className='h-full w-full'>
-              {campground.pictures.length != 0 ? (
+              {campground.pictureString ? (
                 <Image
-                  src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
+                  src={`data:image/png;base64,${campground.pictureString}`}
                   alt={`${campground.name} picture`}
                   width={0}
                   height={0}
@@ -79,7 +79,7 @@ export default async function ViewCampground({
                   style={{ objectFit: 'cover' }}
                   className='w-full h-full rounded-lg'></Image>
               ) : (
-                <div className='w-1/4 rounded-xl shadow-none bg-cgr-gray-10 w-full h-full flex items-center justify-center'>
+                <div className='rounded-xl shadow-none bg-cgr-gray-10 w-full h-full flex items-center justify-center'>
                   <div>
                     <i className='bi bi-image h-full text-3xl'></i>
                   </div>
@@ -122,7 +122,10 @@ export default async function ViewCampground({
         <div className='flex flex-row justify-between px-10 pt-5'>
           <p className='px-4 pt-2 text-3xl font font-medium'>
             {' '}
-            Rating : {campground.averageScore.toFixed(1)}{' '}
+            Rating :{' '}
+            {!campground.averageScore
+              ? '0'
+              : campground.averageScore.toFixed(1)}{' '}
           </p>
           {session ? (
             <Link href={`/reviews/${params.cgid}`}>

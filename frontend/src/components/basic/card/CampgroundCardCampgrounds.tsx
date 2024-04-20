@@ -53,9 +53,9 @@ export default function CampgroundCardCampgrounds({
       className='hover:scale-105 duration-300'>
       <Card>
         <div className='p-0 flex flex-row'>
-          {campground.pictures && campground.pictures.length != 0 ? (
+          {campground.pictureString ? (
             <Image
-              src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
+              src={`data:image/png;base64,${campground.pictureString}`}
               alt={`${campground.name} picture`}
               width={0}
               height={0}

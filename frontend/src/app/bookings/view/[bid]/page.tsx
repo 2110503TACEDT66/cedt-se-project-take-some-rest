@@ -100,16 +100,16 @@ export default function BookingView({ params }: { params: { bid: string } }) {
                 {booking.site.size.slength + ' * ' + booking.site.size.swidth}
               </p>
             </div>
-            {campground.pictures && campground.pictures.length != 0 ? (
+            {campground.pictureString ? (
               <Image
-                src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
+                src={`data:image/png;base64,${campground.pictureString}`}
                 alt={'Campground pic'}
                 width={400}
                 height={200}
                 className='object-cover rounded-xl w-full h-full'
               />
             ) : (
-              <div className='w-1/4 rounded-xl shadow-none bg-cgr-gray-10 w-full h-full flex items-center justify-center'>
+              <div className='rounded-xl shadow-none bg-cgr-gray-10 w-full h-full flex items-center justify-center'>
                 <div>
                   <i className='bi bi-image h-full text-3xl'></i>
                 </div>

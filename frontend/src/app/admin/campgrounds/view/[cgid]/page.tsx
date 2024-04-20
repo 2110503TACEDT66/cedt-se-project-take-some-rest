@@ -114,9 +114,9 @@ export default function AdminViewCampground({
               />
             </div>
             <div className='h-full w-full'>
-              {campground.pictures.length != 0 ? (
+              {campground.pictureString ? (
                 <Image
-                  src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
+                  src={`data:image/png;base64,${campground.pictureString}`}
                   alt={`${campground.name} picture`}
                   width={0}
                   height={0}
@@ -124,7 +124,7 @@ export default function AdminViewCampground({
                   style={{ objectFit: 'cover' }}
                   className='w-full h-full rounded-lg'></Image>
               ) : (
-                <div className='w-1/4 rounded-xl shadow-none bg-cgr-gray-10 w-full h-full flex items-center justify-center'>
+                <div className='rounded-xl shadow-none bg-cgr-gray-10 w-full h-full flex items-center justify-center'>
                   <div>
                     <i className='bi bi-image h-full text-3xl'></i>
                   </div>

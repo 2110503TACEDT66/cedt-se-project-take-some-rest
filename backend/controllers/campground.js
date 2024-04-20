@@ -1,8 +1,9 @@
 const Campground = require('../models/Campground')
 
 const multer = require('multer')
-const fs = require('fs')
-const path = require('path')
+// const fs = require('fs')
+// const path = require('path')
+// const { Buffer } = require('buffer')
 
 // @desc : Get all campgrounds (with filter, sort, select and pagination)
 // @route : GET /api/campgrounds
@@ -228,42 +229,41 @@ exports.deleteCampground = async (req, res, next) => {
   }
 }
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'campgroundImage')
-  },
-  filename: (req, file, cb) => {
-    cb(null, 'campground-image' + '-' + Date.now() + '.png')
-  },
-})
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'campgroundImage')
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, 'campground-image' + '-' + Date.now() + '.png')
+//   },
+// })
 
-const upload = multer({ storage: storage })
+const upload = multer().single('file')
 
 exports.uploadCampgroundImage = async (req, res, next) => {
   try {
-    upload.single('file')(req, res, async function (err) {
-      if (err) {
-        console.error('File upload error:', err)
+    upload(req, res, async function (err) {
+      // Call the multer middleware to handle file upload
+      if (err instanceof multer.MulterError) {
+        // Handle multer errors
+        return res.status(400).json({ success: false, message: err.message })
+      } else if (err) {
+        // Handle other errors
+        console.error(err)
         return res
-          .status(400)
-          .json({ success: false, message: 'Error uploading file' })
+          .status(500)
+          .json({ success: false, message: 'Internal server error' })
       }
-
-      // Multer middleware has processed the file, and req.file is available here
       if (!req.file) {
+        console.log(req.file)
         return res
           .status(400)
           .json({ success: false, message: 'No file uploaded' })
       }
 
-      // console.log(req.file);
-
-      // Assuming req.file is available and contains the uploaded file information
-      req.body.image = req.file.filename
-
       const campground = await Campground.findByIdAndUpdate(
         req.params.cgid,
-        { $addToSet: { pictures: req.body.image } },
+        { pictureString: req.file.buffer.toString('base64') },
         { new: true }
       )
       if (!campground) {

@@ -25,6 +25,10 @@ const SiteSchema = new mongoose.Schema({
       },
     },
   },
+  pictureString: {
+    base64: String,
+    imageFormat: String,
+  },
 })
 
 // Delete site
