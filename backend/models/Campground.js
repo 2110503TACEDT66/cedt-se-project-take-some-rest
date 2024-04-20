@@ -74,6 +74,10 @@ CampgroundSchema.pre(
     await this.model('Reserve').deleteMany({ campground: this._id })
     await this.model('Site').deleteMany({ campground: this._id })
     await this.model('Review').deleteMany({ campground: this._id })
+    await this.model('User').updateMany(
+      { bookmarkCampgrounds: this._id },
+      { $pull: { bookmarkCampgrounds: this._id } }
+    ) 
     next()
   }
 )
