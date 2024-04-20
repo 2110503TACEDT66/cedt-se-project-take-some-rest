@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const CampgroundSchema = new mongoose.Schema({
+
+  campgroundOwner: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+  },
   name: {
     type: String,
     require: [true, 'Please add a name'],
@@ -69,6 +74,10 @@ CampgroundSchema.pre(
     await this.model('Reserve').deleteMany({ campground: this._id })
     await this.model('Site').deleteMany({ campground: this._id })
     await this.model('Review').deleteMany({ campground: this._id })
+    await this.model('User').updateMany(
+      { bookmarkCampgrounds: this._id },
+      { $pull: { bookmarkCampgrounds: this._id } }
+    ) 
     next()
   }
 )
