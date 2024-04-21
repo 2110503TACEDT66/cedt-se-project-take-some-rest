@@ -150,9 +150,9 @@ exports.getMyCampgrounds = async (req, res, next) => {
       /\b(gt|gte|lt|lte|in)\b/g,
       (match) => `$${match}`
     )
-    
+
     let queryjson = JSON.parse(queryStr)
-    if(req.user.role != 'admin'){
+    if (req.user.role != 'admin') {
       queryjson.campgroundOwner = req.user.id
     }
     query = Campground.find(queryjson)
@@ -295,6 +295,17 @@ exports.updateCampground = async (req, res, next) => {
     delete req.body.pictures
     delete req.body.sites
     delete req.body.amount
+    delete req.body.campgroundOwner
+
+    if (req.user.role == 'campgroundOwner') {
+      const campgroundData = await Campground.findById(req.params.id)
+      if (campgroundData.campgroundOwner != req.user.id) {
+        return res.status(400).json({
+          success: false,
+          message: 'User is not authorized to update this campground',
+        })
+      }
+    }
 
     const campground = await Campground.findByIdAndUpdate(
       req.params.id,
@@ -311,6 +322,7 @@ exports.updateCampground = async (req, res, next) => {
 
     return res.status(200).json({ success: true, data: campground })
   } catch (err) {
+    console.log(err)
     return res.status(500).json({ success: false })
   }
 }
