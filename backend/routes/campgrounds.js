@@ -42,7 +42,7 @@ router
   .get(getCampgrounds)
   .post(protect, authorize('admin', 'campgroundOwner'), createCampground)
 router
-  .route('/:cgoid/mycampground')
+  .route('/my-campground')
   .get(protect, authorize('campgroundOwner','admin') ,getMyCampgrounds)
 router
   .route('/:id')
