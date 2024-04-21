@@ -297,8 +297,14 @@ exports.updateCampground = async (req, res, next) => {
     delete req.body.amount
 
     if(req.user.role == 'campgroundOwner'){
+      const campgroundData = await Campground.findById(req.params.id)
+      if( campgroundData.campgroundOwner != req.user.id){
+        return res.status(400).json({ success: false,message : 'Can not change other people campground'})
+      }
+    }
+    if(req.user.role == 'campgroundOwner'){
       if(req.body.campgroundOwner != req.user.id){
-        return res.status(500).json({ success: false,message : 'Can not change campground owner'})
+        return res.status(400).json({ success: false,message : 'Can not change campground owner'})
       }
     }
 
