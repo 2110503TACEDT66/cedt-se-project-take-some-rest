@@ -245,7 +245,10 @@ exports.createReserve = async (req, res, next) => {
 //@Access : Admin & Private (Me)
 exports.updateReserve = async (req, res, next) => {
   try {
-    let reserve = await Reserve.findById(req.params.rid)
+    let reserve = await Reserve.findById(req.params.rid).populate({
+      path: 'campground',
+      select: 'campgroundOwner',
+    })
 
     if (!reserve) {
       return res.status(404).json({
@@ -255,7 +258,11 @@ exports.updateReserve = async (req, res, next) => {
     }
 
     //make sure user is the appointment owner
-    if (reserve.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    if (
+      reserve.user.toString() !== req.user.id &&
+      req.user.role !== 'admin' &&
+      reserve.campground.campgroundOwner.toString() !== req.user.id
+    ) {
       return res.status(403).json({
         success: false,
         message: 'User is not authorized to update this reserve',
