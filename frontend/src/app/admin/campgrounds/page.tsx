@@ -1,7 +1,7 @@
 'use client'
 
 import SuspenseUI from '@/components/basic/SuspenseUI'
-import getCampgrounds from '@/libs/campgrounds/getCampgrounds'
+import getMyCampgrounds from '@/libs/campgrounds/getCampgrounds'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -24,7 +24,7 @@ export default function CampgroundsTable() {
     setIsReady(false)
     var queryString = query.length != 0 ? `name=${query}` : ''
     const campgroundFromFetch: CampgroundItem[] = (
-      await getCampgrounds(queryString)
+      await getMyCampgrounds(queryString)
     ).data
     setCampground(campgroundFromFetch)
     setIsReady(true)
