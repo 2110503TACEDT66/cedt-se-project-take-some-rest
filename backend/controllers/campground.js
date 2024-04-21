@@ -296,6 +296,12 @@ exports.updateCampground = async (req, res, next) => {
     delete req.body.sites
     delete req.body.amount
 
+    if(req.user.role == 'campgroundOwner'){
+      if(req.body.campgroundOwner != req.user.id){
+        return res.status(500).json({ success: false,message : 'Can not change campground owner'})
+      }
+    }
+
     const campground = await Campground.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -311,6 +317,7 @@ exports.updateCampground = async (req, res, next) => {
 
     return res.status(200).json({ success: true, data: campground })
   } catch (err) {
+    console.log(err)
     return res.status(500).json({ success: false })
   }
 }
