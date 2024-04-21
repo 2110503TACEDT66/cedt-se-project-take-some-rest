@@ -12,6 +12,7 @@ const {
   updateCampground,
   deleteCampground,
   uploadCampgroundImage,
+  getMyCampgrounds,
 } = require('../controllers/campground')
 
 // Import Campground controllers
@@ -40,6 +41,9 @@ router
   .route('/')
   .get(getCampgrounds)
   .post(protect, authorize('admin', 'campgroundOwner'), createCampground)
+router
+  .route('/:cgoid')
+  .get(protect, authorize('campgroundOwner') ,getMyCampgrounds)
 router
   .route('/:id')
   .get(getCampground)
