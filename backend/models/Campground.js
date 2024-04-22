@@ -44,11 +44,6 @@ const CampgroundSchema = new mongoose.Schema({
     link: String,
   },
   website: String,
-  // pictures: [String],
-  pictureString: {
-    base64: String,
-    imageFormat: String,
-  },
   facilities: [String],
   amount: {
     type: Number,
@@ -67,6 +62,11 @@ const CampgroundSchema = new mongoose.Schema({
       ref: 'Site',
     },
   ],
+  // pictures: [String],
+  pictureString: {
+    base64: String,
+    imageFormat: String,
+  },
 })
 
 // Delete CAmpground
