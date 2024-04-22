@@ -9,6 +9,7 @@ import deleteReview from '@/libs/reviews/deleteReview'
 export default function ReviewTable() {
   const { data: session } = useSession()
   if (!session || !session.user.token) return null
+  if (session.user.role == 'user') return null
 
   const [isReady, setIsReady] = useState(false)
   const [review, setReview] = useState<reviewItem[]>([])
@@ -35,7 +36,7 @@ export default function ReviewTable() {
     await deleteReview(session.user.token, review._id)
   }
 
-  //mock API for delete review
+  //mock API for ignore reported review
   const ignoreReviewMock = (review: reviewItem) => {}
   const handleIgnore = async (review: reviewItem) => {
     await ignoreReviewMock(review)
