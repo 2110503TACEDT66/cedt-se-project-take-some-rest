@@ -277,9 +277,9 @@ exports.createCampground = async (req, res, next) => {
     req.body.sites = []
     req.body.pictures = []
 
-    if (req.user.role == 'campgroundOwner') {
-      req.body.campgroundOwner = req.user.id
-    }
+    
+    req.body.campgroundOwner = req.user.id
+    
 
     const campground = await Campground.create(req.body)
 
