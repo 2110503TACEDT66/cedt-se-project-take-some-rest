@@ -334,6 +334,15 @@ exports.deleteCampground = async (req, res, next) => {
   try {
     const campground = await Campground.findById(req.params.id)
 
+    if (req.user.role == 'campgroundOwner') {
+      if (campground.campgroundOwner != req.user.id) {
+        return res.status(400).json({
+          success: false,
+          message: 'User is not authorized to delete this campground',
+        })
+      }
+    }
+
     if (!campground) {
       return res.status(404).json({ success: false })
     }
