@@ -9,7 +9,7 @@ import deleteReview from '@/libs/reviews/deleteReview'
 export default function ReviewTable() {
   const { data: session } = useSession()
   if (!session || !session.user.token) return null
-  if (session.user.role == 'user') return null
+  if (session.user.role == 'customer') return null
 
   const [isReady, setIsReady] = useState(false)
   const [review, setReview] = useState<reviewItem[]>([])
