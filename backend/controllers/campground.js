@@ -277,6 +277,10 @@ exports.createCampground = async (req, res, next) => {
     req.body.sites = []
     req.body.pictures = []
 
+    
+    req.body.campgroundOwner = req.user.id
+    
+
     const campground = await Campground.create(req.body)
 
     return res.status(201).json({ success: true, data: campground })
