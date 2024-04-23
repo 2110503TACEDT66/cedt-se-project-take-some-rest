@@ -1,7 +1,7 @@
 const Site = require('../models/Site')
 const Reserve = require('../models/Reserve')
 const User = require('../models/User')
-const { getMyCampgrounds } = require('./campground')
+const Campground = require('../models/Campground')
 
 // @desc    Get a reserve
 // @route   GET /api/reserves/:rid
@@ -60,7 +60,6 @@ exports.getReserves = async (req, res, next) => {
 
     // Loop over to remove fields and delete from reqQuery
     removeFields.forEach((param) => delete reqQuery[param])
-    
 
     let queryStr = JSON.stringify(reqQuery)
 
@@ -72,11 +71,22 @@ exports.getReserves = async (req, res, next) => {
 
     queryStr = JSON.parse(queryStr)
 
-    if(req.user.role == 'campgroundOwner') {
-      queryStr.campgroundOwner = req.user.id
-    } else if (req.user.role !== 'admin'){
+    if (req.user.role == 'campgroundOwner') {
+      const myCampground = await Campground.find({
+        campgroundOwner: req.user.id,
+      }).select('_id')
+
+      let myCampgroundArray = []
+      for (let obj of Array.from(myCampground)) {
+        myCampgroundArray.push(obj.id.toString())
+      }
+
+      queryStr.campground = {
+        $in: myCampgroundArray,
+      }
+    } else if (req.user.role !== 'admin') {
       queryStr.user = req.user.id
-    }else {
+    } else {
       if (req.params.sid && req.params.cgid) {
         queryStr.campground = req.params.cgid
         queryStr.site = req.params.sid
@@ -86,8 +96,7 @@ exports.getReserves = async (req, res, next) => {
         queryStr.user = req.params.uid
       }
     }
-    
-    query = Campground.find(queryjson)
+
     query = Reserve.find(queryStr)
       .populate({
         path: 'campground',
@@ -154,7 +163,7 @@ exports.getReserves = async (req, res, next) => {
       data: reserves,
     })
   } catch (err) {
-    // console.log(err.stack)
+    console.log(err.stack)
     return res.status(500).json({ success: false })
   }
 }
