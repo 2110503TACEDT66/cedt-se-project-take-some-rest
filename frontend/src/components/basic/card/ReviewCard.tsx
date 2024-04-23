@@ -7,11 +7,7 @@ import { useSession } from 'next-auth/react'
 export default function ReviewCard({ review }: { review: reviewItem }) {
   const { data: session } = useSession()
   const isMyReview = session?.user._id === review.user._id
-  var isMyCampGround = false
-  if (review.campground.campgroundOwner!=undefined) {
-    isMyCampGround = session?.user._id == review.campground.campgroundOwner
-  console.log(session?.user._id + " " + review.campground.campgroundOwner)}
-  console.log(review.campground)
+  var isMyCampGround = session?.user._id == review.campground.campgroundOwner
 
   const handleDelete = async () => {
     if (session) {

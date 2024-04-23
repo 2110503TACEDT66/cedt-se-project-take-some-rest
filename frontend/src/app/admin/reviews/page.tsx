@@ -16,7 +16,7 @@ export default function ReviewTable() {
 
   const fetchData = async () => {
     setIsReady(false)
-    const reviewData: reviewItem[] = //edit API here (get all review)
+    const reviewData: reviewItem[] = //edit API here (get my review)
       (await getReviews('66024afe9fd7c52c54b67f49')).data
     setReview(reviewData)
     setIsReady(true)
