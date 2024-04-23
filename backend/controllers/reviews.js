@@ -35,7 +35,7 @@ exports.getReviews = async (req, res, next) => {
     query = Review.find(queryStr)
       .populate({
         path: 'campground',
-        select: 'name tel address',
+        select: 'name tel address campgroundOwner',
       })
       .populate({
         path: 'user',
