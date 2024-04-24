@@ -1,5 +1,6 @@
 // campground --------------------------------------------------------
 interface CampgroundItem {
+  campgroundOwner: string
   _id: string
   name: string
   tel: string
