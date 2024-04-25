@@ -1,6 +1,7 @@
 const Site = require('../models/Site')
 const Reserve = require('../models/Reserve')
 const User = require('../models/User')
+const Campground = require('../models/Campground')
 
 // @desc    Get a reserve
 // @route   GET /api/reserves/:rid
@@ -72,7 +73,20 @@ exports.getReserves = async (req, res, next) => {
 
     queryStr = JSON.parse(queryStr)
 
-    if (req.user.role !== 'admin') {
+    if (req.user.role == 'campgroundOwner') {
+      const myCampground = await Campground.find({
+        campgroundOwner: req.user.id,
+      }).select('_id')
+
+      let myCampgroundArray = []
+      for (let obj of Array.from(myCampground)) {
+        myCampgroundArray.push(obj.id.toString())
+      }
+
+      queryStr.campground = {
+        $in: myCampgroundArray,
+      }
+    } else if (req.user.role !== 'admin') {
       queryStr.user = req.user.id
     } else {
       if (req.params.sid && req.params.cgid) {
@@ -151,7 +165,7 @@ exports.getReserves = async (req, res, next) => {
       data: reserves,
     })
   } catch (err) {
-    // console.log(err.stack)
+    //console.log(err.stack)
     return res.status(500).json({ success: false })
   }
 }
@@ -398,7 +412,7 @@ exports.getBookedReserves = async (req, res, next) => {
       data: reserves,
     })
   } catch (err) {
-    console.log(err.stack)
+    //console.log(err.stack)
     return res.status(400).json({ success: false })
   }
 }
