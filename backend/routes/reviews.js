@@ -10,6 +10,7 @@ const {
   createReview,
   deleteReview,
   reportReview,
+  declineReportedReview,
 } = require('../controllers/reviews')
 
 const { protect, authorize } = require('../middleware/auth')
@@ -29,5 +30,8 @@ router
   .get(getReview)
   .put(protect, authorize('campgroundOwner'), reportReview)
   .delete(protect, deleteReview)
+router
+  .route('/:rvid/report-decline')
+  .put(protect, authorize('admin'), declineReportedReview)
 
 module.exports = router
