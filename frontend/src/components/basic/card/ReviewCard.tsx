@@ -24,14 +24,14 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
     if (!session) return
     if (isMyCampGround) {
       await reportReview(review._id, session.user.token)
+      setReported(true)
     }
   }
-
   useEffect(() => {
-    console.log(review.isReport)
     setReported(review.isReport)
-    console.log(reported)
-  }, [review.isReport])
+  }, [])
+
+  useEffect(() => {}, [reported])
 
   return (
     <div className='w-full h-44 shadow-[7px_7px_12px_#EFEFEF,-7px_-7px_12px_#F7F7F7] rounded-xl bg-white text-[#343434] flex justify-center'>
