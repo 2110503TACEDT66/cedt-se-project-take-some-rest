@@ -107,7 +107,7 @@ export default function ReviewTable() {
                 <i
                   className='bi bi-trash3-fill ml-auto mt-auto cursor-pointer hover:text-cgr-red'
                   onClick={() => {
-                    deleteR(obj)
+                    handleDelete(obj)
                   }}></i>
               ) : obj.isReport ? (
                 <p className='text-sm'>reported</p>
