@@ -18,6 +18,10 @@ exports.getReviews = async (req, res, next) => {
     // Loop over to remove fields and delete from reqQuery
     removeFields.forEach((param) => delete reqQuery[param])
 
+    if (reqQuery.hasOwnProperty('comment')) {
+      reqQuery.comment = { $regex: reqQuery.comment, $options: 'i' }
+    }
+
     let queryStr = JSON.stringify(reqQuery)
 
     // Create operator $gt $gte
@@ -91,6 +95,114 @@ exports.getReviews = async (req, res, next) => {
     })
   } catch (err) {
     console.log(err)
+    res.status(500).json({ success: false, error: 'Server Error' })
+  }
+}
+
+// @desc    Get all reviews (with filter, sort, select and pagination)
+// @route   GET /api/reviews/my-campgrounds
+// @access  Campground Owner
+exports.getMyCampgroundReviews = async (req, res, next) => {
+  try {
+    let query
+
+    // Copy req.query
+    const reqQuery = { ...req.query }
+
+    // Fields to exclude
+    const removeFields = ['select', 'sort', 'page', 'limit']
+
+    // Loop over to remove fields and delete from reqQuery
+    removeFields.forEach((param) => delete reqQuery[param])
+
+    if (reqQuery.hasOwnProperty('comment')) {
+      reqQuery.comment = { $regex: reqQuery.comment, $options: 'i' }
+    }
+
+    let queryStr = JSON.stringify(reqQuery)
+
+    // Create operator $gt $gte
+    queryStr = queryStr.replace(
+      /\b(gt|gte|lt|lte|in)\b/g,
+      (match) => `$${match}`
+    )
+
+    queryStr = JSON.parse(queryStr)
+
+    if (req.user.role == 'campgroundOwner') {
+      const myCampground = await Campground.find({
+        campgroundOwner: req.user.id,
+      }).select('_id')
+
+      let myCampgroundArray = []
+      for (let obj of Array.from(myCampground)) {
+        myCampgroundArray.push(obj.id.toString())
+      }
+
+      queryStr.campground = {
+        $in: myCampgroundArray,
+      }
+    }
+
+    query = Review.find(queryStr)
+      .populate({
+        path: 'campground',
+        select: 'name tel address campgroundOwner',
+      })
+      .populate({
+        path: 'user',
+        select: 'name tel',
+      })
+
+    if (req.query.select) {
+      const fields = req.query.select.split(',').join(' ')
+      query = query.select(fields)
+    }
+
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ')
+      query = query.sort(sortBy)
+    } else {
+      query = query.sort('-createdAt')
+    }
+
+    const page = parseInt(req.query.page, 10) || 1
+    const limit = parseInt(req.query.limit, 10) || 25
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+    const total = await Review.countDocuments()
+
+    query = query.skip(startIndex).limit(limit)
+
+    // Executing query
+    const reviews = await query
+
+    // Pagination result
+    const pagination = {}
+
+    // Check if can goto next or prev page
+    if (endIndex < total) {
+      pagination.next = {
+        page: page + 1,
+        limit,
+      }
+    }
+
+    if (startIndex > 0) {
+      pagination.prev = {
+        page: page - 1,
+        limit,
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      count: reviews.length,
+      pagination,
+      data: reviews,
+    })
+  } catch (err) {
+    //console.log(err)
     res.status(500).json({ success: false, error: 'Server Error' })
   }
 }
@@ -335,9 +447,51 @@ exports.deleteReview = async (req, res, next) => {
 }
 
 // @desc    Request to del review
-// @route   PUT /api/reviews/:rvid/report
+// @route   PUT /api/reviews/:rvid
 // @access  Campground Owner
-exports.reportReview = async (req, res, next) => {}
+exports.reportReview = async (req, res, next) => {
+  try {
+    const review = await Review.findById(req.params.rvid).populate({
+      path: 'campground',
+      select: 'campgroundOwner',
+    })
+    if (!review) {
+      return res.status(404).json({
+        success: false,
+        message: `No review with the id of ${req.params.rvid}`,
+      })
+    }
+
+    //make sure user is the appointment owner
+    if (review.campground.campgroundOwner.toString() !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: 'User is not authorized to report this review',
+      })
+    }
+
+    const thisReview = await Review.findByIdAndUpdate(
+      req.params.rvid,
+      { isReport: true },
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
+
+    if (!thisReview) {
+      return res.status(500).json({
+        success: false,
+        message: 'Cannot update this review',
+      })
+    }
+
+    return res.status(200).json({ success: true, data: thisReview })
+  } catch (err) {
+    //console.log(err.stack)
+    return res.status(500).json({ success: false })
+  }
+}
 
 // @desc    Decline the reported review
 // @route   PUT /api/reviews/:rvid/report-decline
@@ -353,15 +507,16 @@ exports.declineReportedReview = async (req, res, next) => {
       }
     )
 
-    if (!review) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Cannot find this review' })
+    if (!thisReview) {
+      return res.status(500).json({
+        success: false,
+        message: 'Cannot update this review',
+      })
     }
 
-    return res.status(200).json({ success: true, data: review })
+    return res.status(200).json({ success: true, data: thisReview })
   } catch (err) {
-    console.log(err.stack)
+    //console.log(err.stack)
     return res.status(500).json({ success: false })
   }
 }

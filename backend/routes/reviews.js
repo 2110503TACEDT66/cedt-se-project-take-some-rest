@@ -4,6 +4,7 @@ const router = express.Router({ mergeParams: true })
 // Import controller
 const {
   getReviews,
+  getMyCampgroundReviews,
   getReportedReviews,
   getReview,
   createReview,
@@ -15,7 +16,12 @@ const {
 const { protect, authorize } = require('../middleware/auth')
 
 // Review router
-router.route('/').get(getReviews).post(protect, createReview)
+router.route('/')
+  .get(getReviews)
+  .post(protect, createReview)
+router
+  .route('/my-campgrounds')
+  .get(protect, authorize('admin', 'campgroundOwner'), getMyCampgroundReviews)
 router
   .route('/reported-review')
   .get(protect, authorize('admin'), getReportedReviews)
