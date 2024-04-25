@@ -53,7 +53,11 @@ export default function Navbar() {
           ''
         )}
         {session && session.user?.role == 'admin' ? <NavbarDropdownItem /> : ''}
-        {session && session.user?.role == 'campgroundOwner' ? <NavbarDropdownOwner /> : ''}
+        {session && session.user?.role == 'campgroundOwner' ? (
+          <NavbarDropdownOwner />
+        ) : (
+          ''
+        )}
       </div>
       <Link href={`/${loginAction}`} className='hidden lg:block'>
         <div className='text-right text-cgr-dark-green font-bold me-8 w-fill hidden md:block'>
@@ -115,6 +119,11 @@ export default function Navbar() {
 
           {session && session.user?.role == 'admin' ? (
             <NavbarDropdownItem />
+          ) : (
+            ''
+          )}
+          {session && session.user?.role == 'campgroundOwner' ? (
+            <NavbarDropdownOwner />
           ) : (
             ''
           )}
