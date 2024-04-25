@@ -498,7 +498,7 @@ exports.reportReview = async (req, res, next) => {
 // @access  Admin
 exports.declineReportedReview = async (req, res, next) => {
   try {
-    const review = await Review.findByIdAndUpdate(
+    const thisReview = await Review.findByIdAndUpdate(
       req.params.rvid,
       { isReport: false },
       {
@@ -516,7 +516,7 @@ exports.declineReportedReview = async (req, res, next) => {
 
     return res.status(200).json({ success: true, data: thisReview })
   } catch (err) {
-    //console.log(err.stack)
+    console.log(err.stack)
     return res.status(500).json({ success: false })
   }
 }
