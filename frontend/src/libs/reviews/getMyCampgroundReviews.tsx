@@ -1,8 +1,11 @@
-export default async function getMyCampgroundReviews() {
+export default async function getMyCampgroundReviews(token: string) {
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/reviews/my-campgrounds`,
       {
         method: 'GET',
+        headers: {
+            authorization: `Bearer ${token}`,
+        },
         cache: 'no-store',
       }
     )
