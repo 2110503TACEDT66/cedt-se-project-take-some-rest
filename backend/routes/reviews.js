@@ -20,7 +20,7 @@ router.route('/')
   .post(protect, createReview)
 router
   .route('/my-campgrounds')
-  .get(protect, getMyCampgroundReviews)
+  .get(protect, authorize('admin', 'campgroundowner'), getMyCampgroundReviews)
 router
   .route('/reported-review')
   .get(protect, authorize('admin'), getReportedReviews)

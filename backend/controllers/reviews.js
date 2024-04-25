@@ -349,7 +349,7 @@ exports.deleteReview = async (req, res, next) => {
 // @access  Campground Owner
 exports.reportReview = async (req, res, next) => {
   try {
-    let review = await Review.findById(req.params.rvid).populate({
+    const review = await Review.findById(req.params.rvid).populate({
       path: 'campground',
       select: 'campgroundOwner',
     })
@@ -368,7 +368,7 @@ exports.reportReview = async (req, res, next) => {
       })
     }
 
-    review = await Review.findByIdAndUpdate(
+    const thisReview = await Review.findByIdAndUpdate(
       req.params.rvid,
       { isReport: true },
       {
@@ -377,10 +377,11 @@ exports.reportReview = async (req, res, next) => {
       }
     )
 
-    if (!review) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Cannot find this review' })
+    if (!thisReview) {
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Cannot update this review' 
+      })
     }
 
     return res.status(200).json({ success: true, data: review })
