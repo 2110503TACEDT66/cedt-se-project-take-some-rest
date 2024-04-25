@@ -18,6 +18,10 @@ exports.getReviews = async (req, res, next) => {
     // Loop over to remove fields and delete from reqQuery
     removeFields.forEach((param) => delete reqQuery[param])
 
+    if (reqQuery.hasOwnProperty('comment')) {
+      reqQuery.comment = { $regex: reqQuery.comment, $options: 'i' }
+    }
+
     let queryStr = JSON.stringify(reqQuery)
 
     // Create operator $gt $gte
@@ -111,6 +115,10 @@ exports.getMyCampgroundReviews = async (req, res, next) => {
     // Loop over to remove fields and delete from reqQuery
     removeFields.forEach((param) => delete reqQuery[param])
 
+    if (reqQuery.hasOwnProperty('comment')) {
+      reqQuery.comment = { $regex: reqQuery.comment, $options: 'i' }
+    }
+
     let queryStr = JSON.stringify(reqQuery)
 
     // Create operator $gt $gte
@@ -194,7 +202,7 @@ exports.getMyCampgroundReviews = async (req, res, next) => {
       data: reviews,
     })
   } catch (err) {
-    console.log(err)
+    //console.log(err)
     res.status(500).json({ success: false, error: 'Server Error' })
   }
 }
@@ -356,10 +364,10 @@ exports.reportReview = async (req, res, next) => {
     if (!review) {
       return res.status(404).json({
         success: false,
-        message: `No review with the id of ${req.params.rid}`,
+        message: `No review with the id of ${req.params.rvid}`,
       })
     }
-    console.log(review.campground.campgroundOwner.toString())
+
     //make sure user is the appointment owner
     if (review.campground.campgroundOwner.toString() !== req.user.id) {
       return res.status(403).json({
@@ -378,15 +386,15 @@ exports.reportReview = async (req, res, next) => {
     )
 
     if (!thisReview) {
-      return res.status(500).json({ 
-        success: false, 
-        message: 'Cannot update this review' 
+      return res.status(500).json({
+        success: false,
+        message: 'Cannot update this review',
       })
     }
 
-    return res.status(200).json({ success: true, data: review })
+    return res.status(200).json({ success: true, data: thisReview })
   } catch (err) {
-    console.log(err.stack)
+    //console.log(err.stack)
     return res.status(500).json({ success: false })
   }
 }
