@@ -349,7 +349,27 @@ exports.deleteReview = async (req, res, next) => {
 // @access  Campground Owner
 exports.reportReview = async (req, res, next) => {
   try {
-    const review = await Review.findByIdAndUpdate(req.params.rvid,
+    let review = await Review.findById(req.params.rvid).populate({
+      path: 'campground',
+      select: 'campgroundOwner',
+    })
+    if (!review) {
+      return res.status(404).json({
+        success: false,
+        message: `No review with the id of ${req.params.rid}`,
+      })
+    }
+    console.log(review.campground.campgroundOwner.toString())
+    //make sure user is the appointment owner
+    if (review.campground.campgroundOwner.toString() !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: 'User is not authorized to report this review',
+      })
+    }
+
+    review = await Review.findByIdAndUpdate(
+      req.params.rvid,
       { isReport: true },
       {
         new: true,
