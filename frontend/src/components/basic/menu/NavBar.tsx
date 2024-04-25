@@ -5,6 +5,7 @@ import NavbarItem from './NavbarItem'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import NavbarDropdownItem from './NavbarDropdownItem'
+import NavbarDropdownOwner from './NavbarDropdownOwner'
 
 export default function Navbar() {
   const { data: session } = useSession()
@@ -52,6 +53,7 @@ export default function Navbar() {
           ''
         )}
         {session && session.user?.role == 'admin' ? <NavbarDropdownItem /> : ''}
+        {session && session.user?.role == 'campgroundOwner' ? <NavbarDropdownOwner /> : ''}
       </div>
       <Link href={`/${loginAction}`} className='hidden lg:block'>
         <div className='text-right text-cgr-dark-green font-bold me-8 w-fill hidden md:block'>

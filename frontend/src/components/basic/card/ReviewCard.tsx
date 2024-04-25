@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 export default function ReviewCard({ review }: { review: reviewItem }) {
   const { data: session } = useSession()
   const isMyReview = session?.user._id === review.user._id
-  const isMyCampGround = session?.user._id == 'campground.owner.id' //edit after database update
+  var isMyCampGround = session?.user._id == review.campground.campgroundOwner
 
   const handleDelete = async () => {
     if (session) {
@@ -44,7 +44,7 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
         {isMyReview || session?.user.role == 'admin' ? (
           <i
             className='bi bi-trash3 ml-auto mt-auto cursor-pointer hover:text-cgr-red transition-colors'
-            onClick={handleDelete}></i>
+            onClick={() => handleDelete}></i>
         ) : review.isReport ? (
           <h1 className='text-sm text-cgr-gray-50 ml-auto mt-auto'>
             reported
