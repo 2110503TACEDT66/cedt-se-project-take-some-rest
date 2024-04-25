@@ -163,7 +163,7 @@ exports.getReserves = async (req, res, next) => {
       data: reserves,
     })
   } catch (err) {
-    console.log(err.stack)
+    //console.log(err.stack)
     return res.status(500).json({ success: false })
   }
 }
@@ -408,7 +408,7 @@ exports.getBookedReserves = async (req, res, next) => {
       data: reserves,
     })
   } catch (err) {
-    console.log(err.stack)
+    //console.log(err.stack)
     return res.status(400).json({ success: false })
   }
 }
