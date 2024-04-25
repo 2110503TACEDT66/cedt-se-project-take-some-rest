@@ -338,3 +338,30 @@ exports.deleteReview = async (req, res, next) => {
 // @route   PUT /api/reviews/:rvid/report
 // @access  Campground Owner
 exports.reportReview = async (req, res, next) => {}
+
+// @desc    Decline the reported review
+// @route   PUT /api/reviews/:rvid/report-decline
+// @access  Admin
+exports.declineReportedReview = async (req, res, next) => {
+  try {
+    const review = await Review.findByIdAndUpdate(
+      req.params.rvid,
+      { isReport: false },
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
+
+    if (!review) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find this review' })
+    }
+
+    return res.status(200).json({ success: true, data: review })
+  } catch (err) {
+    console.log(err.stack)
+    return res.status(500).json({ success: false })
+  }
+}
