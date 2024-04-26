@@ -116,7 +116,7 @@ export default async function ViewCampgroundSite({
                 <button className='cgr-btn'>Book Now</button>
               </Link>
             </div>
-            <div className='w-full col-span-1'>
+            <div data-cy='siteImage' className='w-full col-span-1'>
               {campgroundSite.pictureString ? (
                 <Image
                   src={`data:image/png;base64,${campgroundSite.pictureString}`}
