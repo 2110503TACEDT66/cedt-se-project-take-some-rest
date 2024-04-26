@@ -67,11 +67,11 @@ export default function CampgroundCardCampgrounds({
           <div className='w-3/4 p-6'>
             {/* Card Title */}
             <div className='mb-4'>
-              <p className='text-2xl font-bold text-cgr-black'>
+              <p className='text-2xl font-bold text-cgr-black' data-cy='Title'>
                 {campground.name}
               </p>
               {campground.address ? (
-                <p className='text-md font-light'>
+                <p className='text-md font-light' data-cy='cardProvince'>
                   {campground.address.province}
                 </p>
               ) : (

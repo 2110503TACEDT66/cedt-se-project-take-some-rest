@@ -100,6 +100,7 @@ export default function FilterButton({
   return (
     <div className='m-0 p-0 z-[90]'>
       <button
+        data-cy='filter'
         className='bg-white px-2 rounded-lg border-2 border-cgr-dark-green text-cgr-dark-green h-full'
         onClick={() => setIsDropdown(!isDropdown)}>
         <i className='bi bi-filter text-3xl'></i>
@@ -112,6 +113,7 @@ export default function FilterButton({
             </div>
             <div className='w-full'>
               <Autocomplete
+                data-cy='provinceType'
                 disablePortal
                 id='province'
                 options={provincesList}
@@ -154,6 +156,7 @@ export default function FilterButton({
             <FormControlLabel
               control={
                 <Checkbox
+                  data-cy='tent'
                   sx={{
                     color: '#339989',
                     '&.Mui-checked': { color: '#339989' },
