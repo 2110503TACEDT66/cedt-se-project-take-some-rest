@@ -7,6 +7,7 @@ import deleteReview from '@/libs/reviews/deleteReview'
 import reportReview from '@/libs/reviews/reportReview'
 import getMyCampgroundReviews from '@/libs/reviews/getMyCampgroundReviews'
 import getReportedReview from '@/libs/reviews/getReportedReview'
+import declineReportedReview from '@/libs/reviews/declineReportedReview'
 
 export default function ReviewTable() {
   const { data: session } = useSession()
@@ -34,7 +35,7 @@ export default function ReviewTable() {
 
   useEffect(() => {
     fetchData()
-    fetchReportedData()
+    if(session.user.role == 'admin') fetchReportedData()
   }, [])
 
   const handleReport = async (review: reviewItem) => {
@@ -42,10 +43,8 @@ export default function ReviewTable() {
     fetchData()
   }
 
-  //mock API for ignore reported review
-  const ignoreReviewMock = (review: reviewItem) => {}
   const handleIgnore = async (review: reviewItem) => {
-    await ignoreReviewMock(review)
+    await declineReportedReview(review._id, session.user.token)
   }
 
   const handleDelete = async (review: reviewItem) => {
