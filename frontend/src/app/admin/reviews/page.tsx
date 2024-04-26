@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import deleteReview from '@/libs/reviews/deleteReview'
 import reportReview from '@/libs/reviews/reportReview'
 import getMyCampgroundReviews from '@/libs/reviews/getMyCampgroundReviews'
+import getReportedReview from '@/libs/reviews/getReportedReview'
 
 export default function ReviewTable() {
   const { data: session } = useSession()
@@ -13,6 +14,7 @@ export default function ReviewTable() {
 
   const [isReady, setIsReady] = useState(false)
   const [review, setReview] = useState<reviewItem[]>([])
+  const [reportedReviews, setReportedReviews] = useState<reviewItem[]>([])
 
   const fetchData = async () => {
     setIsReady(false)
@@ -21,9 +23,18 @@ export default function ReviewTable() {
     setReview(reviewData)
     setIsReady(true)
   }
+  const fetchReportedData = async () => {
+    setIsReady(false)
+    const reviewFromFetch: reviewItem[] = (
+      await getReportedReview(session.user.token)
+    ).data
+    setReportedReviews(reviewFromFetch)
+    setIsReady(true)
+  }
 
   useEffect(() => {
     fetchData()
+    fetchReportedData()
   }, [])
 
   const handleReport = async (review: reviewItem) => {
@@ -61,7 +72,7 @@ export default function ReviewTable() {
           <th className='w-1/12'></th>
           <th className='w-1/12'></th>
         </tr>
-        {review.map((obj) => (
+        {reportedReviews.map((obj) => (
           <tr key={obj._id}>
             <td>{obj.comment}</td>
             <td className='text-center'>{obj.score}</td>
