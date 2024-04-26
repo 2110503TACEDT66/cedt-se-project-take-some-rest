@@ -305,6 +305,7 @@ export default function CreateCampground({
       fetchData()
     } else {
       fetchProvinces()
+      setIsReady(true)
     }
   }, [])
 
