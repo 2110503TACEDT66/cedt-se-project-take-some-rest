@@ -29,6 +29,7 @@ export default function Login() {
         <div className='px-4 md:px-16 lg:px-36 xl:px-40 py-3'>
           <div className='flex flex-col items-center text-lg gap-5 mb-3'>
             <TextField
+              data-cy='email'
               required
               id='email'
               label='Email'
@@ -41,6 +42,7 @@ export default function Login() {
                 setEmail(event.target.value)
               }}></TextField>
             <TextField
+              data-cy='password'
               type='password'
               id='password'
               label='Password'
@@ -56,6 +58,7 @@ export default function Login() {
           </div>
           <div className='flex flex-row mt-4 mb-6'>
             <button
+              data-cy='login'
               className='cgr-btn w-[40%]'
               onClick={() => {
                 if (email && password) {

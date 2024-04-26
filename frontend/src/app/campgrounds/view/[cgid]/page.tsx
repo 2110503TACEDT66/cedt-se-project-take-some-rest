@@ -128,7 +128,7 @@ export default async function ViewCampground({
               : campground.averageScore.toFixed(1)}{' '}
           </p>
           {session ? (
-            <Link href={`/reviews/${params.cgid}`}>
+            <Link data-cy='createReview' href={`/reviews/${params.cgid}`}>
               <button className='cgr-btn'>Add Your Review</button>
             </Link>
           ) : (
