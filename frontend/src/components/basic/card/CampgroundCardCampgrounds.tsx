@@ -49,6 +49,7 @@ export default function CampgroundCardCampgrounds({
 
   return (
     <Link
+      data-cy='campgroundCard'
       href={`/campgrounds/view/${campground._id}`}
       className='hover:scale-105 duration-300'>
       <Card>
@@ -105,9 +106,9 @@ export default function CampgroundCardCampgrounds({
             )}
           </div>
           {session ? (
-            <div className='mt-5 mr-5' onClick={handleClickBookmark}>
+            <div className='mt-5 mr-5' onClick={handleClickBookmark} data-cy='bookmarkButton'>
               {bookmark ? (
-                <i className='bi bi-bookmark-check-fill text-xl'></i>
+                <i data-cy='bookmarked' className='bi bi-bookmark-check-fill text-xl'></i>
               ) : (
                 <i className='bi bi-bookmark-fill text-xl text-[#ECECEC]'></i>
               )}
