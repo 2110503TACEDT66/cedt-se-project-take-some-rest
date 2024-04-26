@@ -3,26 +3,35 @@
 import { Rating } from '@mui/material'
 import deleteReview from '@/libs/reviews/deleteReview'
 import { useSession } from 'next-auth/react'
+import reportReview from '@/libs/reviews/reportReview'
+import { useEffect, useState } from 'react'
 
 export default function ReviewCard({ review }: { review: reviewItem }) {
   const { data: session } = useSession()
   const isMyReview = session?.user._id === review.user._id
   var isMyCampGround = session?.user._id == review.campground.campgroundOwner
 
+  const [reported, setReported] = useState(false)
+
   const handleDelete = async () => {
     if (session) {
       await deleteReview(session.user.token, review._id)
+      location.reload()
     }
-    location.reload()
   }
 
-  //mock API
-  const reportReviewMock = (review : reviewItem) => {}
   const report = async () => {
+    if (!session) return
     if (isMyCampGround) {
-      await reportReviewMock(review)
+      await reportReview(review._id, session.user.token)
+      setReported(true)
     }
   }
+  useEffect(() => {
+    setReported(review.isReport)
+  }, [])
+
+  useEffect(() => {}, [reported])
 
   return (
     <div className='w-full h-44 shadow-[7px_7px_12px_#EFEFEF,-7px_-7px_12px_#F7F7F7] rounded-xl bg-white text-[#343434] flex justify-center'>
@@ -44,17 +53,14 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
         {isMyReview || session?.user.role == 'admin' ? (
           <i
             className='bi bi-trash3 ml-auto mt-auto cursor-pointer hover:text-cgr-red transition-colors'
-            onClick={() => handleDelete}></i>
-        ) : review.isReport ? (
-          <h1 className='text-sm text-cgr-gray-50 ml-auto mt-auto'>
-            reported
-          </h1>
+            onClick={handleDelete}></i>
+        ) : reported ? (
+          <h1 className='text-sm text-cgr-gray-50 ml-auto mt-auto'>reported</h1>
         ) : isMyCampGround ? (
           <i
             className='bi bi-flag ml-auto mt-auto cursor-pointer hover:text-cgr-red transition-colors'
             onClick={report}></i>
-        ) : null }
-
+        ) : null}
       </div>
     </div>
   )

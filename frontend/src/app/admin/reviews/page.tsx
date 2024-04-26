@@ -3,21 +3,21 @@
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
-import getReviews from '@/libs/reviews/getReviews'
 import deleteReview from '@/libs/reviews/deleteReview'
+import reportReview from '@/libs/reviews/reportReview'
+import getMyCampgroundReviews from '@/libs/reviews/getMyCampgroundReviews'
 
 export default function ReviewTable() {
   const { data: session } = useSession()
   if (!session || !session.user.token) return null
-  if (session.user.role == 'customer') return null
 
   const [isReady, setIsReady] = useState(false)
   const [review, setReview] = useState<reviewItem[]>([])
 
   const fetchData = async () => {
     setIsReady(false)
-    const reviewData: reviewItem[] = //edit API here (get my review)
-      (await getReviews('66024afe9fd7c52c54b67f49')).data
+    const reviewData: reviewItem[] = 
+      (await getMyCampgroundReviews(session.user.token)).data
     setReview(reviewData)
     setIsReady(true)
   }
@@ -26,20 +26,20 @@ export default function ReviewTable() {
     fetchData()
   }, [])
 
-  //mock API for report review
-  const reportReviewMock = (review: reviewItem) => {}
   const handleReport = async (review: reviewItem) => {
-    await reportReviewMock(review)
-  }
-
-  const handleDelete = async (review: reviewItem) => {
-    await deleteReview(session.user.token, review._id)
+    await reportReview(review._id, session.user.token)
+    fetchData()
   }
 
   //mock API for ignore reported review
   const ignoreReviewMock = (review: reviewItem) => {}
   const handleIgnore = async (review: reviewItem) => {
     await ignoreReviewMock(review)
+  }
+
+  const handleDelete = async (review: reviewItem) => {
+    await deleteReview(session.user.token, review._id)
+    fetchData()
   }
 
   if (!isReady) return <SuspenseUI />
