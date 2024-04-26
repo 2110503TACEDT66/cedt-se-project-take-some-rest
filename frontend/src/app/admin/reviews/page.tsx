@@ -41,15 +41,19 @@ export default function ReviewTable() {
   const handleReport = async (review: reviewItem) => {
     await reportReview(review._id, session.user.token)
     fetchData()
+    if(session.user.role == 'admin') fetchReportedData()
   }
 
   const handleIgnore = async (review: reviewItem) => {
     await declineReportedReview(review._id, session.user.token)
+    fetchData()
+    if(session.user.role == 'admin') fetchReportedData()
   }
 
   const handleDelete = async (review: reviewItem) => {
     await deleteReview(session.user.token, review._id)
     fetchData()
+    if(session.user.role == 'admin') fetchReportedData()
   }
 
   if (!isReady) return <SuspenseUI />
@@ -60,7 +64,7 @@ export default function ReviewTable() {
 
       {/* Request */}
       {session.user.role == 'admin' ? (
-        <div>
+        <div className='mb-16'>
         <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
         Reported Reviews
       </div>
@@ -76,15 +80,29 @@ export default function ReviewTable() {
             <td>{obj.comment}</td>
             <td className='text-center'>{obj.score}</td>
             <td className='text-center'>
-                <button className='cgr-btn-red'
-                onClick={() => {
-                  handleDelete(obj)
+            <button className='cgr-btn-red'
+                onClick={async () => {
+                  if (
+                    confirm(
+                      `Are you sure you want to delete this review ?`
+                    )
+                  ) {
+                    handleDelete(obj)
+                    window.location.reload()
+                  }
                 }}>Delete</button>
             </td>
             <td className='text-center'>
             <button className='cgr-btn'
-                onClick={() => {
-                  handleIgnore(obj)
+                onClick={async () => {
+                  if (
+                    confirm(
+                      `Are you sure you want to ignore this review ?`
+                    )
+                  ) {
+                    handleIgnore(obj)
+                    window.location.reload()
+                  }
                 }}>Ignore</button>
             </td>
           </tr>
