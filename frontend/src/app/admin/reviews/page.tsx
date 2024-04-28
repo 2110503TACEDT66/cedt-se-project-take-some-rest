@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import deleteReview from '@/libs/reviews/deleteReview'
 import reportReview from '@/libs/reviews/reportReview'
 import getMyCampgroundReviews from '@/libs/reviews/getMyCampgroundReviews'
+import getReportedReview from '@/libs/reviews/getReportedReview'
+import declineReportedReview from '@/libs/reviews/declineReportedReview'
 
 export default function ReviewTable() {
   const { data: session } = useSession()
@@ -13,6 +15,7 @@ export default function ReviewTable() {
 
   const [isReady, setIsReady] = useState(false)
   const [review, setReview] = useState<reviewItem[]>([])
+  const [reportedReviews, setReportedReviews] = useState<reviewItem[]>([])
 
   const fetchData = async () => {
     setIsReady(false)
@@ -21,25 +24,36 @@ export default function ReviewTable() {
     setReview(reviewData)
     setIsReady(true)
   }
+  const fetchReportedData = async () => {
+    setIsReady(false)
+    const reviewFromFetch: reviewItem[] = (
+      await getReportedReview(session.user.token)
+    ).data
+    setReportedReviews(reviewFromFetch)
+    setIsReady(true)
+  }
 
   useEffect(() => {
     fetchData()
+    if(session.user.role == 'admin') fetchReportedData()
   }, [])
 
   const handleReport = async (review: reviewItem) => {
     await reportReview(review._id, session.user.token)
     fetchData()
+    if(session.user.role == 'admin') fetchReportedData()
   }
 
-  //mock API for ignore reported review
-  const ignoreReviewMock = (review: reviewItem) => {}
   const handleIgnore = async (review: reviewItem) => {
-    await ignoreReviewMock(review)
+    await declineReportedReview(review._id, session.user.token)
+    fetchData()
+    if(session.user.role == 'admin') fetchReportedData()
   }
 
   const handleDelete = async (review: reviewItem) => {
     await deleteReview(session.user.token, review._id)
     fetchData()
+    if(session.user.role == 'admin') fetchReportedData()
   }
 
   if (!isReady) return <SuspenseUI />
@@ -50,7 +64,7 @@ export default function ReviewTable() {
 
       {/* Request */}
       {session.user.role == 'admin' ? (
-        <div>
+        <div className='mb-16'>
         <div className='text-cgr-dark-green text-2xl mb-5 font-medium'>
         Reported Reviews
       </div>
@@ -61,20 +75,34 @@ export default function ReviewTable() {
           <th className='w-1/12'></th>
           <th className='w-1/12'></th>
         </tr>
-        {review.map((obj) => (
+        {reportedReviews.map((obj) => (
           <tr key={obj._id}>
             <td>{obj.comment}</td>
             <td className='text-center'>{obj.score}</td>
             <td className='text-center'>
-                <button className='cgr-btn-red'
-                onClick={() => {
-                  handleDelete(obj)
+            <button className='cgr-btn-red'
+                onClick={async () => {
+                  if (
+                    confirm(
+                      `Are you sure you want to delete this review ?`
+                    )
+                  ) {
+                    handleDelete(obj)
+                    window.location.reload()
+                  }
                 }}>Delete</button>
             </td>
             <td className='text-center'>
             <button className='cgr-btn'
-                onClick={() => {
-                  handleIgnore(obj)
+                onClick={async () => {
+                  if (
+                    confirm(
+                      `Are you sure you want to ignore this review ?`
+                    )
+                  ) {
+                    handleIgnore(obj)
+                    window.location.reload()
+                  }
                 }}>Ignore</button>
             </td>
           </tr>
