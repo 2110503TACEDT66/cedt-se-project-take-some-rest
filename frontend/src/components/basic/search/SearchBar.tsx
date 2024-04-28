@@ -24,6 +24,7 @@ export default function SearchBar({
   return (
     <div className='w-fill flex flex-row gap-x-4'>
       <input
+        data-cy='search'
         type='text'
         className='cgr-search-box placeholder-cgr-dark-green w-full'
         placeholder='Find something...'
@@ -42,6 +43,7 @@ export default function SearchBar({
         }}
       />
       <button
+        data-cy='search-button'
         className='bg-cgr-dark-green px-3 rounded-lg text-white m-0 p-0'
         onClick={() => {
           handleChange(name, province, facilities)

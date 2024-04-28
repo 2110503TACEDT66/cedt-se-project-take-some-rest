@@ -72,6 +72,7 @@ export default function createReviewPage({
               <div className='flex flex-row content-center'>
                 <h1 className='text-md font-medium my-auto mr-3'>rating </h1>
                 <Rating
+                  data-cy='campground-rating'
                   name='campground-rating'
                   size='large'
                   value={rating}
@@ -80,6 +81,7 @@ export default function createReviewPage({
                   }}></Rating>
               </div>
               <TextField
+                data-cy='reviewText'
                 id='review'
                 label='your review'
                 variant='outlined'
@@ -96,7 +98,7 @@ export default function createReviewPage({
               />
             </div>
             <div className='flex flex-row justify-end mt-4 mb-6'>
-              <button className='cgr-btn w-[45%]' onClick={submit}>
+              <button data-cy='submitReview' className='cgr-btn w-[45%]' onClick={submit}>
                 Submit
               </button>
             </div>

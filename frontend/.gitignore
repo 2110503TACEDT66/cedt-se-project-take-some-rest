@@ -36,3 +36,7 @@ next-env.d.ts
 
 # test
 /__test__
+
+# cypress example
+/cypress/e2e/1-getting-started
+/cypress/e2e/2-advanced-examples
