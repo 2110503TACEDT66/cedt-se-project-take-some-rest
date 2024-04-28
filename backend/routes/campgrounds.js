@@ -64,3 +64,17 @@ router
   .post(protect, authorize('admin', 'campgroundOwner'), uploadSiteImage)
 
 module.exports = router
+
+
+/**
+ * @swagger
+ * tags:
+ *  name: Exploring Campground
+ *  description: Customer Exploring Campground
+ */
+/**
+ * @swagger
+ * tags:
+ *  name: Campground Owner
+ *  description: Managing your campground
+ */
