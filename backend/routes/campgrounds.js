@@ -68,6 +68,44 @@ module.exports = router
 
 /**
  * @swagger
+ * components:
+ *  schemas:
+ *    User:
+ *      type: object
+ *      required:
+ *      - name
+ *      - tel
+ *      - email
+ *      - password
+ *      - role
+ *      properties:
+ *        name:
+ *          type: string
+ *          example: witty
+ *        tel:
+ *          type: string
+ *          example: 080-021-5057
+ *        email:
+ *          type: string
+ *          example: witty@gmail.com
+ *        password:
+ *          type: string
+ *          example: root123
+ *        role:
+ *          type: string
+ *          description: customer campgroundOwner admin
+ *          example: customer
+ */
+
+
+
+/**
+ * @swagger
+ * tags:
+ *  name: Authorization
+ */
+/**
+ * @swagger
  * tags:
  *  name: Exploring Campground
  *  description: Customer Exploring Campground
@@ -77,4 +115,43 @@ module.exports = router
  * tags:
  *  name: Campground Owner
  *  description: Managing your campground
+ */
+
+
+
+/**
+ * @swagger
+ * /api/auth/register:
+ *  post:
+ *    summary: Register User
+ *    tags: [Authorization]
+ *    requestBody :
+ *      required : true
+ *      content :
+ *        application/json :
+ *          schema :
+ *            $ref : '#/components/schemas/User'
+ *    responses :
+ *      201 :
+ *        description : successfully to creadted
+ *        content :
+ *          application/json :
+ *            schema :
+ *              $ref : '#/components/schemas/User'
+ *      500 :
+ *        description : Some server error
+ */
+/**
+ * @swagger
+ * /api/users/me/campground-owner-request:
+ *  put:
+ *    summary: sent request to admin
+ *    tags: [Campground Owner]
+ *    responses:
+ *      200:
+ *        description: Request sent successfully
+ *      404:
+ *        description: Cannot find user
+ *      500:
+ *        description: Some error happened
  */
