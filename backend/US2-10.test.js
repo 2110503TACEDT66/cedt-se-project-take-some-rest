@@ -306,7 +306,7 @@ describe('CampgroundOwner Login', () => {
     }
 
     //review id that is not exist
-    reviewId = '12345678910'
+    reviewId = '111f14ad3245db1a68cbe84c'
 
     const req = mockRequest(reviewId, JSONlogin.token)
     const res = mockResponse()
