@@ -523,4 +523,27 @@ module.exports = router
  *        description : successfully
  *      500 :
  *        description : Some server error
+ *  delete:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Update my campground (campgroundOwner)
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: ID
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: User id
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: Campground id
+ *    responses :
+ *      200 :
+ *        description : successfully
+ *      500 :
+ *        description : Some server error
  */
