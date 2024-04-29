@@ -38,7 +38,14 @@ export default function AdminViewCampground({
 
   const fetchData = async () => {
     setIsReady(false)
-    const campground = (await getCampground(params.cgid)).data
+    let campground = await getCampground(params.cgid)
+
+    if (campground == null) {
+      router.back()
+      return
+    }
+
+    campground = campground.data
     setCampground(campground)
 
     if (

@@ -39,6 +39,7 @@ export default function createCampground({
   const [campground, setCampground] = useState<CampgroundItem>()
   const [addressString, setAddressString] = useState('')
   const [isReady, setIsReady] = useState(false)
+  const [isAllow, setIsAllow] = useState(true)
 
   const [zone, setZone] = useState('')
   const [siteNo, setSiteNo] = useState<number>()
@@ -83,6 +84,13 @@ export default function createCampground({
       const campgroundFromFetch = (await getCampground(params.cgid)).data
       setCampground(campgroundFromFetch)
 
+      if (
+        campgroundFromFetch.campgroundOwner != session.user._id &&
+        session.user.role != 'admin'
+      ) {
+        setIsAllow(false)
+      }
+
       const address: string[] = []
       for (let type of addressType) {
         let data = campgroundFromFetch.address[type]
@@ -91,15 +99,23 @@ export default function createCampground({
       setAddressString(address.join(' '))
 
       if (params.type == 'edit') {
-        if (!sid) return
-        const campgrundSiteFromFetch: CampgroundSiteItem = (
-          await getCampgroundSite(params.cgid, sid)
-        ).site
+        if (!sid) {
+          alert('Please provide valid campground site id')
+          router.back()
+          return
+        }
 
-        setZone(campgrundSiteFromFetch.zone)
-        setSiteNo(campgrundSiteFromFetch.number)
-        setSiteSizeW(campgrundSiteFromFetch.size.swidth)
-        setSiteSizeL(campgrundSiteFromFetch.size.slength)
+        const fetchedData = await getCampgroundSite(params.cgid, sid)
+        if (fetchedData == null) {
+          router.back()
+          return
+        }
+
+        const campgroundSiteFromFetch: CampgroundSiteItem = fetchedData.site
+        setZone(campgroundSiteFromFetch.zone)
+        setSiteNo(campgroundSiteFromFetch.number)
+        setSiteSizeW(campgroundSiteFromFetch.size.swidth)
+        setSiteSizeL(campgroundSiteFromFetch.size.slength)
       }
     }
     fetch()
@@ -173,6 +189,7 @@ export default function createCampground({
     }
   }
 
+  if (!isAllow) return <NoPermissionUI />
   if (!campground || !isReady) return <SuspenseUI />
 
   return (
