@@ -475,4 +475,52 @@ module.exports = router
  *        description: Cannot find user
  *      500:
  *        description: Some error happened
+ * /api/campgrounds/my-campground:
+ *  get:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: View my campground (campgroundOwner)
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: ID
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: User id
+ *    responses :
+ *      200 :
+ *        description : successfully
+ *      500 :
+ *        description : Some server error
+ * /api/campgrounds/{cgid}:
+ *  put:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Update my campground (campgroundOwner)
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: ID
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: User id
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: Campground id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref : '#/components/schemas/Campground'
+ *    responses :
+ *      200 :
+ *        description : successfully
+ *      500 :
+ *        description : Some server error
  */
