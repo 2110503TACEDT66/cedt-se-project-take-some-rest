@@ -259,7 +259,7 @@ module.exports = router
 
 /**
  * @swagger
- * /api/campgrounds:
+* /api/campgrounds:
  *  get : 
  *    security:
  *      - bearerAuth: []
@@ -267,15 +267,28 @@ module.exports = router
  *    tags: [Exploring Campground]
  *    parameters:
  *      - in: query
- *        name: filter
+ *        name: name
  *        schema: 
  *          type: string
- *        description: "Query Parameters for filtering reviews"
+ *        description: Campground name
+ *      - in: query
+ *        name: province
+ *        schema: 
+ *          type: string
+ *        description: Campground province
+ *      - in: query
+ *        name: facilities
+ *        schema: 
+ *          type: array
+ *          items: 
+ *            type: string
+ *        description: Campground facilities
+ *        example: ["tent", "parking"]
  *    responses:
  *      200:
  *        description: Get Filter Campground successfully
  *      500:
- *        description: Some error happened
+ *        description: Some error happened 
  * /api/campgrounds/{cgid}/reviews:
  *  post:
  *    security:
@@ -300,8 +313,6 @@ module.exports = router
  *      500 :
  *        description : Some server error
  *  get : 
- *    security:
- *      - bearerAuth: []
  *    summary: get Reviews
  *    tags: [Exploring Campground]
  *    parameters:
