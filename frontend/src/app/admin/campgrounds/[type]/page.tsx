@@ -297,6 +297,7 @@ export default function CreateCampground({
         setLane(campground.address.lane)
         setRoad(campground.address.road)
         setPostalCode(campground.address.postalCode)
+        setGoogleMap(campground.address.link)
         for (let facility of facilitiesList) {
           if (campground.facilities.includes(facility)) {
             let newFacilities = facilities

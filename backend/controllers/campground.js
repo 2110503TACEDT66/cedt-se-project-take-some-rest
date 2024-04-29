@@ -323,9 +323,19 @@ exports.updateCampground = async (req, res, next) => {
       }
     }
 
+    const inputCampground = req.body
+    // Test validate
+    const testUserValidation = new Campground(inputCampground)
+    const error = testUserValidation.validateSync()
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: "The campground's data is invalid" })
+    }
+
     const campground = await Campground.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      inputCampground,
       {
         new: true,
         runValidators: true,
@@ -333,7 +343,10 @@ exports.updateCampground = async (req, res, next) => {
     )
 
     if (!campground) {
-      return res.status(404).json({ success: false })
+      return res.status(404).json({
+        success: false,
+        message: 'Cannot find campground with this ID',
+      })
     }
 
     return res.status(200).json({ success: true, data: campground })
