@@ -11,14 +11,13 @@ import getUser from '@/libs/users/getUser'
 import updateUser from '@/libs/users/updateUser'
 import updateUserRole from '@/libs/users/updateUserRole'
 import deleteUser from '@/libs/users/deleteUser'
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 
 export default function EditUser() {
   const router = useRouter()
   const { data: session } = useSession()
-  if (!session || !session.user.token || session.user.role !== 'admin') {
-    router.replace('/')
-    return null
-  }
+  if (!session || !session.user.token || session.user.role !== 'admin')
+    return <NoPermissionUI />
 
   const urlParams = useSearchParams()
   const paramsUid = urlParams.get('uid')
