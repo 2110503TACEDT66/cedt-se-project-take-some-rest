@@ -17,12 +17,11 @@ exports.getCampgroundSite = async (req, res, next) => {
     }
 
     // Find a campground
-    const campground = await Campground.findOne({
-      id: req.params.cgid,
-      sites: req.params.sid,
-    }).select('-sites')
+    const campground = await Campground.findById(req.params.cgid).select(
+      '-sites'
+    )
 
-    if (!campground) {
+    if (!campground || campground.id != site.campground) {
       return res.status(404).json({
         success: false,
         message:
@@ -249,7 +248,6 @@ exports.deleteCampgroundSite = async (req, res, next) => {
   }
 }
 
-
 const upload = multer().single('file')
 
 exports.uploadSiteImage = async (req, res, next) => {
@@ -258,7 +256,7 @@ exports.uploadSiteImage = async (req, res, next) => {
       // Call the multer middleware to handle file upload
       if (err instanceof multer.MulterError) {
         // Handle multer errors
-        console.log(err)  
+        console.log(err)
         return res.status(400).json({ success: false, message: err.message })
       } else if (err) {
         // Handle other errors
@@ -282,13 +280,15 @@ exports.uploadSiteImage = async (req, res, next) => {
       if (!site) {
         return res
           .status(400)
-          .json({ success: false, message: "Cannot find site" })
+          .json({ success: false, message: 'Cannot find site' })
       }
 
       res.status(201).json({ success: true, data: site })
     })
   } catch (error) {
     console.log(error)
-    return res.status(500).json({ success: false, message: 'Cannot upload image' })
+    return res
+      .status(500)
+      .json({ success: false, message: 'Cannot upload image' })
   }
 }

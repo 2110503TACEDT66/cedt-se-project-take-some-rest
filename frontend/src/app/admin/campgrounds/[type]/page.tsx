@@ -37,6 +37,11 @@ export default function CreateCampground({
   )
     return <NoPermissionUI />
 
+  if (params.type !== 'create' && params.type !== 'edit') {
+    router.back()
+    return
+  }
+
   const title = params.type === 'create' ? 'Create new' : 'Edit'
   const submitBtnTitle = params.type === 'create' ? 'Create' : 'Done'
 
