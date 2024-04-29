@@ -251,6 +251,29 @@ module.exports = router
 
 /**
  * @swagger
+ * /api/campgrounds:
+ *  get : 
+ *    security:
+ *      - bearerAuth: []
+ *    summary: get filtered campground
+ *    tags: [Exploring Campground]
+ *    parameters:
+ *      - in: query
+ *        name: query
+ *        schema: 
+ *          type: string
+ *        description: "Query Parameters for filtering reviews"
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: campground id
+ *    responses:
+ *      200:
+ *        description: Get Filter Campground successfully
+ *      500:
+ *        description: Some error happened
  * /api/campgrounds/${cgid}/reviews:
  *  post:
  *    security:
