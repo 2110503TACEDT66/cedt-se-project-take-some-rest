@@ -34,12 +34,22 @@ export default function AdminViewCampground({
   const [campgroundSites, setCampgroundSites] =
     useState<CampgroundSitesJson | null>(null)
   const [addressString, setAddressString] = useState('')
-  const [isCorrectOwner, setIsCorrectOwner] = useState(true)
+  const [isOwner, setIsOwner] = useState(true)
 
   const fetchData = async () => {
     setIsReady(false)
     const campground = (await getCampground(params.cgid)).data
     setCampground(campground)
+
+    if (
+      campground?.campgroundOwner != session.user._id &&
+      session.user.role != 'admin'
+    ) {
+      // console.log(campground?.campgroundOwner)
+      // redirect('/')
+      setIsOwner(false)
+    }
+
     setCampgroundSites(await getCampgroundSites(params.cgid))
 
     const address: string[] = []
@@ -53,13 +63,6 @@ export default function AdminViewCampground({
 
   useEffect(() => {
     fetchData()
-
-    if (
-      campground?.campgroundOwner != session.user._id &&
-      session.user.role != 'admin'
-    ) {
-      setIsCorrectOwner(false)
-    }
 
     setIsReady(true)
   }, [])
@@ -83,7 +86,7 @@ export default function AdminViewCampground({
     'postalCode',
   ]
 
-  if (!isCorrectOwner) return <NoPermissionUI />
+  if (!isOwner) return <NoPermissionUI />
 
   if (!isReady || !campground || !campgroundSites) return <SuspenseUI />
 
