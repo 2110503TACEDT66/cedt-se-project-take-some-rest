@@ -33,6 +33,11 @@ export default function createCampground({
   const urlParams = useSearchParams()
   const sid = urlParams.get('sid')
 
+  if (params.type !== 'create' && params.type !== 'edit') {
+    router.back()
+    return
+  }
+
   const title = params.type === 'create' ? 'Create new site' : 'Edit site'
   const submitBtnTitle = params.type === 'create' ? 'Create' : 'Edit'
 

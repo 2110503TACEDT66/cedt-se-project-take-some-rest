@@ -31,10 +31,12 @@ export default function BookingView({ params }: { params: { bid: string } }) {
         setBooking(booking)
         setCampground(campground)
 
-        console.log(booking)
-        console.log(campground)
+        // console.log(booking)
+        // console.log(campground)
       } catch (e) {
+        alert('Cannot find this booking')
         router.back()
+        return
       }
     }
     fetchData()

@@ -41,6 +41,7 @@ export default function AdminViewCampground({
     let campground = await getCampground(params.cgid)
 
     if (campground == null) {
+      alert('Please provide valid campground id')
       router.back()
       return
     }
@@ -52,8 +53,6 @@ export default function AdminViewCampground({
       campground?.campgroundOwner != session.user._id &&
       session.user.role != 'admin'
     ) {
-      // console.log(campground?.campgroundOwner)
-      // redirect('/')
       setIsOwner(false)
     }
 

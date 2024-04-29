@@ -49,6 +49,7 @@ export default function CreateCampground({
   const paramsCgid = urlParams.get('cgid')
 
   const [isReady, setIsReady] = useState(false)
+  const [isAllow, setIsAllow] = useState(true)
   const [provincesList, setProvincesList] = useState<optionType[]>([])
   const [districtsList, setDistrictsList] = useState<optionType[]>([])
   const [subDistrictsList, setSubDistrictsList] = useState<optionType[]>([])
@@ -238,12 +239,30 @@ export default function CreateCampground({
 
   useEffect(() => {
     if (params.type === 'edit') {
-      if (!paramsCgid) return
+      if (!paramsCgid || paramsCgid.length == 0) {
+        alert('Please provide campground id')
+        router.back()
+        return
+      }
+
       const fetchData = async () => {
         setIsReady(false)
-        const campground = (await getCampground(paramsCgid)).data
-        // console.log(campground)
+        let campground = await getCampground(paramsCgid)
 
+        if (campground == null) {
+          alert('Please provide valid campground id')
+          router.back()
+          return
+        }
+
+        campground = campground.data
+
+        if (
+          campground.campgroundOwner !== session.user._id &&
+          session.user.role !== 'admin'
+        ) {
+          setIsAllow(false)
+        }
         // Fetch and set province data & find current province
         const fetchedProvinces = (await getProvinces()).map((element: any) => ({
           id: element.id,
@@ -330,6 +349,7 @@ export default function CreateCampground({
     }
   }, [district])
 
+  if (!isAllow) return <NoPermissionUI />
   if (!isReady) return <SuspenseUI />
 
   return (
