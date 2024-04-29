@@ -1,4 +1,7 @@
-export default async function declineReportedReview(rvid: string, token: string) {
+export default async function declineReportedReview(
+  rvid: string,
+  token: string
+) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/reviews/${rvid}/report-decline`,
     {

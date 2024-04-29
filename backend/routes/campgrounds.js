@@ -43,7 +43,7 @@ router
   .post(protect, authorize('admin', 'campgroundOwner'), createCampground)
 router
   .route('/my-campground')
-  .get(protect, authorize('campgroundOwner','admin') ,getMyCampgrounds)
+  .get(protect, authorize('campgroundOwner', 'admin'), getMyCampgrounds)
 router
   .route('/:id')
   .get(getCampground)

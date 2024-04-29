@@ -9,7 +9,9 @@ export default function Tag({
 
   return (
     <div className={`border rounded-md px-4 py-1`}>
-      <p data-cy='tag' className={`text-cgr-gray-60 text-${size} flex flex-row gap-1`}>
+      <p
+        data-cy='tag'
+        className={`text-cgr-gray-60 text-${size} flex flex-row gap-1`}>
         {children}
       </p>
     </div>
