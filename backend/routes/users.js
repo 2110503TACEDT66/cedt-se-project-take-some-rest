@@ -41,7 +41,7 @@ router
   .delete(protect, deleteMe)
 router
   .route('/me/campground-owner-request')
-  .put(protect, requestCampgroundOwner)
+  .put(protect, authorize('customer'), requestCampgroundOwner)
 router
   .route('/update-role/:uid')
   .put(protect, authorize('admin'), updateUserRole)
