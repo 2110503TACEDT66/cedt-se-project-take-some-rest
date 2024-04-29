@@ -152,9 +152,17 @@ module.exports = router
  *    Review:
  *      type: object
  *      required:
+ *      - userId
+ *      - campgroundId
  *      - comment
  *      - score
  *      properties:
+ *        userId: 
+ *          type: string
+ *          example: 662f18753245db1a68cbe933
+ *        campgroundId:
+ *          type: string
+ *          example: 662f177a3245db1a68cbe87f
  *        comment:
  *          type: string
  *          example: good
@@ -259,34 +267,21 @@ module.exports = router
  *    tags: [Exploring Campground]
  *    parameters:
  *      - in: query
- *        name: query
+ *        name: filter
  *        schema: 
  *          type: string
  *        description: "Query Parameters for filtering reviews"
- *      - in: path
- *        name: cgid
- *        schema:
- *          type: string
- *        require: true
- *        description: campground id
  *    responses:
  *      200:
  *        description: Get Filter Campground successfully
  *      500:
  *        description: Some error happened
- * /api/campgrounds/${cgid}/reviews:
+ * /api/campgrounds/{cgid}/reviews:
  *  post:
  *    security:
  *      - bearerAuth: []
  *    summary: createReview
  *    tags: [Exploring Campground]
- *    parameters:
- *      - in: path
- *        name: cgid
- *        schema:
- *          type: string
- *        require: true
- *        description: Camgpground Id
  *    requestBody :
  *      required : true
  *      content :
@@ -304,6 +299,25 @@ module.exports = router
  *        description : invalid input
  *      500 :
  *        description : Some server error
+ *  get : 
+ *    security:
+ *      - bearerAuth: []
+ *    summary: get Reviews
+ *    tags: [Exploring Campground]
+ *    parameters:
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: campground id
+ *    responses:
+ *      200:
+ *        description: Get Reviews successfully
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Some error happened
  * /api/reviews/{rvid}:
  *  delete : 
  *    security:
@@ -324,28 +338,8 @@ module.exports = router
  *        description: Bad Request
  *      500:
  *        description: Some error happened
- * /api/campgrounds/{cgid}/reviews:
- *  get : 
- *    security:
- *      - bearerAuth: []
- *    summary: get Reviews
- *    tags: [Exploring Campground]
- *    parameters:
- *      - in: path
- *        name: cgid
- *        schema:
- *          type: string
- *        require: true
- *        description: campground id
- *    responses:
- *      200:
- *        description: Get Reviews successfully
- *      400:
- *        description: Bad Request
- *      500:
- *        description: Some error happened
  * /api/users/my-bookmark/{cgid}:
- *  post:
+ *  put:
  *    security:
  *      - bearerAuth: []
  *    summary: add campground to my bookmark
@@ -364,7 +358,6 @@ module.exports = router
  *        description : Bad Request
  *      500 :
  *        description : Some server error
- * api/users/my-bookmark/{cgid}:
  *  delete : 
  *    security:
  *      - bearerAuth: []
