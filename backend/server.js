@@ -93,4 +93,4 @@ const swaggerOptions={
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.use('/api-swagger',swaggerUI.serve, swaggerUI.setup(swaggerDocs));

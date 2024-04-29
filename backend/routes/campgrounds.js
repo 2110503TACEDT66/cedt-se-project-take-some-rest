@@ -69,6 +69,11 @@ module.exports = router
 /**
  * @swagger
  * components:
+ *  securitySchemes:
+ *    bearerAuth:            
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: JWT 
  *  schemas:
  *    User:
  *      type: object
@@ -84,7 +89,7 @@ module.exports = router
  *          example: witty
  *        tel:
  *          type: string
- *          example: 080-021-5057
+ *          example: 083-021-5057
  *        email:
  *          type: string
  *          example: witty@gmail.com
@@ -140,12 +145,55 @@ module.exports = router
  *              $ref : '#/components/schemas/User'
  *      500 :
  *        description : Some server error
+ * /api/auth/login:
+ *  post:
+ *    summary: Log-in User
+ *    tags: [Authorization]
+ *    requestBody :
+ *      required : true
+ *      content :
+ *        application/json :
+ *          schema :
+ *            properties:
+ *              email:
+ *                type: string
+ *                example: witty@gmail.com
+ *              password:
+ *                type: string
+ *                example: root123
+ *    responses :
+ *      201 :
+ *        description : Log-in successfully
+ *      500 :
+ *        description : Some server error
+ * /api/auth/logout:
+ *  get:
+ *    summary: Log-out User
+ *    tags: [Authorization]
+ *    responses :
+ *      201 :
+ *        description : Log-out successfully
+ *      500 :
+ *        description : Some server error
+ * /api/users/me:
+ *  get:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: get me
+ *    tags: [Authorization]
+ *    responses :
+ *      201 :
+ *        description : successfully
+ *      500 :
+ *        description : Some server error
  */
 /**
  * @swagger
  * /api/users/me/campground-owner-request:
  *  put:
- *    summary: sent request to admin
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: User request to be campground owner
  *    tags: [Campground Owner]
  *    responses:
  *      200:
