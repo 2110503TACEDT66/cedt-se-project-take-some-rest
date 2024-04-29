@@ -206,7 +206,7 @@ module.exports = router
  *  get:
  *    security:
  *      - bearerAuth: [] 
- *    summary: get all user request(Admin)
+ *    summary: get all user request (admin)
  *    tags: [Campground Owner]
  *    responses :
  *      200 :
