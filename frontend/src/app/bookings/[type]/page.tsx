@@ -26,6 +26,12 @@ export default function CreateBooking({
   const paramsRid = urlParams.get('rid')
   const paramsCgid = urlParams.get('cgid')
   const paramsSid = urlParams.get('sid')
+
+  if (params.type !== 'create' && params.type !== 'edit') {
+    router.back()
+    return
+  }
+
   const title = params.type === 'create' ? 'Create new' : 'Edit'
   const submitBtnTitle = params.type === 'create' ? 'Book' : 'Done'
 

@@ -313,9 +313,12 @@ exports.deleteReserve = async (req, res, next) => {
     }
 
     if (
-      (req.user.role !== 'admin' && reserve.user.toString() !== req.user.id) ||
-      (req.user.role === 'campgroundOwner' &&
-        reserve.campground.campgroundOwner.toString() !== req.user.id)
+      req.user.role !== 'admin' &&
+      reserve.user.toString() !== req.user.id &&
+      !(
+        req.user.role === 'campgroundOwner' &&
+        reserve.campground.campgroundOwner !== req.user.id
+      )
     ) {
       return res.status(403).json({
         success: false,
@@ -327,7 +330,7 @@ exports.deleteReserve = async (req, res, next) => {
 
     return res.status(200).json({ success: true, data: {} })
   } catch (err) {
-    // console.log(err)
+    console.log(err)
     return res.status(500).json({ success: false })
   }
 }

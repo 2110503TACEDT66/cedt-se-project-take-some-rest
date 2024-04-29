@@ -7,9 +7,13 @@ export default async function deleteReserve(token: string, rid: string) {
     }
   )
 
-  if (response.status === 400) {
+  if (response.status.toString().slice(0, 1)[0] === '4') {
     alert((await response.json()).message)
-    return await response.json()
+    return null
+  }
+
+  if (response.status === 500) {
+    return null
   }
 
   if (!response.ok) {
