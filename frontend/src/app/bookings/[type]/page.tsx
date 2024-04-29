@@ -49,6 +49,10 @@ export default function CreateBooking({
   const [tentSizeL, setTentSizeL] = useState(5)
   const [date, setDate] = useState('')
 
+  if (params.type != 'create' && !paramsRid) {
+    router.back()
+  }
+
   const submit = () => {
     if (
       cgid &&
@@ -60,107 +64,116 @@ export default function CreateBooking({
       tentSizeL &&
       date
     ) {
-      const callAPI = async () => {
-        const tentSize = {
-          swidth: Number(tentSizeW),
-          slength: Number(tentSizeL),
+      if (new Date(date) <= new Date(Date.now())) {
+        alert('Please provide the correct date information')
+      } else {
+        const callAPI = async () => {
+          const tentSize = {
+            swidth: Number(tentSizeW),
+            slength: Number(tentSizeL),
+          }
+          if (params.type === 'create') {
+            await createReserve(
+              session.user.token,
+              cgid,
+              sid,
+              date,
+              tentSize,
+              amount,
+              preferredName
+            )
+          } else {
+            if (!paramsRid) return null
+            await updateReserve(
+              session.user.token,
+              paramsRid,
+              cgid,
+              sid,
+              date,
+              tentSize,
+              amount,
+              preferredName
+            )
+          }
         }
-        if (params.type === 'create') {
-          await createReserve(
-            session.user.token,
-            cgid,
-            sid,
-            date,
-            tentSize,
-            amount,
-            preferredName
-          )
-        } else {
-          if (!paramsRid) return null
-          await updateReserve(
-            session.user.token,
-            paramsRid,
-            cgid,
-            sid,
-            date,
-            tentSize,
-            amount,
-            preferredName
-          )
-        }
+        callAPI()
+        router.back()
       }
-      callAPI()
-      router.back()
     } else {
       alert('Please provide all required information')
     }
   }
 
   useEffect(() => {
-    setPreferredName(session.user.name)
+    try {
+      setPreferredName(session.user.name)
 
-    const fetchCampgrounds = async () => {
-      const campgrounds = (await getCampgrounds()).data
-      setCampgroundsList(campgrounds)
-    }
-    fetchCampgrounds()
+      const fetchCampgrounds = async () => {
+        const campgrounds = (await getCampgrounds()).data
+        setCampgroundsList(campgrounds)
+      }
+      fetchCampgrounds()
 
-    if (params.type === 'edit') {
-      const fetchData = async () => {
-        if (!paramsRid) return null
-        const reserve = (await getReserve(session.user.token, paramsRid)).data
-        setCgid(reserve.campground._id)
-        const sites = (
-          await getCampgroundSites(
-            reserve.campground._id,
-            'limit=1000&sort=number'
+      if (params.type === 'edit') {
+        const fetchData = async () => {
+          if (!paramsRid) return null
+          const reserve = (await getReserve(session.user.token, paramsRid)).data
+          setCgid(reserve.campground._id)
+          const sites = (
+            await getCampgroundSites(
+              reserve.campground._id,
+              'limit=1000&sort=number'
+            )
+          ).sites
+          setSitesList(sites)
+
+          let zones: string[] = Array.from(
+            new Set(sites.map((element: CampgroundSiteItem) => element.zone))
           )
-        ).sites
-        setSitesList(sites)
-
-        let zones: string[] = Array.from(
-          new Set(sites.map((element: CampgroundSiteItem) => element.zone))
-        )
-        setZonesList(zones)
-        setZone(reserve.site.zone)
-        setSid(reserve.site._id)
-        setPreferredName(reserve.preferredName)
-        setAmount(reserve.amount)
-        setTentSizeL(reserve.tentSize.slength)
-        setTentSizeW(reserve.tentSize.swidth)
-        setDate(reserve.startDate.split('T')[0])
-        setIsReady(true)
-      }
-      fetchData()
-    } else {
-      const fetchData = async () => {
-        if (!paramsCgid) {
+          setZonesList(zones)
+          setZone(reserve.site.zone)
+          setSid(reserve.site._id)
+          setPreferredName(reserve.preferredName)
+          setAmount(reserve.amount)
+          setTentSizeL(reserve.tentSize.slength)
+          setTentSizeW(reserve.tentSize.swidth)
+          setDate(reserve.startDate.split('T')[0])
           setIsReady(true)
-          return null
         }
-        setCgid(paramsCgid)
-        const sites = (
-          await getCampgroundSites(paramsCgid, 'limit=1000&sort=number')
-        ).sites
-        setSitesList(sites)
+        fetchData()
+      } else {
+        const fetchData = async () => {
+          if (!paramsCgid) {
+            setIsReady(true)
+            return null
+          }
+          setCgid(paramsCgid)
+          const sites = (
+            await getCampgroundSites(paramsCgid, 'limit=1000&sort=number')
+          ).sites
+          setSitesList(sites)
 
-        let zones: string[] = Array.from(
-          new Set(sites.map((element: CampgroundSiteItem) => element.zone))
-        )
-        setZonesList(zones)
+          let zones: string[] = Array.from(
+            new Set(sites.map((element: CampgroundSiteItem) => element.zone))
+          )
+          setZonesList(zones)
 
-        if (!paramsSid) {
+          if (!paramsSid) {
+            setIsReady(true)
+            return null
+          }
+          setSid(paramsSid)
+          setZone(
+            sites.find(
+              (element: CampgroundSiteItem) => element._id === paramsSid
+            ).zone
+          )
           setIsReady(true)
-          return null
         }
-        setSid(paramsSid)
-        setZone(
-          sites.find((element: CampgroundSiteItem) => element._id === paramsSid)
-            .zone
-        )
-        setIsReady(true)
+        fetchData()
       }
-      fetchData()
+    } catch (err) {
+      router.back()
     }
   }, [])
 
