@@ -213,4 +213,33 @@ module.exports = router
  *        description : successfully
  *      500 :
  *        description : Some server error
+ * /api/users/update-role/{ID}:
+ *  put:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Approve request to be campground owner (admin)
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: ID
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: User id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            properties:
+ *              role:
+ *                type: string
+ *                example: campgroundOwner
+ *    responses:
+ *      200:
+ *        description: Request sent successfully
+ *      404:
+ *        description: Cannot find user
+ *      500:
+ *        description: Some error happened
  */
