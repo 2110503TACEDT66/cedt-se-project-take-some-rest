@@ -59,7 +59,7 @@ export default function ReviewCard({ review }: { review: reviewItem }) {
             data-cy='deleteReview'
             className='bi bi-trash3 ml-auto mt-auto cursor-pointer hover:text-cgr-red transition-colors'
             onClick={handleDelete}></i>
-        ) : reported && isMyReview ? (
+        ) : reported && isMyCampGround ? (
           <h1 className='text-sm text-cgr-gray-50 ml-auto mt-auto'>reported</h1>
         ) : isMyCampGround ? (
           <i
