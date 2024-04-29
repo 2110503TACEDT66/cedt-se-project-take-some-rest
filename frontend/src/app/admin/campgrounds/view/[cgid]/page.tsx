@@ -34,6 +34,7 @@ export default function AdminViewCampground({
   const [campgroundSites, setCampgroundSites] =
     useState<CampgroundSitesJson | null>(null)
   const [addressString, setAddressString] = useState('')
+  const [isCorrectOwner, setIsCorrectOwner] = useState(true)
 
   const fetchData = async () => {
     setIsReady(false)
@@ -57,7 +58,7 @@ export default function AdminViewCampground({
       campground?.campgroundOwner != session.user._id &&
       session.user.role != 'admin'
     ) {
-      redirect('/')
+      setIsCorrectOwner(false)
     }
 
     setIsReady(true)
@@ -81,6 +82,8 @@ export default function AdminViewCampground({
     'province',
     'postalCode',
   ]
+
+  if (!isCorrectOwner) return <NoPermissionUI />
 
   if (!isReady || !campground || !campgroundSites) return <SuspenseUI />
 
