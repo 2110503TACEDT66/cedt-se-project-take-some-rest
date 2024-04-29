@@ -100,6 +100,18 @@ module.exports = router
  *          type: string
  *          description: customer campgroundOwner admin
  *          example: customer
+ *    Review:
+ *      type: object
+ *      required:
+ *      - comment
+ *      - score
+ *      properties:
+ *        comment:
+ *          type: string
+ *          example: good
+ *        score:
+ *          type: int
+ *          example: 5
  */
 
 
@@ -138,7 +150,7 @@ module.exports = router
  *            $ref : '#/components/schemas/User'
  *    responses :
  *      201 :
- *        description : successfully to creadted
+ *        description : successfully to created
  *        content :
  *          application/json :
  *            schema :
@@ -187,6 +199,79 @@ module.exports = router
  *      500 :
  *        description : Some server error
  */
+
+/**
+ * @swagger
+ * /api/campgrounds/${cgid}/reviews:
+ *  post:
+ *    security:
+ *      - bearerAuth: []
+ *    summary: createReview
+ *    tags: [Exploring Campground]
+ *    parameters:
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: Camgpground Id
+ *    requestBody :
+ *      required : true
+ *      content :
+ *        application/json :
+ *          schema :
+ *            $ref : '#/components/schemas/Review'
+ *    responses :
+ *      201 :
+ *        description : successfully to created
+ *        content :
+ *          application/json :
+ *            schema :
+ *              $ref : '#/components/schemas/Review'
+ *      400 :
+ *        description : invalid input
+ *      500 :
+ *        description : Some server error
+ * /api/reviews/{rvid}:
+ *  delete : 
+ *    security:
+ *      - bearerAuth: []
+ *    tags: [Exploring Campground]
+ *    parameters:
+ *      - in: path
+ *        name: rvid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: Review Id
+ *    responses:
+ *      200:
+ *        description: Delete Review Successfully
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Some error happened
+ * /api/campgrounds/{cgid}/reviews:
+ *  get : 
+ *    security:
+ *      - bearerAuth: []
+ *    tags: [Exploring Campground]
+ *    parameters:
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: campground id
+ *    responses:
+ *      200:
+ *        description: Get Reviews successfully
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Some error happened
+ */
+
 /**
  * @swagger
  * /api/users/me/campground-owner-request:
