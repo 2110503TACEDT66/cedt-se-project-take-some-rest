@@ -94,7 +94,7 @@ export default function CampgroundCardCampgrounds({
 
             {/* Facility */}
             {campground.facilities ? (
-              <div className='flex flex-row space-x-2 overflow-auto'>
+              <div className='flex flex-row space-x-2 overflow-auto scrollbar-hide'>
                 {campground.facilities.map((data) => (
                   <Tag size='xs' key={data}>
                     {data}
@@ -106,9 +106,14 @@ export default function CampgroundCardCampgrounds({
             )}
           </div>
           {session ? (
-            <div className='mt-5 mr-5' onClick={handleClickBookmark} data-cy='bookmarkButton'>
+            <div
+              className='relative top-5 right-5'
+              onClick={handleClickBookmark}
+              data-cy='bookmarkButton'>
               {bookmark ? (
-                <i data-cy='bookmarked' className='bi bi-bookmark-check-fill text-xl'></i>
+                <i
+                  data-cy='bookmarked'
+                  className='bi bi-bookmark-check-fill text-xl'></i>
               ) : (
                 <i className='bi bi-bookmark-fill text-xl text-[#ECECEC]'></i>
               )}
