@@ -236,6 +236,7 @@ module.exports = router
  *  delete : 
  *    security:
  *      - bearerAuth: []
+ *    summary: delete Review
  *    tags: [Exploring Campground]
  *    parameters:
  *      - in: path
@@ -255,6 +256,7 @@ module.exports = router
  *  get : 
  *    security:
  *      - bearerAuth: []
+ *    summary: get Reviews
  *    tags: [Exploring Campground]
  *    parameters:
  *      - in: path
@@ -268,6 +270,57 @@ module.exports = router
  *        description: Get Reviews successfully
  *      400:
  *        description: Bad Request
+ *      500:
+ *        description: Some error happened
+ * /api/users/my-bookmark/{cgid}:
+ *  post:
+ *    security:
+ *      - bearerAuth: []
+ *    summary: add campground to my bookmark
+ *    tags: [Exploring Campground]
+ *    parameters:
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: Camgpground Id
+ *    responses :
+ *      200 :
+ *        description : successfully add to bookmark
+ *      400 :
+ *        description : Bad Request
+ *      500 :
+ *        description : Some server error
+ * api/users/my-bookmark/{cgid}:
+ *  delete : 
+ *    security:
+ *      - bearerAuth: []
+ *    summary: delete campground from my bookmark
+ *    tags: [Exploring Campground]
+ *    parameters:
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: Campground Id
+ *    responses:
+ *      200:
+ *        description: Delete campground from my bookmark successfully
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Some error happened
+ * /api/users/my-bookmark:
+ *  get : 
+ *    security:
+ *      - bearerAuth: []
+ *    summary: get my bookmark
+ *    tags: [Exploring Campground]
+ *    responses:
+ *      200:
+ *        description: Get Reviews successfully
  *      500:
  *        description: Some error happened
  */
