@@ -1,5 +1,6 @@
 'use client'
 
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import CampgroundCardBooking from '@/components/basic/card/CampgroundCardBooking'
 import Card from '@/components/basic/card/Card'
@@ -24,19 +25,27 @@ export default function BookingView({ params }: { params: { bid: string } }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const booking = (await getReserve(session.user?.token, params.bid)).data
-      const campground = (await getCampground(booking.campground._id)).data
-      setBooking(booking)
-      setCampground(campground)
+      try {
+        const booking = (await getReserve(session.user?.token, params.bid)).data
+        const campground = (await getCampground(booking.campground._id)).data
+        setBooking(booking)
+        setCampground(campground)
 
-      console.log(booking)
-      console.log(campground)
+        console.log(booking)
+        console.log(campground)
+      } catch (e) {
+        router.back()
+      }
     }
     fetchData()
     setIsReady(true)
   }, [])
 
   if (!isReady || !campground || !booking) return <SuspenseUI />
+
+  if (booking == null) {
+    router.back()
+  }
 
   const bookedDate = new Date(booking.startDate)
   const reserveDate = new Date(booking.reservedAt)
