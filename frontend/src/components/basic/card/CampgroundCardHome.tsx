@@ -43,7 +43,9 @@ export default function CampgroundCardHome({
               <p className=''>Tel : {campground.tel}</p>
             </div>
             {/* facilities */}
-            <div className='flex flex-row gap-2 mt-4' data-testid='tags'>
+            <div
+              className='flex flex-row gap-2 mt-4 overflow-x-scroll scrollbar-hide'
+              data-testid='tags'>
               {campground.facilities.map((data) => (
                 <Tag size='sm' key={data}>
                   {data}
