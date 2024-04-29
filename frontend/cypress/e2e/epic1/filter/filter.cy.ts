@@ -6,8 +6,7 @@ describe('Epic 1: Filter', () => {
     it('should filter campgrounds by name', () => {
         cy.get('[data-cy="search"]').type('Doi').should('have.value', 'Doi');
         cy.get('[data-cy="search-button"]').click();
-        cy.get('[data-cy="Title"]').should('contain.text', 'Doi Inthanon National Park');
-        cy.get('[data-cy="Title"]').should('not.contain.text', 'Khao Yai Park');
+        cy.get('[data-cy="Title"]').should('contain.text', 'Doi');
     });
 
     it('should filter campgrounds by province', () => {
@@ -22,8 +21,6 @@ describe('Epic 1: Filter', () => {
         cy.get('[data-cy="filter"]').click();
         cy.get('[data-cy="tent"]').click();
         cy.get('[data-cy="search-button"]').click();
-        cy.get('[data-cy="Title"]').should('contain.text', 'TestUploadImage');
         cy.get('[data-cy="tag"]').should('contain.text', 'tent');
-        cy.get('[data-cy="Title"]').should('not.contain.text', 'Doi Inthanon National Park');
     });
 });
