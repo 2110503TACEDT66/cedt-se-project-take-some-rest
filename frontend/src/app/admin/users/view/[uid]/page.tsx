@@ -9,15 +9,14 @@ import deleteUser from '@/libs/users/deleteUser'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import SuspenseUI from '@/components/basic/SuspenseUI'
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 
 export default function AdminViewUser({ params }: { params: { uid: string } }) {
   const router = useRouter()
 
   const { data: session } = useSession()
-  if (!session || !session.user.token || session.user.role !== 'admin') {
-    router.replace('/')
-    return null
-  }
+  if (!session || !session.user.token || session.user.role !== 'admin')
+    return <NoPermissionUI />
 
   const [user, setUser] = useState<UserItem | null>(null)
 

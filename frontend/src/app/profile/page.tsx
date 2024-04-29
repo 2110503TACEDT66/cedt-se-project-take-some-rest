@@ -37,6 +37,8 @@ export default function ViewProfile() {
             <p className='md:col-span-2'>{user.tel}</p>
             <p className='font-medium'>Email : </p>
             <p className='md:col-span-2'>{user.email}</p>
+            <p className='font-medium'>Role : </p>
+            <p className='md:col-span-2'>{user.role}</p>
           </div>
           <div className='flex flex-row-reverse justify-between'>
             <div className='flex space-x-3 items-stretch'>

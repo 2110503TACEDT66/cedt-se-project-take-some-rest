@@ -227,7 +227,10 @@ exports.getCampground = async (req, res, next) => {
     })
 
     if (!campground) {
-      return res.status(400).json({ success: false })
+      return res.status(404).json({
+        success: false,
+        message: 'Cannot find campground with this ID',
+      })
     }
 
     return res.status(200).json({
