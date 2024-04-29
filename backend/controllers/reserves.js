@@ -32,7 +32,7 @@ exports.getReserve = async (req, res, next) => {
       (req.user.role === 'user' && reserve.user.toString() === req.user.id) ||
       (req.user.role === 'campgroundOwner' &&
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
-      req.user.role !== 'admin'
+      req.user.role == 'admin'
     ) {
       res.status(200).json({ success: true, data: reserve })
     } else {
@@ -312,8 +312,11 @@ exports.deleteReserve = async (req, res, next) => {
         .json({ success: false, message: 'Cannot find this reserve' })
     }
 
-    if ((req.user.role !== 'admin' && reserve.user.toString() !== req.user.id)||
-    (req.user.role === 'campgroundOwner' && reserve.campground.campgroundOwner.toString() !== req.user.id)) {
+    if (
+      (req.user.role !== 'admin' && reserve.user.toString() !== req.user.id) ||
+      (req.user.role === 'campgroundOwner' &&
+        reserve.campground.campgroundOwner.toString() !== req.user.id)
+    ) {
       return res.status(403).json({
         success: false,
         message: 'User is not authorized to delete this reserve',
