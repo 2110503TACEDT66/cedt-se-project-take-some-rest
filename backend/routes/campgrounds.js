@@ -100,6 +100,55 @@ module.exports = router
  *          type: string
  *          description: customer campgroundOwner admin
  *          example: customer
+ *    Campground:
+ *      type: object
+ *      required:
+ *      - name
+ *      - tel
+ *      - address
+ *      properties:
+ *        name:
+ *          type: string
+ *          example: ไทรโยค
+ *        tel:
+ *          type: string
+ *          example: 089-028-1958
+ *        address:
+ *          type: object
+ *          required:
+ *          - houseNumber
+ *          - subDistrict
+ *          - district
+ *          - province
+ *          - postalCode
+ *          properties:
+ *            houseNumber:
+ *              type: string
+ *              example: 191
+ *            subDistrict:
+ *              type: string
+ *              example: ไทรโยค
+ *            district:
+ *              type: string
+ *              example: ไทรโยค
+ *            province:
+ *              type: string
+ *              example: กาญจนบุรี
+ *            postalCode:
+ *              type: string
+ *              example: 73420
+ *            link:
+ *              type: string
+ *              example: https://maps.app.goo.gl/KrrVB9rtEGi3fw51A
+ *        website:
+ *          type: string
+ *          example: https://thai.tourismthailand.org/Attraction/อุทยานแห่งชาติไทรโยค
+ *        facilities: 
+ *          type: [String]
+ *          example:  ["Tent","Electricity","Toilet"]
+ *        amount:
+ *          type: number
+ *          example: 30
  *    Review:
  *      type: object
  *      required:
@@ -375,7 +424,53 @@ module.exports = router
  *                example: campgroundOwner
  *    responses:
  *      200:
- *        description: Request sent successfully
+ *        description: Approve request successfully
+ *      404:
+ *        description: Cannot find user
+ *      500:
+ *        description: Some error happened
+ * /api/users/update-role/{ID}/reject:
+ *  put:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Reject request to be campground owner (admin)
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: ID
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: User id
+ *    responses:
+ *      200:
+ *        description: Reject request successfully
+ *      404:
+ *        description: Cannot find user
+ *      500:
+ *        description: Some error happened
+ * /api/campgrounds:
+ *  post:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Add my campground (campgroundOwner ,admin)
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: ID
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: User id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref : '#/components/schemas/Campground'
+ *    responses:
+ *      201:
+ *        description: Add my campground successfully
  *      404:
  *        description: Cannot find user
  *      500:
