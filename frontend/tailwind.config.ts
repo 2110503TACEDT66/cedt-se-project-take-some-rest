@@ -36,6 +36,6 @@ const config: Config = {
       'cgr-red': '#FF6363',
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 }
 export default config

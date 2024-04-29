@@ -23,11 +23,9 @@ export default function CampgroundsTable() {
   const fetchData = async () => {
     setIsReady(false)
     var queryString = query.length != 0 ? `name=${query}` : ''
-    console.log('before fetch')
     const campgroundFromFetch: CampgroundItem[] = (
       await getMyCampgrounds(session.user.token, queryString)
     ).data
-    console.log('after fetch')
     setCampground(campgroundFromFetch)
     setIsReady(true)
   }
