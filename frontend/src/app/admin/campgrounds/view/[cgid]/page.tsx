@@ -8,7 +8,7 @@ import getCampgroundSites from '@/libs/campgrounds/getCampgroundSites'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import deleteCampgroundSite from '@/libs/campgrounds/deleteCampgroundSite'
@@ -52,6 +52,13 @@ export default function AdminViewCampground({
 
   useEffect(() => {
     fetchData()
+
+    if (
+      campground?.campgroundOwner != session.user._id &&
+      session.user.role != 'admin'
+    ) {
+      redirect('/')
+    }
 
     setIsReady(true)
   }, [])
