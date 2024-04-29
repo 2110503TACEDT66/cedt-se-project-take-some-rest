@@ -282,7 +282,18 @@ exports.createCampground = async (req, res, next) => {
 
     req.body.campgroundOwner = req.user.id
 
-    const campground = await Campground.create(req.body)
+    const inputCampground = req.body
+
+    // Test validate
+    const testUserValidation = new Campground(inputCampground)
+    const error = testUserValidation.validateSync()
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: "The campground's data is invalid" })
+    }
+
+    const campground = await Campground.create(inputCampground)
 
     return res.status(201).json({ success: true, data: campground })
   } catch (err) {
