@@ -162,7 +162,7 @@ module.exports = router
  *                type: string
  *                example: root123
  *    responses :
- *      201 :
+ *      200 :
  *        description : Log-in successfully
  *      500 :
  *        description : Some server error
@@ -171,7 +171,7 @@ module.exports = router
  *    summary: Log-out User
  *    tags: [Authorization]
  *    responses :
- *      201 :
+ *      200 :
  *        description : Log-out successfully
  *      500 :
  *        description : Some server error
@@ -182,7 +182,7 @@ module.exports = router
  *    summary: get me
  *    tags: [Authorization]
  *    responses :
- *      201 :
+ *      200 :
  *        description : successfully
  *      500 :
  *        description : Some server error
@@ -202,4 +202,15 @@ module.exports = router
  *        description: Cannot find user
  *      500:
  *        description: Some error happened
+ * /api/users/campground-owner-request:
+ *  get:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: get all user request(Admin)
+ *    tags: [Campground Owner]
+ *    responses :
+ *      200 :
+ *        description : successfully
+ *      500 :
+ *        description : Some server error
  */
