@@ -322,7 +322,7 @@ module.exports = router
  *        name: cgid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: campground id
  *    responses:
  *      200:
@@ -342,7 +342,7 @@ module.exports = router
  *        name: rvid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: Review Id
  *    responses:
  *      200:
@@ -362,7 +362,7 @@ module.exports = router
  *        name: cgid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: Camgpground Id
  *    responses :
  *      200 :
@@ -381,7 +381,7 @@ module.exports = router
  *        name: cgid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: Campground Id
  *    responses:
  *      200:
@@ -440,7 +440,7 @@ module.exports = router
  *        name: ID
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: User id
  *    requestBody:
  *      required: true
@@ -469,7 +469,7 @@ module.exports = router
  *        name: ID
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: User id
  *    responses:
  *      200:
@@ -489,7 +489,7 @@ module.exports = router
  *        name: ID
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: User id
  *    requestBody:
  *      required: true
@@ -515,7 +515,7 @@ module.exports = router
  *        name: ID
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: User id
  *    responses :
  *      200 :
@@ -533,13 +533,13 @@ module.exports = router
  *        name: ID
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: User id
  *      - in: path
  *        name: cgid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: Campground id
  *    requestBody:
  *      required: true
@@ -562,13 +562,13 @@ module.exports = router
  *        name: ID
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: User id
  *      - in: path
  *        name: cgid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: Campground id
  *    responses :
  *      200 :
@@ -597,7 +597,7 @@ module.exports = router
  *        name: rid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: Reserve id
  *    responses :
  *      200 :
@@ -614,49 +614,49 @@ module.exports = router
  *        name: rid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: Reserve id
  *      - in: query
  *        name: cgid
  *        schema:
  *          type: string
- *        require: false
+ *        required: false
  *        description: Campground id
  *      - in: query
  *        name: sid
  *        schema:
  *          type: string
- *        require: false
+ *        required: false
  *        description: Site id
  *      - in: query
  *        name: startDate
  *        schema:
  *          type: string
- *        require: false
+ *        required: false
  *        description: Start Date
  *      - in: query
  *        name: tentSize.swidth
  *        schema:
  *          type: number
- *        require: false
+ *        required: false
  *        description: Tent's Width
  *      - in: query
  *        name: tentSize.slength
  *        schema:
  *          type: number
- *        require: false
+ *        required: false
  *        description: Tent's Length
  *      - in: query
  *        name: amount
  *        schema:
  *          type: number
- *        require: false
+ *        required: false
  *        description: Amount
  *      - in: query
  *        name: preferredName
  *        schema:
  *          type: string
- *        require: false
+ *        required: false
  *        description: Preferred Name
  *    responses :
  *      200 :
@@ -675,7 +675,7 @@ module.exports = router
  *        name: rid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description:  Reserve ID
  *    responses :
  *      200 :
@@ -695,7 +695,7 @@ module.exports = router
  *        name: rvid
  *        schema:
  *          type: string
- *        require: true
+ *        required: true
  *        description: Reserve Id 
  *    responses :
  *      200 :
@@ -733,14 +733,17 @@ module.exports = router
  *        schema:
  *          type: string
  *        required: true
- *        description: Campground site's Id 
+ *        description: Campground site's Id
  *    requestBody:
  *      required: true
  *      content:
- *        image/png:
+ *        multipart/form-data:
  *          schema:
- *            type: string
- *            format: binary
+ *            type: object
+ *            properties:
+ *              file: 
+ *                type: string
+ *                format: binary
  *    responses :
  *      200 :
  *        description : upload campgroundSite's Image
