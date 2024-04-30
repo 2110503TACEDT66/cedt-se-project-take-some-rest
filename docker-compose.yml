@@ -25,4 +25,5 @@ services:
 
 networks:
   take-some-rest:
-    external: true
+    driver: bridge
+    
