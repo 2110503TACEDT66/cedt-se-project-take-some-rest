@@ -16,9 +16,7 @@ const {
 const { protect, authorize } = require('../middleware/auth')
 
 // Review router
-router.route('/')
-  .get(getReviews)
-  .post(protect, createReview)
+router.route('/').get(getReviews).post(protect, createReview)
 router
   .route('/my-campgrounds')
   .get(protect, authorize('admin', 'campgroundOwner'), getMyCampgroundReviews)

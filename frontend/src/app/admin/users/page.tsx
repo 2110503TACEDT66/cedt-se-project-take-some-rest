@@ -8,10 +8,12 @@ import { useEffect, useState } from 'react'
 import getUserRequests from '@/libs/users/getUserRequests'
 import rejectRequest from '@/libs/users/rejectRequest'
 import updateUserRole from '@/libs/users/updateUserRole'
+import NoPermissionUI from '@/components/basic/NoPermissionUI'
 
 export default function UsersTable() {
   const { data: session } = useSession()
-  if (!session || !session.user.token) return null
+  if (!session || !session.user.token || session.user.role !== 'admin')
+    return <NoPermissionUI />
 
   const [user, setUser] = useState<UserItem[]>([])
   const [isReady, setIsReady] = useState(false)

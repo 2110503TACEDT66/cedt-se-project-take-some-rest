@@ -109,7 +109,9 @@ export default async function ViewCampground({
                 <td>{obj.number}</td>
                 <td>{obj.size.swidth + '*' + obj.size.slength}</td>
                 <td>
-                  <Link data-cy='viewSite' href={`/campgrounds/view/${params.cgid}/${obj._id}`}>
+                  <Link
+                    data-cy='viewSite'
+                    href={`/campgrounds/view/${params.cgid}/${obj._id}`}>
                     <button className='cgr-btn-outline-gray'>view</button>
                   </Link>
                 </td>

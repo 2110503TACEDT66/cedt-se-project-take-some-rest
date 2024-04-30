@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react'
 import getMe from '@/libs/users/getMe'
 
 export default function Campgrounds() {
-  const [isReady, setIsReady] = useState(false) 
+  const [isReady, setIsReady] = useState(false)
   const [campgrounds, setCampgrounds] = useState<CampgroundsJson>()
   const { data: session } = useSession()
   const [bookmarkedCampgrounds, setBookmarkedCampgrounds] = useState<string[]>(

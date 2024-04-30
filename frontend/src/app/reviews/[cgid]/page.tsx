@@ -41,21 +41,21 @@ export default function createReviewPage({
     const fetchCampgroundName = async () => {
       const campground: CampgroundItem = (await getCampground(params.cgid)).data
       setCampgroundName(campground.name)
-      setCampgroundImage(`data:image/png;base64,${campground.pictureString}`)
+      if (campground.pictureString) {
+        setCampgroundImage(`${campground.pictureString}`)
+      }
     }
     fetchCampgroundName()
   }, [])
-
-  console.log(campgroundImage)
 
   return (
     <main className='flex justify-center py-12'>
       <div className='w-1/2'>
         <Card>
           <div className='w-full h-60 relative rounded-t-xl'>
-            {campgroundImage != '' ? (
+            {campgroundImage ? (
               <Image
-                src={campgroundImage}
+                src={`data:image/png;base64,${campgroundImage}`}
                 alt={`${campgroundName} picture`}
                 fill={true}
                 className='object-cover rounded-t-xl'
@@ -98,7 +98,10 @@ export default function createReviewPage({
               />
             </div>
             <div className='flex flex-row justify-end mt-4 mb-6'>
-              <button data-cy='submitReview' className='cgr-btn w-[45%]' onClick={submit}>
+              <button
+                data-cy='submitReview'
+                className='cgr-btn w-[45%]'
+                onClick={submit}>
                 Submit
               </button>
             </div>

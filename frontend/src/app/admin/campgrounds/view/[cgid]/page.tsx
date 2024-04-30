@@ -8,7 +8,7 @@ import getCampgroundSites from '@/libs/campgrounds/getCampgroundSites'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import deleteCampgroundSite from '@/libs/campgrounds/deleteCampgroundSite'
@@ -34,11 +34,28 @@ export default function AdminViewCampground({
   const [campgroundSites, setCampgroundSites] =
     useState<CampgroundSitesJson | null>(null)
   const [addressString, setAddressString] = useState('')
+  const [isOwner, setIsOwner] = useState(true)
 
   const fetchData = async () => {
     setIsReady(false)
-    const campground = (await getCampground(params.cgid)).data
+    let campground = await getCampground(params.cgid)
+
+    if (campground == null) {
+      alert('Please provide valid campground id')
+      router.back()
+      return
+    }
+
+    campground = campground.data
     setCampground(campground)
+
+    if (
+      campground?.campgroundOwner != session.user._id &&
+      session.user.role != 'admin'
+    ) {
+      setIsOwner(false)
+    }
+
     setCampgroundSites(await getCampgroundSites(params.cgid))
 
     const address: string[] = []
@@ -74,6 +91,8 @@ export default function AdminViewCampground({
     'province',
     'postalCode',
   ]
+
+  if (!isOwner) return <NoPermissionUI />
 
   if (!isReady || !campground || !campgroundSites) return <SuspenseUI />
 
