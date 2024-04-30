@@ -32,7 +32,7 @@ exports.getReserve = async (req, res, next) => {
       (req.user.role === 'user' && reserve.user.toString() === req.user.id) ||
       (req.user.role === 'campgroundOwner' &&
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
-      req.user.role == 'admin'
+      req.user.role === 'admin'
     ) {
       res.status(200).json({ success: true, data: reserve })
     } else {
@@ -278,7 +278,7 @@ exports.updateReserve = async (req, res, next) => {
       (req.user.role === 'user' && reserve.user.toString() === req.user.id) ||
       (req.user.role === 'campgroundOwner' &&
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
-      req.user.role !== 'admin'
+      req.user.role === 'admin'
     ) {
       // Test validate
       const testUserValidation = new Reserve(req.body)
