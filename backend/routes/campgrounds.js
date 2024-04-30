@@ -233,6 +233,8 @@ module.exports = router
  *    responses :
  *      200 :
  *        description : Log-in successfully
+ *      400 : 
+ *        description : Bad request
  *      500 :
  *        description : Some server error
  * /api/auth/logout:
@@ -608,7 +610,7 @@ module.exports = router
  *    summary: Update reserve
  *    tags: [Campground Owner]
  *    parameters:
- *      - in: query
+ *      - in: path
  *        name: rid
  *        schema:
  *          type: string
@@ -711,6 +713,37 @@ module.exports = router
  *    responses :
  *      200 :
  *        description : get reported reserve data successfully
+ *      500 :
+ *        description : Some server error
+ * /api/campgrounds/{cgid}/sites/{sid}/upload-image:
+ *  post:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Upload campgroundSite's Picture
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: Campground's Id 
+ *      - in: path
+ *        name: sid
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: Campground site's Id 
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        image/png:
+ *          schema:
+ *            type: string
+ *            format: binary
+ *    responses :
+ *      200 :
+ *        description : upload campgroundSite's Image
  *      500 :
  *        description : Some server error
  */
