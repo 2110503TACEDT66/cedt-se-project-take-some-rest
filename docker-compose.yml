@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  backend:
+    image: backend
+    build: ./backend
+    container_name: backend
+    restart: always
+    ports:
+      - 5000:5000
+    networks:
+      - take-some-rest
+
+  frontend:
+    image: frontend
+    build: ./frontend
+    container_name: frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
+    networks:
+      - take-some-rest
+
+networks:
+  take-some-rest:
+    driver: bridge
+    
