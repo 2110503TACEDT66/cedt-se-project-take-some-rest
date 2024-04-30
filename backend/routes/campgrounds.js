@@ -197,12 +197,31 @@ module.exports = router
  *      - bearerAuth: []
  *    summary: createReview
  *    tags: [EPIC 1 - Exploring Campground]
- *    requestBody :
- *      required : true
- *      content :
- *        application/json :
- *          schema :
- *            $ref : '#/components/schemas/Review'
+ *    parameters:
+ *      - in: path
+ *        name: ID
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: User id
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: Campground id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            properties:
+ *              comment:
+ *                type: string
+ *                example: good
+ *              score:
+ *                type: int
+ *                example: 5
  *    responses :
  *      201 :
  *        description : successfully to created
