@@ -573,4 +573,94 @@ module.exports = router
  *        description : successfully
  *      500 :
  *        description : Some server error
+ * /api/reserves:
+ *  get:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Get Reserves
+ *    tags: [Campground Owner]
+ *    responses :
+ *      200 :
+ *        description : get reserve data successfully
+ *      500 :
+ *        description : Some server error
+ * /api/reserves/{rid}:
+ *  get:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Get Reserve
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: rid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: Reserve id
+ *    responses :
+ *      200 :
+ *        description : get reserve data successfully
+ *      500 :
+ *        description : Some server error
+ *  put:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Update reserve
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: query
+ *        name: rid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: Reserve id
+ *      - in: query
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        require: false
+ *        description: Campground id
+ *      - in: query
+ *        name: sid
+ *        schema:
+ *          type: string
+ *        require: false
+ *        description: Site id
+ *      - in: query
+ *        name: startDate
+ *        schema:
+ *          type: string
+ *        require: false
+ *        description: Start Date
+ *      - in: query
+ *        name: tentSize.swidth
+ *        schema:
+ *          type: number
+ *        require: false
+ *        description: Tent's Width
+ *      - in: query
+ *        name: tentSize.slength
+ *        schema:
+ *          type: number
+ *        require: false
+ *        description: Tent's Length
+ *      - in: query
+ *        name: amount
+ *        schema:
+ *          type: number
+ *        require: false
+ *        description: Amount
+ *      - in: query
+ *        name: preferredName
+ *        schema:
+ *          type: string
+ *        require: false
+ *        description: Preferred Name
+ *    responses :
+ *      200 :
+ *        description : Update reserve successfully
+ *      400 :
+ *        description : can't update reserve
+ *      500 :
+ *        description : Some server error
  */
