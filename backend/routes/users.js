@@ -97,7 +97,7 @@ module.exports = router
  *  put:
  *    security:
  *      - bearerAuth: []
- *    summary: add campground to my bookmark
+ *    summary: Add campground to my bookmarked campground list
  *    tags: [EPIC 1 - Exploring Campground]
  *    parameters:
  *      - in: path
@@ -116,7 +116,7 @@ module.exports = router
  *  delete :
  *    security:
  *      - bearerAuth: []
- *    summary: delete campground from my bookmark
+ *    summary: Delete campground from my bookmarked campground list
  *    tags: [EPIC 1 - Exploring Campground]
  *    parameters:
  *      - in: path
@@ -136,7 +136,7 @@ module.exports = router
  *  get :
  *    security:
  *      - bearerAuth: []
- *    summary: get my bookmark
+ *    summary: Get my bookmarked campgrounds
  *    tags: [EPIC 1 - Exploring Campground]
  *    responses:
  *      200:
@@ -151,7 +151,7 @@ module.exports = router
  *  put:
  *    security:
  *      - bearerAuth: []
- *    summary: User request to be campground owner
+ *    summary: User request to be campground owner (customer)
  *    tags: [EPIC 2 - Campground Owner]
  *    responses:
  *      200:
@@ -164,7 +164,7 @@ module.exports = router
  *  get:
  *    security:
  *      - bearerAuth: []
- *    summary: get all user request (admin)
+ *    summary: Get all user's request to be campground owner (admin)
  *    tags: [EPIC 2 - Campground Owner]
  *    responses :
  *      200 :
@@ -175,7 +175,7 @@ module.exports = router
  *  put:
  *    security:
  *      - bearerAuth: []
- *    summary: Approve request to be campground owner (admin)
+ *    summary: Approve user's request to be campground owner (admin)
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
@@ -204,7 +204,7 @@ module.exports = router
  *  put:
  *    security:
  *      - bearerAuth: []
- *    summary: Reject request to be campground owner (admin)
+ *    summary: Reject user's request to be campground owner (admin)
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path

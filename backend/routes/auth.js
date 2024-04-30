@@ -49,7 +49,7 @@ module.exports = router
  * @swagger
  * /api/auth/register:
  *  post:
- *    summary: Register User
+ *    summary: Register new user
  *    tags: [Authorization]
  *    requestBody :
  *      required : true
@@ -68,7 +68,7 @@ module.exports = router
  *        description : Some server error
  * /api/auth/login:
  *  post:
- *    summary: Log-in User
+ *    summary: Log-in
  *    tags: [Authorization]
  *    requestBody :
  *      required : true
@@ -91,7 +91,7 @@ module.exports = router
  *        description : Some server error
  * /api/auth/logout:
  *  get:
- *    summary: Log-out User
+ *    summary: Log-out
  *    tags: [Authorization]
  *    responses :
  *      200 :
@@ -102,7 +102,7 @@ module.exports = router
  *  get:
  *    security:
  *      - bearerAuth: []
- *    summary: get me
+ *    summary: Get my profile
  *    tags: [Authorization]
  *    responses :
  *      200 :

@@ -126,7 +126,7 @@ module.exports = router
  *  get :
  *    security:
  *      - bearerAuth: []
- *    summary: get filtered campground
+ *    summary: Get campgrounds that match filter conditions
  *    tags: [EPIC 1 - Exploring Campground]
  *    parameters:
  *      - in: query
@@ -153,49 +153,49 @@ module.exports = router
  *      500:
  *        description: Some error happened
  * /api/campgrounds/{cgid}:
- *  get : 
+ *  get :
  *    security:
  *      - bearerAuth: []
- *    summary: get Campground
- *    tags: [EPIC 1 - Exploring Campground]
+ *    summary: Get campground detail
+ *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
  *        name: cgid
- *        schema: 
+ *        schema:
  *          type: string
  *        description: campground id
  *    responses:
  *      200:
  *        description: Get Campground successfully
  *      500:
- *        description: Some error happened 
+ *        description: Some error happened
  * /api/campgrounds/{cgid}/sites/{sid}:
- *  get : 
+ *  get :
  *    security:
  *      - bearerAuth: []
- *    summary: get Campground Site
+ *    summary: Get campground site
  *    tags: [EPIC 1 - Exploring Campground]
  *    parameters:
  *      - in: path
  *        name: sid
- *        schema: 
+ *        schema:
  *          type: string
  *        description: campground site Id
  *      - in: path
  *        name: cgid
- *        schema: 
+ *        schema:
  *          type: string
  *        description: campground id
  *    responses:
  *      200:
  *        description: Get Campground Site successfully
  *      500:
- *        description: Some error happened 
+ *        description: Some error happened
  * /api/campgrounds/{cgid}/reviews:
  *  post:
  *    security:
  *      - bearerAuth: []
- *    summary: createReview
+ *    summary: Create review
  *    tags: [EPIC 1 - Exploring Campground]
  *    requestBody :
  *      required : true
@@ -215,8 +215,8 @@ module.exports = router
  *      500 :
  *        description : Some server error
  *  get :
- *    summary: get Reviews
- *    tags: [EPIC 1 - Exploring Campground]
+ *    summary: Get review for a specific campground
+ *    tags: [EPIC 1 & 2]
  *    parameters:
  *      - in: path
  *        name: cgid
@@ -265,7 +265,7 @@ module.exports = router
  *  get:
  *    security:
  *      - bearerAuth: []
- *    summary: View my campground (campgroundOwner)
+ *    summary: View all of my campground (campgroundOwner)
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
@@ -336,7 +336,7 @@ module.exports = router
  *  post:
  *    security:
  *      - bearerAuth: []
- *    summary: Upload campgroundSite's Picture
+ *    summary: Upload campground site's picture (campgroundOwner, admin)
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path

@@ -66,7 +66,7 @@ module.exports = router
  *  delete :
  *    security:
  *      - bearerAuth: []
- *    summary: delete review
+ *    summary: Delete review (admin, review's creator)
  *    tags: [EPIC 1 & 2]
  *    parameters:
  *      - in: path
@@ -85,7 +85,7 @@ module.exports = router
  *  put:
  *    security:
  *      - bearerAuth: []
- *    summary: Report Review
+ *    summary: Report review (campgroundOwner)
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
@@ -105,7 +105,7 @@ module.exports = router
  *  get:
  *    security:
  *      - bearerAuth: []
- *    summary: Get reported review
+ *    summary: Get reported reviews (admin)
  *    tags: [EPIC 2 - Campground Owner]
  *    responses :
  *      200 :

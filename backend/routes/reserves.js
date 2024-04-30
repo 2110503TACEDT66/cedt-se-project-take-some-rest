@@ -34,7 +34,7 @@ module.exports = router
  *  get:
  *    security:
  *      - bearerAuth: []
- *    summary: Get Reserves
+ *    summary: Get reserves
  *    tags: [EPIC 2 - Campground Owner]
  *    responses :
  *      200 :
@@ -45,7 +45,7 @@ module.exports = router
  *  get:
  *    security:
  *      - bearerAuth: []
- *    summary: Get Reserve
+ *    summary: Get reserve
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
@@ -123,7 +123,7 @@ module.exports = router
  *  delete:
  *    security:
  *      - bearerAuth: []
- *    summary: Delete Reserve
+ *    summary: Delete reserve
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
