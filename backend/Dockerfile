@@ -1,16 +1,17 @@
-# Use Node v4 as the base image.
+# Use Node v17 as the base image.
 FROM node:17-alpine
 
-
-COPY . /app
-
+# Set working directory in the container.
 WORKDIR /app
 
-# Install dependencies
-RUN cd /app; 
-RUN npm install;
+# Copy everything from the current directory to /app in the container.
+COPY . .
 
-ARG CONFIG_ENV
+# Install dependencies
+RUN npm install
+
+# Set default value for CONFIG_ENV
+ARG CONFIG_ENV=default
 ENV CONFIG_ENV=${CONFIG_ENV}
 
 # Expose our server port.

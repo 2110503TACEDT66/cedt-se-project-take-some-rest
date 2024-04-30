@@ -1,19 +1,23 @@
+# Use Node v18 as the base image.
 FROM node:18-alpine
-COPY . /app
 
+# Set working directory in the container.
 WORKDIR /app
 
-RUN cd /app; 
-RUN npm install; 
- 
-# Environment variables must be redefined at run time
-ARG ENV_VARIABLE
+# Copy everything from the current directory to /app in the container.
+COPY . .
+
+# Install dependencies and build
+RUN npm install && npm run build
+
+# Set default values for environment variables
+ARG ENV_VARIABLE=default
 ENV ENV_VARIABLE=${ENV_VARIABLE}
-ARG NEXT_PUBLIC_ENV_VARIABLE
+ARG NEXT_PUBLIC_ENV_VARIABLE=default
 ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
 
-RUN npm run build;
-
+# Expose the port
 EXPOSE 3000
 
+# Run the application
 CMD ["npm", "start"]
