@@ -278,13 +278,38 @@ exports.updateReserve = async (req, res, next) => {
       (req.user.role === 'user' && reserve.user.toString() === req.user.id) ||
       (req.user.role === 'campgroundOwner' &&
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
-      req.user.role !== 'admin'
+      req.user.role === 'admin'
     ) {
-      // Test validate
-      if (req.body.tentSize.slength <= 0 || req.body.tentSize.swidth <= 0) {
-        return res
-          .status(400)
-          .json({ success: false, message: "The booking's data is invalid" })
+      let newTentSize = req.body.tentSize
+      let isError = false
+
+      if (newTentSize) {
+        if (newTentSize.slength && newTentSize.swidth) {
+          if (newTentSize.slength <= 0 || newTentSize.swidth <= 0) {
+            isError = true
+          }
+        } else if (newTentSize.swidth) {
+          if (newTentSize.swidth <= 0) {
+            isError = true
+          } else {
+            newTentSize.slength = reserve.tentSize.slength
+            req.body.tentSize = newTentSize
+          }
+        } else if (newTentSize.slength) {
+          if (newTentSize.slength <= 0) {
+            isError = true
+          } else {
+            newTentSize.swidth = reserve.tentSize.swidth
+            req.body.tentSize = newTentSize
+          }
+        }
+      }
+
+      if (isError) {
+        return res.status(400).json({
+          success: false,
+          message: "The booking's data is invalid",
+        })
       }
 
       reserve = await Reserve.findByIdAndUpdate(req.params.rid, req.body, {
@@ -300,7 +325,7 @@ exports.updateReserve = async (req, res, next) => {
       })
     }
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     return res
       .status(500)
       .json({ success: false, message: 'Cannot Update Reserve' })
