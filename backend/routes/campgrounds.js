@@ -65,41 +65,10 @@ router
 
 module.exports = router
 
-
 /**
  * @swagger
  * components:
- *  securitySchemes:
- *    bearerAuth:            
- *      type: http
- *      scheme: bearer
- *      bearerFormat: JWT 
  *  schemas:
- *    User:
- *      type: object
- *      required:
- *      - name
- *      - tel
- *      - email
- *      - password
- *      - role
- *      properties:
- *        name:
- *          type: string
- *          example: witty
- *        tel:
- *          type: string
- *          example: 083-021-5057
- *        email:
- *          type: string
- *          example: witty@gmail.com
- *        password:
- *          type: string
- *          example: root123
- *        role:
- *          type: string
- *          description: customer campgroundOwner admin
- *          example: customer
  *    Campground:
  *      type: object
  *      required:
@@ -143,146 +112,38 @@ module.exports = router
  *        website:
  *          type: string
  *          example: https://thai.tourismthailand.org/Attraction/อุทยานแห่งชาติไทรโยค
- *        facilities: 
+ *        facilities:
  *          type: [String]
  *          example:  ["Tent","Electricity","Toilet"]
  *        amount:
  *          type: number
  *          example: 30
- *    Review:
- *      type: object
- *      required:
- *      - userId
- *      - campgroundId
- *      - comment
- *      - score
- *      properties:
- *        userId: 
- *          type: string
- *          example: 662f18753245db1a68cbe933
- *        campgroundId:
- *          type: string
- *          example: 662f177a3245db1a68cbe87f
- *        comment:
- *          type: string
- *          example: good
- *        score:
- *          type: int
- *          example: 5
- */
-
-
-
-/**
- * @swagger
- * tags:
- *  name: Authorization
- */
-/**
- * @swagger
- * tags:
- *  name: Exploring Campground
- *  description: Customer Exploring Campground
- */
-/**
- * @swagger
- * tags:
- *  name: Campground Owner
- *  description: Managing your campground
- */
-
-
-
-/**
- * @swagger
- * /api/auth/register:
- *  post:
- *    summary: Register User
- *    tags: [Authorization]
- *    requestBody :
- *      required : true
- *      content :
- *        application/json :
- *          schema :
- *            $ref : '#/components/schemas/User'
- *    responses :
- *      201 :
- *        description : successfully to created
- *        content :
- *          application/json :
- *            schema :
- *              $ref : '#/components/schemas/User'
- *      500 :
- *        description : Some server error
- * /api/auth/login:
- *  post:
- *    summary: Log-in User
- *    tags: [Authorization]
- *    requestBody :
- *      required : true
- *      content :
- *        application/json :
- *          schema :
- *            properties:
- *              email:
- *                type: string
- *                example: witty@gmail.com
- *              password:
- *                type: string
- *                example: root123
- *    responses :
- *      200 :
- *        description : Log-in successfully
- *      400 : 
- *        description : Bad request
- *      500 :
- *        description : Some server error
- * /api/auth/logout:
- *  get:
- *    summary: Log-out User
- *    tags: [Authorization]
- *    responses :
- *      200 :
- *        description : Log-out successfully
- *      500 :
- *        description : Some server error
- * /api/users/me:
- *  get:
- *    security:
- *      - bearerAuth: [] 
- *    summary: get me
- *    tags: [Authorization]
- *    responses :
- *      200 :
- *        description : successfully
- *      500 :
- *        description : Some server error
  */
 
 /**
  * @swagger
-* /api/campgrounds:
- *  get : 
+ * /api/campgrounds:
+ *  get :
  *    security:
  *      - bearerAuth: []
  *    summary: get filtered campground
- *    tags: [Exploring Campground]
+ *    tags: [EPIC 1 - Exploring Campground]
  *    parameters:
  *      - in: query
  *        name: name
- *        schema: 
+ *        schema:
  *          type: string
  *        description: Campground name
  *      - in: query
  *        name: province
- *        schema: 
+ *        schema:
  *          type: string
  *        description: Campground province
  *      - in: query
  *        name: facilities
- *        schema: 
+ *        schema:
  *          type: array
- *          items: 
+ *          items:
  *            type: string
  *        description: Campground facilities
  *        example: ["tent", "parking"]
@@ -290,13 +151,13 @@ module.exports = router
  *      200:
  *        description: Get Filter Campground successfully
  *      500:
- *        description: Some error happened 
+ *        description: Some error happened
  * /api/campgrounds/{cgid}/reviews:
  *  post:
  *    security:
  *      - bearerAuth: []
  *    summary: createReview
- *    tags: [Exploring Campground]
+ *    tags: [EPIC 1 - Exploring Campground]
  *    requestBody :
  *      required : true
  *      content :
@@ -314,9 +175,9 @@ module.exports = router
  *        description : invalid input
  *      500 :
  *        description : Some server error
- *  get : 
+ *  get :
  *    summary: get Reviews
- *    tags: [Exploring Campground]
+ *    tags: [EPIC 1 - Exploring Campground]
  *    parameters:
  *      - in: path
  *        name: cgid
@@ -331,159 +192,16 @@ module.exports = router
  *        description: Bad Request
  *      500:
  *        description: Some error happened
- * /api/reviews/{rvid}:
- *  delete : 
- *    security:
- *      - bearerAuth: []
- *    summary: delete Review
- *    tags: [Exploring Campground]
- *    parameters:
- *      - in: path
- *        name: rvid
- *        schema:
- *          type: string
- *        required: true
- *        description: Review Id
- *    responses:
- *      200:
- *        description: Delete Review Successfully
- *      400:
- *        description: Bad Request
- *      500:
- *        description: Some error happened
- * /api/users/my-bookmark/{cgid}:
- *  put:
- *    security:
- *      - bearerAuth: []
- *    summary: add campground to my bookmark
- *    tags: [Exploring Campground]
- *    parameters:
- *      - in: path
- *        name: cgid
- *        schema:
- *          type: string
- *        required: true
- *        description: Camgpground Id
- *    responses :
- *      200 :
- *        description : successfully add to bookmark
- *      400 :
- *        description : Bad Request
- *      500 :
- *        description : Some server error
- *  delete : 
- *    security:
- *      - bearerAuth: []
- *    summary: delete campground from my bookmark
- *    tags: [Exploring Campground]
- *    parameters:
- *      - in: path
- *        name: cgid
- *        schema:
- *          type: string
- *        required: true
- *        description: Campground Id
- *    responses:
- *      200:
- *        description: Delete campground from my bookmark successfully
- *      400:
- *        description: Bad Request
- *      500:
- *        description: Some error happened
- * /api/users/my-bookmark:
- *  get : 
- *    security:
- *      - bearerAuth: []
- *    summary: get my bookmark
- *    tags: [Exploring Campground]
- *    responses:
- *      200:
- *        description: Get Reviews successfully
- *      500:
- *        description: Some error happened
  */
 
 /**
  * @swagger
- * /api/users/me/campground-owner-request:
- *  put:
- *    security:
- *      - bearerAuth: [] 
- *    summary: User request to be campground owner
- *    tags: [Campground Owner]
- *    responses:
- *      200:
- *        description: Request sent successfully
- *      404:
- *        description: Cannot find user
- *      500:
- *        description: Some error happened
- * /api/users/campground-owner-request:
- *  get:
- *    security:
- *      - bearerAuth: [] 
- *    summary: get all user request (admin)
- *    tags: [Campground Owner]
- *    responses :
- *      200 :
- *        description : successfully
- *      500 :
- *        description : Some server error
- * /api/users/update-role/{ID}:
- *  put:
- *    security:
- *      - bearerAuth: [] 
- *    summary: Approve request to be campground owner (admin)
- *    tags: [Campground Owner]
- *    parameters:
- *      - in: path
- *        name: ID
- *        schema:
- *          type: string
- *        required: true
- *        description: User id
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            properties:
- *              role:
- *                type: string
- *                example: campgroundOwner
- *    responses:
- *      200:
- *        description: Approve request successfully
- *      404:
- *        description: Cannot find user
- *      500:
- *        description: Some error happened
- * /api/users/update-role/{ID}/reject:
- *  put:
- *    security:
- *      - bearerAuth: [] 
- *    summary: Reject request to be campground owner (admin)
- *    tags: [Campground Owner]
- *    parameters:
- *      - in: path
- *        name: ID
- *        schema:
- *          type: string
- *        required: true
- *        description: User id
- *    responses:
- *      200:
- *        description: Reject request successfully
- *      404:
- *        description: Cannot find user
- *      500:
- *        description: Some error happened
  * /api/campgrounds:
  *  post:
  *    security:
- *      - bearerAuth: [] 
+ *      - bearerAuth: []
  *    summary: Add my campground (campgroundOwner ,admin)
- *    tags: [Campground Owner]
+ *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
  *        name: ID
@@ -507,9 +225,9 @@ module.exports = router
  * /api/campgrounds/my-campground:
  *  get:
  *    security:
- *      - bearerAuth: [] 
+ *      - bearerAuth: []
  *    summary: View my campground (campgroundOwner)
- *    tags: [Campground Owner]
+ *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
  *        name: ID
@@ -525,9 +243,9 @@ module.exports = router
  * /api/campgrounds/{cgid}:
  *  put:
  *    security:
- *      - bearerAuth: [] 
+ *      - bearerAuth: []
  *    summary: Update my campground (campgroundOwner)
- *    tags: [Campground Owner]
+ *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
  *        name: ID
@@ -554,9 +272,9 @@ module.exports = router
  *        description : Some server error
  *  delete:
  *    security:
- *      - bearerAuth: [] 
- *    summary: Update my campground (campgroundOwner)
- *    tags: [Campground Owner]
+ *      - bearerAuth: []
+ *    summary: Delete my campground (campgroundOwner)
+ *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
  *        name: ID
@@ -575,159 +293,19 @@ module.exports = router
  *        description : successfully
  *      500 :
  *        description : Some server error
- * /api/reserves:
- *  get:
- *    security:
- *      - bearerAuth: [] 
- *    summary: Get Reserves
- *    tags: [Campground Owner]
- *    responses :
- *      200 :
- *        description : get reserve data successfully
- *      500 :
- *        description : Some server error
- * /api/reserves/{rid}:
- *  get:
- *    security:
- *      - bearerAuth: [] 
- *    summary: Get Reserve
- *    tags: [Campground Owner]
- *    parameters:
- *      - in: path
- *        name: rid
- *        schema:
- *          type: string
- *        required: true
- *        description: Reserve id
- *    responses :
- *      200 :
- *        description : get reserve data successfully
- *      500 :
- *        description : Some server error
- *  put:
- *    security:
- *      - bearerAuth: [] 
- *    summary: Update reserve
- *    tags: [Campground Owner]
- *    parameters:
- *      - in: path
- *        name: rid
- *        schema:
- *          type: string
- *        required: true
- *        description: Reserve id
- *      - in: query
- *        name: cgid
- *        schema:
- *          type: string
- *        required: false
- *        description: Campground id
- *      - in: query
- *        name: sid
- *        schema:
- *          type: string
- *        required: false
- *        description: Site id
- *      - in: query
- *        name: startDate
- *        schema:
- *          type: string
- *        required: false
- *        description: Start Date
- *      - in: query
- *        name: tentSize.swidth
- *        schema:
- *          type: number
- *        required: false
- *        description: Tent's Width
- *      - in: query
- *        name: tentSize.slength
- *        schema:
- *          type: number
- *        required: false
- *        description: Tent's Length
- *      - in: query
- *        name: amount
- *        schema:
- *          type: number
- *        required: false
- *        description: Amount
- *      - in: query
- *        name: preferredName
- *        schema:
- *          type: string
- *        required: false
- *        description: Preferred Name
- *    responses :
- *      200 :
- *        description : Update reserve successfully
- *      400 :
- *        description : can't update reserve
- *      500 :
- *        description : Some server error
- *  delete:
- *    security:
- *      - bearerAuth: [] 
- *    summary: Delete Reserve
- *    tags: [Campground Owner]
- *    parameters:
- *      - in: path
- *        name: rid
- *        schema:
- *          type: string
- *        required: true
- *        description:  Reserve ID
- *    responses :
- *      200 :
- *        description : delete reserve successfully
- *      400 : 
- *        description : can't delete reserve
- *      500 :
- *        description : Some server error
- * /api/reviews/{rvid}:
- *  put:
- *    security:
- *      - bearerAuth: [] 
- *    summary: Report Review
- *    tags: [Campground Owner]
- *    parameters:
- *      - in: path
- *        name: rvid
- *        schema:
- *          type: string
- *        required: true
- *        description: Reserve Id 
- *    responses :
- *      200 :
- *        description : report reserve successfully
- *      400 : 
- *        description : can't report reserve
- *      500 :
- *        description : Some server error
- * /api/reviews/reported-review:
- *  get:
- *    security:
- *      - bearerAuth: [] 
- *    summary: Get reported review
- *    tags: [Campground Owner]
- *    responses :
- *      200 :
- *        description : get reported reserve data successfully
- *      500 :
- *        description : Some server error
  * /api/campgrounds/{cgid}/sites/{sid}/upload-image:
  *  post:
  *    security:
- *      - bearerAuth: [] 
+ *      - bearerAuth: []
  *    summary: Upload campgroundSite's Picture
- *    tags: [Campground Owner]
+ *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
  *      - in: path
  *        name: cgid
  *        schema:
  *          type: string
  *        required: true
- *        description: Campground's Id 
+ *        description: Campground's Id
  *      - in: path
  *        name: sid
  *        schema:
@@ -741,7 +319,7 @@ module.exports = router
  *          schema:
  *            type: object
  *            properties:
- *              file: 
+ *              file:
  *                type: string
  *                format: binary
  *    responses :
