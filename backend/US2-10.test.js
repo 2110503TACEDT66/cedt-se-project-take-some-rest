@@ -405,7 +405,7 @@ describe('CampgroundOwner Login', () => {
     reportJson = res.json.mock.calls[0][0]
     reportStatus = res.status.mock.calls[0][0]
 
-    expect(reportJson.success).toBe(true)
-    expect(reportStatus).toBe(208)
+    expect(reportJson.success).toBe(false)
+    expect(reportStatus).toBe(400)
   })
 })

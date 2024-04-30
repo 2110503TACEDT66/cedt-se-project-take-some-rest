@@ -472,8 +472,8 @@ exports.reportReview = async (req, res, next) => {
     
     //make sure review is not report yet
     if (review.isReport) {
-      return res.status(208).json({
-        success: true,
+      return res.status(400).json({
+        success: false,
         message: 'Review is already reported',
       })
     }
