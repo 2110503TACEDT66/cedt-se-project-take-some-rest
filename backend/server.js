@@ -4,6 +4,8 @@ const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 const connectDB = require('./config/db')
 const path = require('path')
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUI = require('swagger-ui-express')
 
 //Security
 const mongoSanitize = require('express-mongo-sanitize')
@@ -77,3 +79,18 @@ process.on('unhandledRejection', (err, promise) => {
   // Close server & exit process
   server.close(() => process.exit(1))
 })
+
+const swaggerOptions={
+  swaggerDefinition:{
+    openapi:'3.0.0',
+    info:{
+      title:'Campground Reservation',
+      version: '1.0.0',
+      description:'Campground System API'
+    }
+  },
+  apis:['./routes/*.js'],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-swagger',swaggerUI.serve, swaggerUI.setup(swaggerDocs));
