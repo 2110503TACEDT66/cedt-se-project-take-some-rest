@@ -29,11 +29,11 @@ exports.getReserve = async (req, res, next) => {
     }
 
     if (
-      (req.user.role == 'customer' &&
-        reserve.user._id.toString() == req.user.id) ||
-      (req.user.role == 'campgroundOwner' &&
-        reserve.campground.campgroundOwner == req.user.id) ||
-      req.user.role == 'admin'
+      (req.user.role === 'customer' &&
+        reserve.user._id.toString() === req.user.id) ||
+      (req.user.role === 'campgroundOwner' &&
+        reserve.campground.campgroundOwner.toString() === req.user.id) ||
+      req.user.role === 'admin'
     ) {
       res.status(200).json({ success: true, data: reserve })
     } else {
