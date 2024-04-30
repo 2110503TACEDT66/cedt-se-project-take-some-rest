@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const CampgroundSchema = new mongoose.Schema({
-
   campgroundOwner: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
@@ -14,7 +13,10 @@ const CampgroundSchema = new mongoose.Schema({
     type: String,
     minLength: 11,
     maxLength: 12,
-    pattern: '^([0-9]{3}|[0-9]{2})-[0-9]{3}-[0-9]{4}$',
+    match: [
+      /^([0-9]{3}|[0-9]{2})-[0-9]{3}-[0-9]{4}$/,
+      'Please add a valid tel',
+    ],
     require: [true, 'Please add a telephone number'],
   },
   address: {
@@ -38,7 +40,7 @@ const CampgroundSchema = new mongoose.Schema({
     },
     postalCode: {
       type: String,
-      pattern: '^[0-9]{5}$',
+      match: [/^[0-9]{5}$/, 'Please add a valid postal code'],
       require: [true, 'Please add a postal code'],
     },
     link: String,
@@ -81,7 +83,7 @@ CampgroundSchema.pre(
     await this.model('User').updateMany(
       { bookmarkCampgrounds: this._id },
       { $pull: { bookmarkCampgrounds: this._id } }
-    ) 
+    )
     next()
   }
 )

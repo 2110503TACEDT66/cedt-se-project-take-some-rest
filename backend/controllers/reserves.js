@@ -32,7 +32,7 @@ exports.getReserve = async (req, res, next) => {
       (req.user.role === 'user' && reserve.user.toString() === req.user.id) ||
       (req.user.role === 'campgroundOwner' &&
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
-      req.user.role !== 'admin'
+      req.user.role == 'admin'
     ) {
       res.status(200).json({ success: true, data: reserve })
     } else {
@@ -280,6 +280,15 @@ exports.updateReserve = async (req, res, next) => {
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
       req.user.role !== 'admin'
     ) {
+      // Test validate
+      const testUserValidation = new Reserve(req.body)
+      const error = testUserValidation.validateSync()
+      if (error) {
+        return res
+          .status(400)
+          .json({ success: false, message: "The booking's data is invalid" })
+      }
+
       reserve = await Reserve.findByIdAndUpdate(req.params.rid, req.body, {
         new: true,
         runValidators: true,
@@ -312,8 +321,14 @@ exports.deleteReserve = async (req, res, next) => {
         .json({ success: false, message: 'Cannot find this reserve' })
     }
 
-    if ((req.user.role !== 'admin' && reserve.user.toString() !== req.user.id)||
-    (req.user.role === 'campgroundOwner' && reserve.campground.campgroundOwner.toString() !== req.user.id)) {
+    if (
+      req.user.role !== 'admin' &&
+      reserve.user.toString() !== req.user.id &&
+      !(
+        req.user.role === 'campgroundOwner' &&
+        reserve.campground.campgroundOwner !== req.user.id
+      )
+    ) {
       return res.status(403).json({
         success: false,
         message: 'User is not authorized to delete this reserve',
@@ -324,7 +339,7 @@ exports.deleteReserve = async (req, res, next) => {
 
     return res.status(200).json({ success: true, data: {} })
   } catch (err) {
-    // console.log(err)
+    console.log(err)
     return res.status(500).json({ success: false })
   }
 }
