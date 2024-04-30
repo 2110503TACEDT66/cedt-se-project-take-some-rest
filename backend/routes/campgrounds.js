@@ -124,8 +124,6 @@ module.exports = router
  * @swagger
  * /api/campgrounds:
  *  get :
- *    security:
- *      - bearerAuth: []
  *    summary: Get campgrounds that match filter conditions
  *    tags: [EPIC 1 - Exploring Campground]
  *    parameters:
@@ -154,8 +152,6 @@ module.exports = router
  *        description: Some error happened
  * /api/campgrounds/{cgid}:
  *  get :
- *    security:
- *      - bearerAuth: []
  *    summary: Get campground detail
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
@@ -171,21 +167,19 @@ module.exports = router
  *        description: Some error happened
  * /api/campgrounds/{cgid}/sites/{sid}:
  *  get :
- *    security:
- *      - bearerAuth: []
  *    summary: Get campground site
  *    tags: [EPIC 1 - Exploring Campground]
  *    parameters:
- *      - in: path
- *        name: sid
- *        schema:
- *          type: string
- *        description: campground site Id
  *      - in: path
  *        name: cgid
  *        schema:
  *          type: string
  *        description: campground id
+ *      - in: path
+ *        name: sid
+ *        schema:
+ *          type: string
+ *        description: campground site id
  *    responses:
  *      200:
  *        description: Get Campground Site successfully
@@ -198,12 +192,6 @@ module.exports = router
  *    summary: Create review
  *    tags: [EPIC 1 - Exploring Campground]
  *    parameters:
- *      - in: path
- *        name: ID
- *        schema:
- *          type: string
- *        required: true
- *        description: User id
  *      - in: path
  *        name: cgid
  *        schema:
