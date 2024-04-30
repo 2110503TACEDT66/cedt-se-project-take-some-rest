@@ -8,13 +8,15 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies and build
-RUN npm install && npm run build
+RUN npm install
 
 # Set default values for environment variables
 ARG ENV_VARIABLE=default
 ENV ENV_VARIABLE=${ENV_VARIABLE}
 ARG NEXT_PUBLIC_ENV_VARIABLE=default
 ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
+
+RUN npm run build
 
 # Expose the port
 EXPOSE 3000
