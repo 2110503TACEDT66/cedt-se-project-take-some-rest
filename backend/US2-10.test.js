@@ -269,7 +269,7 @@ describe('CampgroundOwner Login', () => {
     }
 
     //review id that is not belong to campground that this user own
-    reviewId = '662f504cb143cf39b8ed276a'
+    reviewId = '6630b7c979577e2dc8d08983'
 
     const req = mockRequest(reviewId, JSONlogin.token)
     const res = mockResponse()

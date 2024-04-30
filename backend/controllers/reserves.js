@@ -37,6 +37,8 @@ exports.getReserve = async (req, res, next) => {
     ) {
       res.status(200).json({ success: true, data: reserve })
     } else {
+      // console.log(req.user.role)
+      // console.log(reserve.user._id.toString())
       return res.status(403).json({
         success: false,
         message: 'User is not authorized to get this reserve',
@@ -282,14 +284,41 @@ exports.updateReserve = async (req, res, next) => {
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
       req.user.role === 'admin'
     ) {
-      // Test validate
-      // const testUserValidation = new Reserve(req.body)
-      // const error = testUserValidation.validateSync()
-      // if (error) {
-      //   return res
-      //     .status(400)
-      //     .json({ success: false, message: "The booking's data is invalid" })
-      // }
+      let isError = false
+
+      if (req.body.amount && req.body.amount < 0) {
+        isError = true
+      }
+
+      let newTentSize = req.body.tentSize
+      if (newTentSize) {
+        if (newTentSize.slength && newTentSize.swidth) {
+          if (newTentSize.slength <= 0 || newTentSize.swidth <= 0) {
+            isError = true
+          }
+        } else if (newTentSize.swidth) {
+          if (newTentSize.swidth <= 0) {
+            isError = true
+          } else {
+            newTentSize.slength = reserve.tentSize.slength
+            req.body.tentSize = newTentSize
+          }
+        } else if (newTentSize.slength) {
+          if (newTentSize.slength <= 0) {
+            isError = true
+          } else {
+            newTentSize.swidth = reserve.tentSize.swidth
+            req.body.tentSize = newTentSize
+          }
+        }
+      }
+
+      if (isError) {
+        return res.status(400).json({
+          success: false,
+          message: "The booking's data is invalid",
+        })
+      }
 
       reserve = await Reserve.findByIdAndUpdate(req.params.rid, req.body, {
         new: true,
@@ -304,7 +333,7 @@ exports.updateReserve = async (req, res, next) => {
       })
     }
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     return res
       .status(500)
       .json({ success: false, message: 'Cannot Update Reserve' })
