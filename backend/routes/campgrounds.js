@@ -682,4 +682,24 @@ module.exports = router
  *        description : can't delete reserve
  *      500 :
  *        description : Some server error
+ * /api/reviews/{rvid}:
+ *  put:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Report Review
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: rvid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description: Reserve Id 
+ *    responses :
+ *      200 :
+ *        description : report reserve successfully
+ *      400 : 
+ *        description : can't report reserve
+ *      500 :
+ *        description : Some server error
  */
