@@ -280,9 +280,13 @@ exports.updateReserve = async (req, res, next) => {
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
       req.user.role === 'admin'
     ) {
-      let newTentSize = req.body.tentSize
       let isError = false
 
+      if (req.body.amount && req.body.amount < 0) {
+        isError = true
+      }
+
+      let newTentSize = req.body.tentSize
       if (newTentSize) {
         if (newTentSize.slength && newTentSize.swidth) {
           if (newTentSize.slength <= 0 || newTentSize.swidth <= 0) {
