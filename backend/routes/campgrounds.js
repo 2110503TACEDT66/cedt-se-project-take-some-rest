@@ -286,13 +286,6 @@ module.exports = router
  *      - bearerAuth: []
  *    summary: View my campground (campgroundOwner)
  *    tags: [EPIC 2 - Campground Owner]
- *    parameters:
- *      - in: path
- *        name: ID
- *        schema:
- *          type: string
- *        required: true
- *        description: User id
  *    responses :
  *      200 :
  *        description : successfully
