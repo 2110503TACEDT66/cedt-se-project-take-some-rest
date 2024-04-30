@@ -46,10 +46,10 @@ module.exports = router
  *      - comment
  *      - score
  *      properties:
- *        userId:
+ *        user:
  *          type: string
  *          example: 662f18753245db1a68cbe933
- *        campgroundId:
+ *        campground:
  *          type: string
  *          example: 662f177a3245db1a68cbe87f
  *        comment:

@@ -30,6 +30,39 @@ module.exports = router
 
 /**
  * @swagger
+ * components:
+ *  schemas:
+ *    Reserve:
+ *      type: object
+ *      properties:
+ *        campground:
+ *          type: string
+ *          example: 662f177a3245db1a68cbe87f
+ *        site:
+ *          type: string
+ *          example: 662f177a3245db1a68cbe87f
+ *        preferredName:
+ *          type: string
+ *          example: John
+ *        startDate:
+ *          type: Date
+ *          example: 04/28/2024
+ *        tentSize:
+ *          type: object
+ *          properties:
+ *            swidth:
+ *              type: number
+ *              example: 1
+ *            slength:
+ *              type: number
+ *              example: 2
+ *        amount:
+ *          type: number
+ *          example: 1
+ */
+
+/**
+ * @swagger
  * /api/reserves:
  *  get:
  *    security:
@@ -71,48 +104,12 @@ module.exports = router
  *          type: string
  *        required: true
  *        description: Reserve id
- *      - in: query
- *        name: cgid
- *        schema:
- *          type: string
- *        required: false
- *        description: Campground id
- *      - in: query
- *        name: sid
- *        schema:
- *          type: string
- *        required: false
- *        description: Site id
- *      - in: query
- *        name: startDate
- *        schema:
- *          type: string
- *        required: false
- *        description: Start Date
- *      - in: query
- *        name: tentSize.swidth
- *        schema:
- *          type: number
- *        required: false
- *        description: Tent's Width
- *      - in: query
- *        name: tentSize.slength
- *        schema:
- *          type: number
- *        required: false
- *        description: Tent's Length
- *      - in: query
- *        name: amount
- *        schema:
- *          type: number
- *        required: false
- *        description: Amount
- *      - in: query
- *        name: preferredName
- *        schema:
- *          type: string
- *        required: false
- *        description: Preferred Name
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref : '#/components/schemas/Reserve'
  *    responses :
  *      200 :
  *        description : Update reserve successfully

@@ -150,21 +150,6 @@ module.exports = router
  *        description: Get Filter Campground successfully
  *      500:
  *        description: Some error happened
- * /api/campgrounds/{cgid}:
- *  get :
- *    summary: Get campground detail
- *    tags: [EPIC 2 - Campground Owner]
- *    parameters:
- *      - in: path
- *        name: cgid
- *        schema:
- *          type: string
- *        description: campground id
- *    responses:
- *      200:
- *        description: Get Campground successfully
- *      500:
- *        description: Some error happened
  * /api/campgrounds/{cgid}/sites/{sid}:
  *  get :
  *    summary: Get campground site
@@ -280,18 +265,26 @@ module.exports = router
  *      500 :
  *        description : Some server error
  * /api/campgrounds/{cgid}:
+ *  get :
+ *    summary: Get campground detail
+ *    tags: [EPIC 2 - Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: cgid
+ *        schema:
+ *          type: string
+ *        description: campground id
+ *    responses:
+ *      200:
+ *        description: Get Campground successfully
+ *      500:
+ *        description: Some error happened
  *  put:
  *    security:
  *      - bearerAuth: []
  *    summary: Update my campground (campgroundOwner)
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
- *      - in: path
- *        name: ID
- *        schema:
- *          type: string
- *        required: true
- *        description: User id
  *      - in: path
  *        name: cgid
  *        schema:
@@ -315,12 +308,6 @@ module.exports = router
  *    summary: Delete my campground (campgroundOwner)
  *    tags: [EPIC 2 - Campground Owner]
  *    parameters:
- *      - in: path
- *        name: ID
- *        schema:
- *          type: string
- *        required: true
- *        description: User id
  *      - in: path
  *        name: cgid
  *        schema:
