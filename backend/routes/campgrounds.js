@@ -152,6 +152,45 @@ module.exports = router
  *        description: Get Filter Campground successfully
  *      500:
  *        description: Some error happened
+ * /api/campgrounds/{cgid}:
+ *  get : 
+ *    security:
+ *      - bearerAuth: []
+ *    summary: get Campground
+ *    tags: [EPIC 1 - Exploring Campground]
+ *    parameters:
+ *      - in: path
+ *        name: cgid
+ *        schema: 
+ *          type: string
+ *        description: campground id
+ *    responses:
+ *      200:
+ *        description: Get Campground successfully
+ *      500:
+ *        description: Some error happened 
+ * /api/campgrounds/{cgid}/sites/{sid}:
+ *  get : 
+ *    security:
+ *      - bearerAuth: []
+ *    summary: get Campground Site
+ *    tags: [EPIC 1 - Exploring Campground]
+ *    parameters:
+ *      - in: path
+ *        name: sid
+ *        schema: 
+ *          type: string
+ *        description: campground site Id
+ *      - in: path
+ *        name: cgid
+ *        schema: 
+ *          type: string
+ *        description: campground id
+ *    responses:
+ *      200:
+ *        description: Get Campground Site successfully
+ *      500:
+ *        description: Some error happened 
  * /api/campgrounds/{cgid}/reviews:
  *  post:
  *    security:
