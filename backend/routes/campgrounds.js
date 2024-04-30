@@ -663,4 +663,23 @@ module.exports = router
  *        description : can't update reserve
  *      500 :
  *        description : Some server error
+ *  delete:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Delete Reserve
+ *    tags: [Campground Owner]
+ *    parameters:
+ *      - in: path
+ *        name: rid
+ *        schema:
+ *          type: string
+ *        require: true
+ *        description:  Reserve ID
+ *    responses :
+ *      200 :
+ *        description : delete reserve successfully
+ *      400 : 
+ *        description : can't delete reserve
+ *      500 :
+ *        description : Some server error
  */
