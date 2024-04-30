@@ -29,13 +29,16 @@ exports.getReserve = async (req, res, next) => {
     }
 
     if (
-      (req.user.role === 'user' && reserve.user.toString() === req.user.id) ||
-      (req.user.role === 'campgroundOwner' &&
-        reserve.campground.campgroundOwner.toString() === req.user.id) ||
+      (req.user.role == 'customer' &&
+        reserve.user._id.toString() == req.user.id) ||
+      (req.user.role == 'campgroundOwner' &&
+        reserve.campground.campgroundOwner == req.user.id) ||
       req.user.role == 'admin'
     ) {
       res.status(200).json({ success: true, data: reserve })
     } else {
+      // console.log(req.user.role)
+      // console.log(reserve.user._id.toString())
       return res.status(403).json({
         success: false,
         message: 'User is not authorized to get this reserve',
@@ -275,7 +278,8 @@ exports.updateReserve = async (req, res, next) => {
 
     //make sure user is the appointment owner
     if (
-      (req.user.role === 'user' && reserve.user.toString() === req.user.id) ||
+      (req.user.role === 'customer' &&
+        reserve.user._id.toString() === req.user.id) ||
       (req.user.role === 'campgroundOwner' &&
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
       req.user.role !== 'admin'
