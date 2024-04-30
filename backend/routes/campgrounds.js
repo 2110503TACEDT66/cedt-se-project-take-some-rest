@@ -702,4 +702,15 @@ module.exports = router
  *        description : can't report reserve
  *      500 :
  *        description : Some server error
+ * /api/reviews/reported-review:
+ *  get:
+ *    security:
+ *      - bearerAuth: [] 
+ *    summary: Get reported review
+ *    tags: [Campground Owner]
+ *    responses :
+ *      200 :
+ *        description : get reported reserve data successfully
+ *      500 :
+ *        description : Some server error
  */
