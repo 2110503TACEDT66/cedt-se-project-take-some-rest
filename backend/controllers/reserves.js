@@ -281,9 +281,7 @@ exports.updateReserve = async (req, res, next) => {
       req.user.role !== 'admin'
     ) {
       // Test validate
-      const testUserValidation = new Reserve(req.body)
-      const error = testUserValidation.validateSync()
-      if (error) {
+      if (req.body.tentSize.slength <= 0 || req.body.tentSize.swidth <= 0) {
         return res
           .status(400)
           .json({ success: false, message: "The booking's data is invalid" })
