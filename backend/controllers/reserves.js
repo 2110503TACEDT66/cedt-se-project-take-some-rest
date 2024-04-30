@@ -29,7 +29,8 @@ exports.getReserve = async (req, res, next) => {
     }
 
     if (
-      (req.user.role === 'user' && reserve.user.toString() === req.user.id) ||
+      (req.user.role === 'customer' &&
+        reserve.user._id.toString() === req.user.id) ||
       (req.user.role === 'campgroundOwner' &&
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
       req.user.role === 'admin'
@@ -275,19 +276,20 @@ exports.updateReserve = async (req, res, next) => {
 
     //make sure user is the appointment owner
     if (
-      (req.user.role === 'user' && reserve.user.toString() === req.user.id) ||
+      (req.user.role === 'customer' &&
+        reserve.user._id.toString() === req.user.id) ||
       (req.user.role === 'campgroundOwner' &&
         reserve.campground.campgroundOwner.toString() === req.user.id) ||
       req.user.role === 'admin'
     ) {
       // Test validate
-      const testUserValidation = new Reserve(req.body)
-      const error = testUserValidation.validateSync()
-      if (error) {
-        return res
-          .status(400)
-          .json({ success: false, message: "The booking's data is invalid" })
-      }
+      // const testUserValidation = new Reserve(req.body)
+      // const error = testUserValidation.validateSync()
+      // if (error) {
+      //   return res
+      //     .status(400)
+      //     .json({ success: false, message: "The booking's data is invalid" })
+      // }
 
       reserve = await Reserve.findByIdAndUpdate(req.params.rid, req.body, {
         new: true,
