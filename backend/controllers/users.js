@@ -294,7 +294,23 @@ exports.deleteUser = async (req, res, next) => {
 // @access : Private (Me)
 exports.requestCampgroundOwner = async (req, res, next) => {
   try {
-    const user = await User.findByIdAndUpdate(
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Cannot find user' })
+    }
+
+    if (user.role !== 'customer') {
+      return res.status(403).json({ success: false, message: 'Only customers can request to be campground owners' });
+    }
+
+    if (user.requestToBeCampgroundOwner) {
+      return res.status(400).json({ success: false, message: 'User already requested to be a campground owner' });
+    }
+
+    const validUser = await User.findByIdAndUpdate(
       req.user.id,
       { requestToBeCampgroundOwner: true },
       {
@@ -303,13 +319,7 @@ exports.requestCampgroundOwner = async (req, res, next) => {
       }
     )
 
-    if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Cannot find user' })
-    }
-
-    return res.status(200).json({ success: true, data: user })
+    return res.status(200).json({ success: true, data: validUser })
   } catch (err) {
     console.log(err.stack)
     return res.status(500).json({ success: false })
