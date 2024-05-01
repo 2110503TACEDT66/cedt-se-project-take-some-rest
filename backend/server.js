@@ -80,17 +80,17 @@ process.on('unhandledRejection', (err, promise) => {
   server.close(() => process.exit(1))
 })
 
-const swaggerOptions={
-  swaggerDefinition:{
-    openapi:'3.0.0',
-    info:{
-      title:'Campground Reservation',
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Campground Reservation',
       version: '1.0.0',
-      description:'Campground System API'
-    }
+      description: 'Campground System API',
+    },
   },
-  apis:['./routes/*.js'],
-};
+  apis: ['./routes/*.js'],
+}
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-swagger',swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+const swaggerDocs = swaggerJsDoc(swaggerOptions)
+app.use('/api-swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocs))

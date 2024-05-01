@@ -469,7 +469,7 @@ exports.reportReview = async (req, res, next) => {
         message: 'User is not authorized to report this review',
       })
     }
-    
+
     //make sure review is not report yet
     if (review.isReport) {
       return res.status(400).json({
@@ -486,13 +486,6 @@ exports.reportReview = async (req, res, next) => {
         runValidators: true,
       }
     )
-
-    if (!thisReview) {
-      return res.status(500).json({
-        success: false,
-        message: 'Cannot update this review',
-      })
-    }
 
     return res.status(200).json({ success: true, data: thisReview })
   } catch (err) {
