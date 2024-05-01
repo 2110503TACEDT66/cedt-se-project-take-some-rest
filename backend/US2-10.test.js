@@ -35,7 +35,7 @@ describe('Not Login', () => {
     //database
     mongoose.set('strictQuery', true)
     const conn = await mongoose.connect(`${process.env.MONGO_URI}`)
-  });
+  })
 
   it('cannot report review', async () => {
     const mockRequest = (rid, token) => {
@@ -63,7 +63,7 @@ describe('Not Login', () => {
     //review id
     reviewId = '662f501fb143cf39b8ed2724'
 
-    const req = mockRequest(reviewId, )
+    const req = mockRequest(reviewId)
     const res = mockResponse()
 
     await reportReview(req, res)
@@ -89,7 +89,7 @@ describe('Admin Login', () => {
     await login(reqLogin, resLogin, next)
 
     JSONlogin = resLogin.json.mock.calls[0][0]
-  });
+  })
 
   afterAll(async () => {
     const req = {

@@ -469,7 +469,7 @@ exports.reportReview = async (req, res, next) => {
         message: 'User is not authorized to report this review',
       })
     }
-    
+
     //make sure review is not report yet
     if (review.isReport) {
       return res.status(400).json({

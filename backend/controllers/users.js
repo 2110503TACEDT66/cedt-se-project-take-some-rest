@@ -303,11 +303,21 @@ exports.requestCampgroundOwner = async (req, res, next) => {
     }
 
     if (user.role !== 'customer') {
-      return res.status(403).json({ success: false, message: 'Only customers can request to be campground owners' });
+      return res
+        .status(403)
+        .json({
+          success: false,
+          message: 'Only customers can request to be campground owners',
+        })
     }
 
     if (user.requestToBeCampgroundOwner) {
-      return res.status(400).json({ success: false, message: 'User already requested to be a campground owner' });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: 'User already requested to be a campground owner',
+        })
     }
 
     const validUser = await User.findByIdAndUpdate(
