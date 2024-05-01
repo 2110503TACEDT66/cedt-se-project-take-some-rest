@@ -487,13 +487,6 @@ exports.reportReview = async (req, res, next) => {
       }
     )
 
-    if (!thisReview) {
-      return res.status(500).json({
-        success: false,
-        message: 'Cannot update this review',
-      })
-    }
-
     return res.status(200).json({ success: true, data: thisReview })
   } catch (err) {
     //console.log(err.stack)
